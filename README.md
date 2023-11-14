@@ -25,11 +25,11 @@ export default defineConfig({
 
 ### Options
 
-| Name                | Default | Description                                            |
-| ------------------- | ------- | ------------------------------------------------------ |
-| `specVersion`       | TODO    | The CycloneDX specification version to use             |
-| `rootComponentType` | TODO    | The root component type, can be library or application |
-| `outDir`            | TODO    | TODO                                                   |
-| `saveTimestamp`     | TODO    | TODO                                                   |
-| `autodetect`        | TODO    | TODO                                                   |
-| `generateSerial`    | TODO    | TODO                                                   |
+| Name                | Default       | Description                                                |
+| ------------------- | ------------- | ---------------------------------------------------------- |
+| `specVersion`       | `1.5`         | The CycloneDX specification version to use                 |
+| `rootComponentType` | `application` | The root component type, can be `library` or `application` |
+| `outDir`            | `cyclonedx`   | The output directory where the BOM file will be saved.     |
+| `saveTimestamp`     | `true`        | Whether to save the timestamp in the BOM metadata.         |
+| `autodetect`        | `true`        | Whether to get the root package registered automatically.  |
+| `generateSerial`    | `false`       | Whether to generate a serial number for the BOM.           |
