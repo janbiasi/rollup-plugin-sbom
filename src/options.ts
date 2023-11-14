@@ -1,4 +1,4 @@
-import { Enums, Models, Spec } from "@cyclonedx/cyclonedx-library";
+import { Enums, Spec } from "@cyclonedx/cyclonedx-library";
 
 export interface RollupPluginSbomOptions {
     /**

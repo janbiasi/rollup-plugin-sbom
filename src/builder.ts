@@ -1,8 +1,7 @@
-// import { readFile } from "node:fs/promises";
 import { resolve, dirname } from "node:path";
 import { createRequire } from "node:module";
 
-import { type Builders, Enums, type Models, type Factories } from "@cyclonedx/cyclonedx-library";
+import { type Builders, type Models, type Factories } from "@cyclonedx/cyclonedx-library";
 import { getPackageJson } from "./helpers";
 
 const require = createRequire(import.meta.url);
