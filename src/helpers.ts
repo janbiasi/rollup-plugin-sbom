@@ -1,14 +1,14 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { resolve, dirname, join } from "node:path";
 
-import normalizePackageData from "normalize-package-data";
+import normalizePackageData, { type Package } from "normalize-package-data";
 
 /**
  * Read and normalize a `package.json` under the defined `dir`
  * @param dir The directory to find the `package.json` file in
  */
-export async function getPackageJson(dir: string): Promise<Record<string, string> | null> {
+export async function getPackageJson(dir: string): Promise<Package> {
     try {
         const rawPkg = await readFile(resolve(dir, "package.json"), "utf-8");
         const pkg = JSON.parse(rawPkg.toString());
@@ -25,6 +25,7 @@ export async function getPackageJson(dir: string): Promise<Record<string, string
  * imported module (and not its root). So we need to scan directories upwards until we find a package.json
  * with a maximum limit set in traversal.
  * @param moduleId The imported module ID
+ * @param traversalLimit The maximum number of directories to traverse upwards
  * @example
  * ```ts
  * const moduleId = "/User/home/.pnpm/react-dom@18.2.0_react@18.2.0/node_modules/react-dom/index.js";

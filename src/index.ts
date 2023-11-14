@@ -3,6 +3,8 @@ import { join } from "node:path";
 import type { Plugin } from "rollup";
 import * as CDX from "@cyclonedx/cyclonedx-library";
 
+import { type Package } from "normalize-package-data";
+
 import { getPackageJson, getCorrespondingPackageFromModuleId } from "./helpers";
 import { registerPackageUrlOnComponent, registerTools } from "./builder";
 import { DEFAULT_OPTIONS, RollupPluginSbomOptions } from "./options";
@@ -42,14 +44,14 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
 
     return {
         name: PLUGIN_ID,
-        async buildStart(buildOptions) {
+        async buildStart() {
             // autoregister root entry when starting the build
             if (options.autodetect) {
                 try {
                     const rootPkg = await getPackageJson(process.cwd());
                     if (rootPkg) {
                         bom.metadata.component = cdxComponentBuilder.makeComponent(rootPkg, options.rootComponentType);
-                        bom.metadata.component!.version = rootPkg.version;
+                        bom.metadata.component.version = rootPkg.version;
                         registerPackageUrlOnComponent(bom.metadata.component, cdxPurlFactory);
                     }
                 } catch (err) {
@@ -81,7 +83,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             );
 
             // iterate over all imported modules and add them to the BOM
-            const pkgs = potentialComponents.filter((entry): entry is Record<string, string> => !!entry);
+            const pkgs = potentialComponents.filter((entry): entry is Package => !!entry);
             for (const pkg of pkgs) {
                 const component = cdxComponentBuilder.makeComponent(pkg, CDX.Enums.ComponentType.Library);
                 // add package URL in factory and component
