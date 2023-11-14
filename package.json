@@ -1,0 +1,47 @@
+{
+  "type": "module",
+  "name": "rollup-plugin-sbom",
+  "version": "1.0.0",
+  "description": "",
+  "packageManager": "pnpm@8.9.0",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "unbuild --stub",
+    "build": "unbuild",
+    "preinstall": "npx only-allow pnpm",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "vite-plugin",
+    "rollup-plugin",
+    "sbom",
+    "cyclonedx"
+  ],
+  "author": "Jan Biasi (https://github.com/janbiasi)",
+  "license": "MIT",
+  "dependencies": {
+    "normalize-package-data": "6.0.0",
+    "@cyclonedx/cyclonedx-library": "6.1.0"
+  },
+  "peerDependencies": {
+    "rollup": "^4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "prettier": "3.1.0",
+    "rollup": "4.4.1",
+    "typescript": "5.2.2",
+    "unbuild": "2.0.0"
+  },
+  "prettier": {
+    "printWidth": 120
+  }
+}
