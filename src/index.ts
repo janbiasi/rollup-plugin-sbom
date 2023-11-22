@@ -95,7 +95,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
          * Finalize the SBOM and emit files
          */
         generateBundle() {
-            const formatMap: Record<string, CDX.Serialize.BaseSerializer<any>> = {
+            const formatMap: Record<string, CDX.Serialize.BaseSerializer<unknown>> = {
                 json: jsonSerializer,
                 xml: xmlSerializer,
             };
