@@ -14,7 +14,7 @@ Create SBOMs for your Vite or Rollup projects.
 
 | Plugin | Vite | Rollup |
 | ------ | ---- | ------ |
-| v1     | v4   | v4     |
+| v1     | v4, v5   | v3, v4 |
 
 ### Installation and usage
 
