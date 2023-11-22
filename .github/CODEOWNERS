@@ -1,0 +1,9 @@
+# Dependencies
+pnpm-lock.yaml          @janbiasi
+package.json            @janbiasi
+
+# Source owners
+src/*                   @janbiasi
+
+# Docs owners
+README.md               @janbiasi @boostvolt

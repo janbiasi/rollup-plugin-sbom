@@ -1,28 +1,23 @@
 {
-  "files": [
-    "README.md"
-  ],
-  "imageSize": 100,
-  "commit": false,
-  "commitType": "docs",
-  "commitConvention": "angular",
-  "contributors": [
-    {
-      "login": "boostvolt",
-      "name": "Jan Kott",
-      "avatar_url": "https://avatars.githubusercontent.com/u/51777660?v=4",
-      "profile": "https://github.com/boostvolt",
-      "contributions": [
-        "code",
-        "ideas",
-        "content"
-      ]
-    }
-  ],
-  "contributorsPerLine": 7,
-  "skipCi": true,
-  "repoType": "github",
-  "repoHost": "https://github.com",
-  "projectName": "rollup-plugin-sbom",
-  "projectOwner": "janbiasi"
+    "files": ["README.md"],
+    "imageSize": 100,
+    "commit": false,
+    "commitType": "docs",
+    "commitConvention": "angular",
+    "contributors": [
+        {
+            "login": "boostvolt",
+            "name": "Jan Kott",
+            "avatar_url": "https://avatars.githubusercontent.com/u/51777660?v=4",
+            "profile": "https://github.com/boostvolt",
+            "contributions": ["code", "ideas", "content"]
+        }
+    ],
+    "badgeTemplate": "[![All Contributors](https://img.shields.io/github/all-contributors/<%= projectOwner %>/<%= projectName %>?color=ee8449&style=flat-square)](#contributors)",
+    "contributorsPerLine": 7,
+    "skipCi": true,
+    "repoType": "github",
+    "repoHost": "https://github.com",
+    "projectName": "rollup-plugin-sbom",
+    "projectOwner": "janbiasi"
 }
