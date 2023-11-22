@@ -33,3 +33,8 @@ export default defineConfig({
 | `saveTimestamp`     | `true`        | Whether to save the timestamp in the BOM metadata.         |
 | `autodetect`        | `true`        | Whether to get the root package registered automatically.  |
 | `generateSerial`    | `false`       | Whether to generate a serial number for the BOM.           |
+
+## Contributors
+
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
