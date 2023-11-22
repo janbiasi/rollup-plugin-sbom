@@ -22,7 +22,7 @@ export interface RollupPluginSbomOptions {
     /**
      * The formats to output, defaults to ['json', 'xml']
      */
-    outFormats?: ('json' | 'xml')[];
+    outFormats?: ("json" | "xml")[];
     /**
      * If you want to save the timestamp of the generation, defaults to `true`
      */

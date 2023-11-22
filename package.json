@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "rollup-plugin-sbom",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "packageManager": "pnpm@8.9.0",
   "main": "dist/index.cjs",
@@ -10,14 +10,30 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
+    "lint": "pnpm lint:prettier && pnpm lint:eslint",
+    "lint:prettier": "prettier -l .",
+    "lint:eslint": "eslint .",
     "dev": "unbuild --stub",
     "build": "unbuild",
+    "test": "exit 0",
     "preinstall": "npx only-allow pnpm",
-    "prepublishOnly": "npm run build"
+    "prepare": "husky install",
+    "prepublishOnly": "pnpm build",
+    "prettier": "prettier -w .",
+    "release": "semantic-release"
+  },
+  "lint-staged": {
+    "*.{ts,js,json,md}": "prettier --write",
+    "*.{ts,js}": "eslint --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/janbiasi/rollup-plugin-sbom.git"
   },
   "keywords": [
     "vite-plugin",
@@ -28,20 +44,25 @@
   "author": "Jan Biasi (https://github.com/janbiasi)",
   "license": "MIT",
   "dependencies": {
-    "normalize-package-data": "6.0.0",
-    "@cyclonedx/cyclonedx-library": "6.1.0"
+    "@cyclonedx/cyclonedx-library": "6.1.0",
+    "normalize-package-data": "6.0.0"
   },
   "peerDependencies": {
     "rollup": "^3 || ^4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
     "@types/node": "^20",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "eslint": "^8.54.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.1.0",
     "prettier": "3.1.0",
     "rollup": "4.5.1",
+    "semantic-release": "^22.0.8",
     "typescript": "5.2.2",
     "unbuild": "2.0.0"
-  },
-  "prettier": {
-    "printWidth": 120
   }
 }
