@@ -1,3 +1,6 @@
+> [!WARNING]  
+> This plugin is still in early development and not production ready just yet. Use with caution!
+
 ![npm](https://img.shields.io/npm/v/rollup-plugin-sbom)
 ![npm type definitions](https://img.shields.io/npm/types/rollup-plugin-sbom)
 ![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/rollup-plugin-sbom/peer/rollup?logo=rollupdotjs&color=%23EA483F)
