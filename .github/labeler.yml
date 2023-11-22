@@ -1,0 +1,10 @@
+dependencies:
+  - package.json
+  - pnpm-lock.yaml
+
+":test_tube: tests":
+  - test/*
+  - test/**/*
+
+":pencil: docs":
+  - README.md
