@@ -8,3 +8,15 @@ dependencies:
 
 ":pencil: docs":
   - README.md
+
+":zap: ci/cd":
+  - .github/workflows/*
+  - .github/labeler.yml
+  - .releaserc.cjs
+  - build.config.ts
+  - .eslintrc.cjs
+  - .eslintignore
+
+":nail_care: codestyle":
+  - .prettierrc.cjs
+  - .prettierignore
