@@ -35,6 +35,7 @@ jobs:
 
   publish:
     needs: [lint, test]
+    if: contains('refs/heads/main OR refs/heads/next', github.ref)
     runs-on: ubuntu-latest
     name: Publish
     steps:
@@ -42,8 +43,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup
-      - if: contains('refs/heads/main OR refs/heads/next', github.ref)
-        run: pnpm run release
+      - run: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
