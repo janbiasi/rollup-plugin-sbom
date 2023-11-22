@@ -31,6 +31,7 @@ jobs:
       - run: pnpm run test
 
   publish:
+    needs: [lint, test]
     runs-on: ubuntu-latest
     name: Publish
     steps:
