@@ -2,25 +2,49 @@
 > This plugin is still in early development and not production ready just yet. Use with caution!
 > You can check the current progress via [Milestone - V1](https://github.com/janbiasi/rollup-plugin-sbom/milestone/1).
 
-![npm](https://img.shields.io/npm/v/rollup-plugin-sbom)
+[![CI](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/ci.yml) ![npm](https://img.shields.io/npm/v/rollup-plugin-sbom)
 ![npm type definitions](https://img.shields.io/npm/types/rollup-plugin-sbom)
 ![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/rollup-plugin-sbom/peer/rollup?logo=rollupdotjs&color=%23EA483F)
 
 # rollup-plugin-sbom
 
-Create SBOMs for your Vite or Rollup projects.
+Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx.org/) format for your [Vite](https://vitejs.dev/) and [Rollup](https://rollupjs.org/) projects, including only the software you're really shipping to production.
 
-### Compatibility
+> A “software bill of materials” (SBOM) has emerged as a key building block in software security and software supply chain risk management. A SBOM is a nested inventory, a list of ingredients that make up software components.
+>
+> – [CISA (.gov)](https://www.cisa.gov) [[full article](https://www.cisa.gov/sbom)]
 
-| Plugin | Vite   | Rollup |
-| ------ | ------ | ------ |
-| v1     | v4, v5 | v3, v4 |
+##### Content
 
-### Installation and usage
+- [Requirements and Compatibility](#requirements-and-compatibility)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Usage with Vite](#usage-with-vite)
+  - [Usage with Rollup](#usage-with-rollup)
+  - [Configuration Options](#configuration-options)
+- [Contributors](#contributors)
+
+---
+
+### Requirements and Compatibility
+
+| Plugin | Vite   | Rollup | Node   |
+| ------ | ------ | ------ | ------ |
+| v1     | v4, v5 | v3, v4 | 18, 20 |
+
+We're always supporting LTS Node.js versions and versions which still have security support. Plugin support will be dropped once a Node.js version reaches its final EOL.
+
+### Installation
 
 ```sh
 npm install --save-dev rollup-plugin-sbom
+pnpm install -D rollup-plugin-sbom
+yarn add --dev rollup-plugin-sbom
 ```
+
+### Usage
+
+#### Usage with [Vite](https://vitejs.dev/)
 
 ```ts
 import { defineConfig } from "vite";
@@ -31,7 +55,17 @@ export default defineConfig({
 });
 ```
 
-### Options
+#### Usage with [Rollup](https://rollupjs.org/)
+
+```js
+import sbom from "rollup-plugin-sbom";
+
+export default {
+  plugins: [sbom()],
+};
+```
+
+#### Configuration Options
 
 | Name                | Default           | Description                                                |
 | ------------------- | ----------------- | ---------------------------------------------------------- |
@@ -55,8 +89,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/janbiasi"><img src="https://avatars.githubusercontent.com/u/4563751?v=4?s=100" width="100px;" alt="Jan R. Biasi"/><br /><sub><b>Jan R. Biasi</b></sub></a><br /><a href="#business-janbiasi" title="Business development">💼</a> <a href="#question-janbiasi" title="Answering Questions">💬</a> <a href="#mentoring-janbiasi" title="Mentoring">🧑‍🏫</a> <a href="https://github.com/janbiasi/rollup-plugin-sbom/commits?author=janbiasi" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/boostvolt"><img src="https://avatars.githubusercontent.com/u/51777660?v=4?s=100" width="100px;" alt="Jan Kott"/><br /><sub><b>Jan Kott</b></sub></a><br /><a href="https://github.com/janbiasi/rollup-plugin-sbom/commits?author=boostvolt" title="Code">💻</a> <a href="#ideas-boostvolt" title="Ideas, Planning, & Feedback">🤔</a> <a href="#content-boostvolt" title="Content">🖋</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/janbiasi"><img src="https://avatars.githubusercontent.com/u/4563751?v=4?s=100" width="100px;" alt="Jan R. Biasi"/><br /><sub><b>Jan R. Biasi</b></sub></a><br /><a href="#business-janbiasi" title="Business development">💼</a> <a href="https://github.com/janbiasi/rollup-plugin-sbom/commits?author=janbiasi" title="Code">💻</a> <a href="#ideas-janbiasi" title="Ideas, Planning, & Feedback">🤔</a> <a href="#content-janbiasi" title="Content">🖋</a></td>
     </tr>
   </tbody>
 </table>
