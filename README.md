@@ -1,5 +1,6 @@
 > [!WARNING]  
 > This plugin is still in early development and not production ready just yet. Use with caution!
+> You can check the current progress via [Milestone - V1](https://github.com/janbiasi/rollup-plugin-sbom/milestone/1).
 
 ![npm](https://img.shields.io/npm/v/rollup-plugin-sbom)
 ![npm type definitions](https://img.shields.io/npm/types/rollup-plugin-sbom)
