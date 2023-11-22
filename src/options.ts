@@ -16,6 +16,14 @@ export interface RollupPluginSbomOptions {
      */
     outDir?: string;
     /**
+     * The base filename for the SBOM files, defaults to 'bom'
+     */
+    outFilename?: string;
+    /**
+     * The formats to output, defaults to ['json', 'xml']
+     */
+    outFormats?: string[];
+    /**
      * If you want to save the timestamp of the generation, defaults to `true`
      */
     saveTimestamp?: boolean;
@@ -25,16 +33,23 @@ export interface RollupPluginSbomOptions {
      */
     autodetect?: boolean;
     /**
-     * If the tool should add a random serial number for the application, defaults to `false`
+     * Whether to generate a serial number for the BOM. Defaults to `false`.
      */
     generateSerial?: boolean;
+    /**
+     * Whether to generate a SBOM in the `.well-known` directory. Defaults to `true`.
+     */
+    includeWellKnown?: boolean;
 }
 
 export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
     specVersion: Spec.Version.v1dot5,
     rootComponentType: Enums.ComponentType.Application,
     outDir: "cyclonedx",
+    outFilename: "bom",
+    outFormats: ["json", "xml"],
     saveTimestamp: true,
     autodetect: true,
     generateSerial: false,
+    includeWellKnown: true,
 };
