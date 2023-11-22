@@ -95,35 +95,40 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
          * Finalize the SBOM and emit files
          */
         generateBundle() {
-            this.emitFile({
-                type: "asset",
-                fileName: join(options.outDir, "bom.json"),
-                needsCodeReference: false,
-                source: jsonSerializer.serialize(bom, {
-                    sortLists: false,
-                    space: "\t",
-                }),
+            const formatMap: Record<string, CDX.Serialize.BaseSerializer<any>> = {
+                json: jsonSerializer,
+                xml: xmlSerializer,
+            };
+
+            options.outFormats.forEach((format) => {
+                if (!formatMap[format]) {
+                    throw new Error(`Unsupported format: ${format}`);
+                }
+
+                // serialize the BOM and emit the file
+                this.emitFile({
+                    type: "asset",
+                    fileName: join(options.outDir, `${options.outFilename}.${format}`),
+                    needsCodeReference: false,
+                    source: formatMap[format].serialize(bom, {
+                        sortLists: false,
+                        space: "\t",
+                    }),
+                });
             });
 
-            this.emitFile({
-                type: "asset",
-                fileName: join(options.outDir, ".well-known/sbom"),
-                needsCodeReference: false,
-                source: jsonSerializer.serialize(bom, {
-                    sortLists: false,
-                    space: "\t",
-                }),
-            });
-
-            this.emitFile({
-                type: "asset",
-                fileName: join(options.outDir, "bom.xml"),
-                needsCodeReference: false,
-                source: xmlSerializer.serialize(bom, {
-                    sortLists: false,
-                    space: "\t",
-                }),
-            });
+            // emit the .well-known/sbom file
+            if (options.includeWellKnown) {
+                this.emitFile({
+                    type: "asset",
+                    fileName: ".well-known/sbom",
+                    needsCodeReference: false,
+                    source: jsonSerializer.serialize(bom, {
+                        sortLists: false,
+                        space: "\t",
+                    }),
+                });
+            }
         },
     } satisfies Plugin;
 }

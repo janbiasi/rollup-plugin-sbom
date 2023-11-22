@@ -33,14 +33,17 @@ export default defineConfig({
 
 ### Options
 
-| Name                | Default       | Description                                                |
-| ------------------- | ------------- | ---------------------------------------------------------- |
-| `specVersion`       | `1.5`         | The CycloneDX specification version to use                 |
-| `rootComponentType` | `application` | The root component type, can be `library` or `application` |
-| `outDir`            | `cyclonedx`   | The output directory where the BOM file will be saved.     |
-| `saveTimestamp`     | `true`        | Whether to save the timestamp in the BOM metadata.         |
-| `autodetect`        | `true`        | Whether to get the root package registered automatically.  |
-| `generateSerial`    | `false`       | Whether to generate a serial number for the BOM.           |
+| Name                | Default           | Description                                                |
+| ------------------- | ----------------- | ---------------------------------------------------------- |
+| `specVersion`       | `1.5`             | The CycloneDX specification version to use                 |
+| `rootComponentType` | `application`     | The root component type, can be `library` or `application` |
+| `outDir`            | `cyclonedx`       | The output directory where the BOM file will be saved.     |
+| `outFilename`       | `bom`             | The base filename for the SBOM files.                      |
+| `outFormats`        | `['json', 'xml']` | The formats to output. Can be any of `json` and `xml`.     |
+| `saveTimestamp`     | `true`            | Whether to save the timestamp in the BOM metadata.         |
+| `autodetect`        | `true`            | Whether to get the root package registered automatically.  |
+| `generateSerial`    | `false`           | Whether to generate a serial number for the BOM.           |
+| `includeWellKnown`  | `true`            | Whether to generate a SBOM in the `well-known` directory.  |
 
 ## Contributors
 
