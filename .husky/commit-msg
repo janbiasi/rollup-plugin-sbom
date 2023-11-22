@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm dlx lint-staged
-
+pnpm dlx commitlint --edit ${1}
