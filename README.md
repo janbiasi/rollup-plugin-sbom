@@ -1,10 +1,8 @@
+![npm](https://img.shields.io/npm/v/rollup-plugin-sbom)
+![npm type definitions](https://img.shields.io/npm/types/rollup-plugin-sbom)
+![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/rollup-plugin-sbom/peer/rollup?logo=rollupdotjs&color=%23EA483F)
+
 # rollup-plugin-sbom
-
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Create SBOMs for your Vite or Rollup projects.
 

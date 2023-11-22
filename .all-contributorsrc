@@ -13,7 +13,6 @@
             "contributions": ["code", "ideas", "content"]
         }
     ],
-    "badgeTemplate": "[![All Contributors](https://img.shields.io/github/all-contributors/<%= projectOwner %>/<%= projectName %>?color=ee8449&style=flat-square)](#contributors)",
     "contributorsPerLine": 7,
     "skipCi": true,
     "repoType": "github",
