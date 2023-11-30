@@ -41,6 +41,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
     );
 
     const bom = new CDX.Models.Bom();
+    const registeredPackageIds: string[] = [];
 
     return {
         name: PLUGIN_ID,
@@ -82,13 +83,22 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 nodeModuleImportedIds.map(getCorrespondingPackageFromModuleId),
             );
 
-            // iterate over all imported modules and add them to the BOM
+            // iterate over all imported unique modules and add them to the BOM
             const pkgs = potentialComponents.filter((entry): entry is Package => !!entry);
+
             for (const pkg of pkgs) {
-                const component = cdxComponentBuilder.makeComponent(pkg, CDX.Enums.ComponentType.Library);
+                const pkgId = `${pkg.name}@${pkg.version}`;
+
+                if (registeredPackageIds.includes(pkgId)) {
+                    // abort if package is already registered in factory
+                    continue;
+                }
+
                 // add package URL in factory and component
+                const component = cdxComponentBuilder.makeComponent(pkg, CDX.Enums.ComponentType.Library);
                 registerPackageUrlOnComponent(component, cdxPurlFactory);
                 component && bom.components.add(component);
+                registeredPackageIds.push(pkgId);
             }
         },
         /**
