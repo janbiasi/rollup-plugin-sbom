@@ -1,4 +1,4 @@
-import { resolve, dirname } from "node:path";
+import { dirname } from "node:path";
 import { createRequire } from "node:module";
 
 import { type Builders, type Models, type Factories } from "@cyclonedx/cyclonedx-library";
@@ -18,7 +18,7 @@ export function registerPackageUrlOnComponent(
 
 export async function registerTools(bom: Models.Bom, builder: Builders.FromNodePackageJson.ToolBuilder) {
     // register rollup-plugin-sbom (for vite and rollup)
-    const pkg = await getPackageJson(resolve(".."));
+    const pkg = await getPackageJson(dirname(require.resolve("rollup-plugin-sbom")));
     if (pkg) {
         const tool = builder.makeTool(pkg);
         tool && bom.metadata.tools.add(tool);
