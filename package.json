@@ -1,8 +1,8 @@
 {
   "type": "module",
   "name": "rollup-plugin-sbom",
-  "version": "0.1.0",
-  "description": "",
+  "version": "1.0.0",
+  "description": "A rollup and vite plugin to generate SBOMs for your application",
   "packageManager": "pnpm@8.9.0",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -20,7 +20,9 @@
     "lint:eslint": "eslint .",
     "dev": "unbuild --stub",
     "build": "unbuild",
-    "test": "exit 0",
+    "build-fixtures": "pnpm --filter \"@fixtures/*\" run build",
+    "dev:test": "vitest watch",
+    "test": "vitest run --coverage",
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
     "prepublishOnly": "pnpm build",
@@ -56,13 +58,18 @@
     "@types/node": "^20",
     "@typescript-eslint/eslint-plugin": "^6.12.0",
     "@typescript-eslint/parser": "^6.12.0",
+    "@vitest/coverage-v8": "^0.34.6",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
     "eslint": "^8.54.0",
+    "fast-xml-parser": "^4.3.2",
     "husky": "^8.0.0",
     "lint-staged": "^15.1.0",
     "prettier": "3.1.0",
     "rollup": "4.5.1",
     "semantic-release": "^22.0.8",
-    "typescript": "5.2.2",
-    "unbuild": "2.0.0"
+    "typescript": "5.3.2",
+    "unbuild": "2.0.0",
+    "vitest": "0.34.6"
   }
 }

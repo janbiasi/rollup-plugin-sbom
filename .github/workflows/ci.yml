@@ -31,6 +31,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
+      - run: pnpm run build
+      - run: pnpm run build-fixtures
       - run: pnpm run test
 
   publish:
@@ -43,6 +45,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup
+      - run: pnpm run build
       - run: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
