@@ -43,16 +43,11 @@ importers:
         specifier: 3.1.0
         version: 3.1.0
       rollup:
-<<<<<<< HEAD
         specifier: 4.5.1
         version: 4.5.1
-=======
-        specifier: 4.4.1
-        version: 4.4.1
       semantic-release:
         specifier: ^22.0.8
         version: 22.0.8(typescript@5.2.2)
->>>>>>> e96e3b2 (ci: add release configuration)
       typescript:
         specifier: 5.2.2
         version: 5.2.2
