@@ -9,15 +9,17 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
 >
 > – [CISA (.gov)](https://www.cisa.gov) [[full article](https://www.cisa.gov/sbom)]
 
-##### Content
+## Documentation
 
-- [Requirements and Compatibility](#requirements-and-compatibility)
+- [Requirements and compatibility](#requirements-and-compatibility)
 - [Installation](#installation)
-- [Usage](#usage)
+- [Usage guide](#usage)
   - [Usage with Vite](#usage-with-vite)
   - [Usage with Rollup](#usage-with-rollup)
-  - [Configuration Options](#configuration-options)
-- [Contributors](#contributors)
+  - [Configuration options and defaults](#configuration-options)
+- [Contributing](#contributing)
+  - [Make your first contribution](#good-first-issues)
+  - [Contributors](#contributors)
 
 ---
 
@@ -27,9 +29,12 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
 | ------ | ------ | ------ | ------ |
 | v1     | v4, v5 | v3, v4 | 18, 20 |
 
-We're always supporting LTS Node.js versions and versions which still have security support. Plugin support will be dropped once a Node.js version reaches its final EOL.
+We're always supporting LTS Node.js versions and versions which still have security support.
+Plugin support will be dropped once a Node.js version reaches its final EOL.
 
 ### Installation
+
+You can install the plugin via [NPM](https://www.npmjs.com/package/rollup-plugin-sbom) with your favorite package manager:
 
 ```sh
 npm install --save-dev rollup-plugin-sbom
@@ -74,7 +79,15 @@ export default {
 | `generateSerial`    | `false`           | Whether to generate a serial number for the BOM.           |
 | `includeWellKnown`  | `true`            | Whether to generate a SBOM in the `well-known` directory.  |
 
-## Contributors
+## Contributing
+
+The main purpose of this repository is to continue evolving the plugin, making it faster and easier to use. We are grateful to the community for contributing bugfixes and improvements. Read below to learn how you can take part in improving the plugin.
+
+### Good First Issues
+
+We have a list of [good first issues](https://github.com/janbiasi/rollup-plugin-sbom/labels/good%20first%20issue) that contain bugs that have a relatively limited scope. This is a great place to get started.
+
+### Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
@@ -94,3 +107,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
+### License
+
+The plugin is licensed under [MIT License](./LICENSE)
