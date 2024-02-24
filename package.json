@@ -18,6 +18,10 @@
     "access": "public",
     "provenance": true
   },
+  "files": [
+    "dist",
+    "SECURITY.md"
+  ],
   "scripts": {
     "lint": "pnpm lint:prettier && pnpm lint:eslint",
     "lint:prettier": "prettier -l .",
