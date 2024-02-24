@@ -24,7 +24,7 @@
     "dev:test": "vitest watch",
     "test": "vitest run --coverage",
     "preinstall": "npx only-allow pnpm",
-    "prepare": "husky install",
+    "prepare": "husky",
     "prepublishOnly": "pnpm build",
     "prettier": "prettier -w .",
     "release": "semantic-release"
@@ -63,7 +63,7 @@
     "ajv-formats": "^2.1.1",
     "eslint": "^8.54.0",
     "fast-xml-parser": "^4.3.2",
-    "husky": "^8.0.0",
+    "husky": "9.0.11",
     "lint-staged": "^15.1.0",
     "prettier": "3.1.0",
     "rollup": "4.5.1",
