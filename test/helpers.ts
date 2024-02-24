@@ -5,8 +5,12 @@ import Ajv from "ajv";
 import addFormats from "ajv-formats";
 import { XMLParser } from "fast-xml-parser";
 
+function readJsonFile(path: string) {
+    return JSON.parse(readFileSync(resolve(path), "utf-8"));
+}
+
 const bomSchemaVersions = {
-    "v1.5": JSON.parse(readFileSync(resolve("./test/schemas/bom-1.5.schema.json"), "utf-8")),
+    "v1.5": readJsonFile("./test/schemas/bom-1.5.schema.json"),
 };
 
 const ajv = new Ajv({
@@ -15,9 +19,9 @@ const ajv = new Ajv({
     strict: false,
 });
 
-ajv.addSchema(JSON.parse(readFileSync(resolve("./test/schemas/spdx.schema.json"), "utf-8")));
-ajv.addSchema(JSON.parse(readFileSync(resolve("./test/schemas/cyclonedx-spdx.schema.json"), "utf-8")));
-ajv.addSchema(JSON.parse(readFileSync(resolve("./test/schemas/jsf.schema.json"), "utf-8")));
+ajv.addSchema(readJsonFile("./test/schemas/spdx.schema.json"));
+ajv.addSchema(readJsonFile("./test/schemas/cyclonedx-spdx.schema.json"));
+ajv.addSchema(readJsonFile("./test/schemas/jsf.schema.json"));
 
 addFormats(ajv);
 
