@@ -14,6 +14,10 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "lint": "pnpm lint:prettier && pnpm lint:eslint",
     "lint:prettier": "prettier -l .",
@@ -44,6 +48,9 @@
     "cyclonedx"
   ],
   "author": "Jan Biasi (https://github.com/janbiasi)",
+  "contributors": [
+    "Jan Kott (https://github.com/boostvolt)"
+  ],
   "license": "MIT",
   "dependencies": {
     "@cyclonedx/cyclonedx-library": "6.1.0",

@@ -6,8 +6,7 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write
+permissions: read-all
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -40,6 +39,11 @@ jobs:
     if: contains('refs/heads/main OR refs/heads/next', github.ref)
     runs-on: ubuntu-latest
     name: Publish
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
     steps:
       - uses: actions/checkout@v4
         with:
