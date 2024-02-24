@@ -1,6 +1,5 @@
-[![CI](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/ci.yml) ![npm](https://img.shields.io/npm/v/rollup-plugin-sbom)
-![npm type definitions](https://img.shields.io/npm/types/rollup-plugin-sbom) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/janbiasi/rollup-plugin-sbom/badge)](https://securityscorecards.dev/viewer/?uri=github.com/janbiasi/rollup-plugin-sbom)
-![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/rollup-plugin-sbom/peer/rollup?logo=rollupdotjs&color=%23EA483F) ![img](https://img.shields.io/badge/semver-2.0.0-green?logo=semver)
+[![CI](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/ci.yml) [![CodeQL](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/github-code-scanning/codeql) ![npm](https://img.shields.io/npm/v/rollup-plugin-sbom)
+![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/rollup-plugin-sbom/peer/rollup?logo=rollupdotjs&color=%23EA483F) ![img](https://img.shields.io/badge/semver-2.0.0-green?logo=semver) ![npm type definitions](https://img.shields.io/npm/types/rollup-plugin-sbom) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/janbiasi/rollup-plugin-sbom/badge)](https://securityscorecards.dev/viewer/?uri=github.com/janbiasi/rollup-plugin-sbom)
 
 # rollup-plugin-sbom
 
