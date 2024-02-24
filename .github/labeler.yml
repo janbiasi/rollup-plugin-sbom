@@ -1,22 +1,27 @@
 dependencies:
-  - package.json
-  - pnpm-lock.yaml
+- changed-files:
+  - any-glob-to-any-file: package.json
+  - any-glob-to-any-file: pnpm-lock.yaml
 
 ":test_tube: tests":
-  - test/*
-  - test/**/*
+- changed-files:
+  - any-glob-to-any-file: test/*
+  - any-glob-to-any-file: test/**/*
 
 ":pencil: docs":
-  - README.md
+- changed-files:
+  - any-glob-to-any-file: README.md
 
 ":zap: ci/cd":
-  - .github/workflows/*
-  - .github/labeler.yml
-  - .releaserc.cjs
-  - build.config.ts
-  - .eslintrc.cjs
-  - .eslintignore
+- changed-files:
+  - any-glob-to-any-file: .github/workflows/*
+  - any-glob-to-any-file: .github/labeler.yml
+  - any-glob-to-any-file: .releaserc.cjs
+  - any-glob-to-any-file: build.config.ts
+  - any-glob-to-any-file: .eslintrc.cjs
+  - any-glob-to-any-file: .eslintignore
 
 ":nail_care: codestyle":
-  - .prettierrc.cjs
-  - .prettierignore
+- changed-files:
+  - any-glob-to-any-file: .prettierrc.cjs
+  - any-glob-to-any-file: .prettierignore
