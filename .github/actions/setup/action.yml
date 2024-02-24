@@ -3,11 +3,11 @@ description: Basic job setup for any step
 runs:
   using: composite
   steps:
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node }}
 
-    - uses: pnpm/action-setup@v2
+    - uses: pnpm/action-setup@v3
       with:
         run_install: false
 
@@ -16,7 +16,7 @@ runs:
       run: |
         echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       name: Setup pnpm cache
       with:
         path: ${{ env.STORE_PATH }}
@@ -25,7 +25,7 @@ runs:
           ${{ runner.os }}-pnpm-store-
 
     - name: Setup turbo cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: .turbo
         key: ${{ runner.os }}-turbo-${{ github.sha }}
