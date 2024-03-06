@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@cyclonedx/cyclonedx-library':
-        specifier: 6.3.1
-        version: 6.3.1
+        specifier: 6.4.0
+        version: 6.4.0
       normalize-package-data:
         specifier: 6.0.0
         version: 6.0.0
@@ -548,8 +548,8 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@cyclonedx/cyclonedx-library@6.3.1:
-    resolution: {integrity: sha512-OyEd5TXHi6qQ1BQs8XoADXHpRPe6sMVgrA+ANE7DtZDlQWSkZN97Q3QphHnt8q6fb9MNJT18XVfL45/IDKLmqQ==}
+  /@cyclonedx/cyclonedx-library@6.4.0:
+    resolution: {integrity: sha512-+fowwJDvglwWdWKYvMxdXyu1P8BUVt8sSSpisyvZjRNq+GOM8A8mop23G+aYWcUTjUrDFD2TnMuyyDfM2XdH1g==}
     engines: {node: '>=14.0.0'}
     dependencies:
       packageurl-js: 1.2.1
@@ -2553,7 +2553,7 @@ packages:
       handlebars: 4.7.8
       json-stringify-safe: 5.0.1
       meow: 12.1.1
-      semver: 7.5.4
+      semver: 7.6.0
       split2: 4.2.0
     dev: true
 
@@ -4065,7 +4065,7 @@ packages:
     resolution: {integrity: sha512-Yj9mA8fPiVgOUpByoTZO5pNrcl5Yk37FcSHsUINpAsaBIEZIuqcCclDZJCVxqQShDsmYX8QG63svJiTbOATZwg==}
     engines: {node: 14 || >=16.14}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.0
 
   /lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -4411,7 +4411,7 @@ packages:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.13.1
-      semver: 7.5.4
+      semver: 7.6.0
       validate-npm-package-license: 3.0.4
     dev: true
 
