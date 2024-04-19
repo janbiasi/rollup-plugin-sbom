@@ -1,50 +1,59 @@
-import { Enums, Spec } from "@cyclonedx/cyclonedx-library";
+import * as CDX from "@cyclonedx/cyclonedx-library";
 
 export interface RollupPluginSbomOptions {
     /**
-     * Specification version to use, defaults to {@link Spec.Spec1dot5}
+     * Specification version to use
+     * @default CDX.Spec.Spec1dot5
      */
-    specVersion?: Spec.Version;
+    specVersion?: CDX.Spec.Version;
     /**
-     * Defaults to Application
+     * Component type of the compiled software
+     * @default CDX.Enums.ComponentType.Application
      */
-    rootComponentType?: Enums.ComponentType;
+    rootComponentType?: CDX.Enums.ComponentType;
     /**
-     * Output directory to use, defaults to `"cyclonedx"`.
+     * Output directory to use.
      * Note: you don't need to prefix the build output path as the plugin
      * uses the internal file emitter to write files.
+     * @default "cyclonedx"
      */
     outDir?: string;
     /**
-     * The base filename for the SBOM files, defaults to 'bom'
+     * The base filename for the SBOM files
+     * @default "bom"
      */
     outFilename?: string;
     /**
-     * The formats to output, defaults to ['json', 'xml']
+     * The formats to output
+     * @default ["json", "xml"]
      */
     outFormats?: ("json" | "xml")[];
     /**
-     * If you want to save the timestamp of the generation, defaults to `true`
+     * If you want to save the timestamp of the generation
+     * @default true
      */
     saveTimestamp?: boolean;
     /**
-     * If you want to get the root package registered automatically, defaults to `true`.
+     * If you want to get the root package registered automatically.
      * You may set this to `false` if your project does not a have a `package.json`
+     * @default true
      */
     autodetect?: boolean;
     /**
-     * Whether to generate a serial number for the BOM. Defaults to `false`.
+     * Whether to generate a serial number for the BOM
+     * @default false
      */
     generateSerial?: boolean;
     /**
-     * Whether to generate a SBOM in the `.well-known` directory. Defaults to `true`.
+     * Whether to generate a SBOM in the `.well-known` directory.
+     * @default true
      */
     includeWellKnown?: boolean;
 }
 
 export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
-    specVersion: Spec.Version.v1dot5,
-    rootComponentType: Enums.ComponentType.Application,
+    specVersion: CDX.Spec.Version.v1dot5,
+    rootComponentType: CDX.Enums.ComponentType.Application,
     outDir: "cyclonedx",
     outFilename: "bom",
     outFormats: ["json", "xml"],

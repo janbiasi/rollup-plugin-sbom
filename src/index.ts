@@ -10,15 +10,20 @@ import { registerPackageUrlOnComponent, registerTools } from "./builder";
 import { DEFAULT_OPTIONS, RollupPluginSbomOptions } from "./options";
 
 /**
- * Plugin identifier for {@link rollupPluginSbom}
+ * Plugin identifier for this {@link plugin}, can be used to interact
+ * with the plugin within the rollup/vite ecosystem.
+ * @since 1.2.0
  */
-const PLUGIN_ID = "rollup-plugin-sbom";
+export const PLUGIN_ID = "rollup-plugin-sbom";
+
+export { RollupPluginSbomOptions };
 
 /**
  * Plugin to generate CycloneDX SBOMs for your application or library
  * Compatible with Rollup and Vite.
+ * @since 1.2.0
  */
-export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions): Plugin {
+export function plugin(userOptions?: RollupPluginSbomOptions): Plugin {
     const options = {
         ...DEFAULT_OPTIONS,
         ...userOptions,
@@ -142,3 +147,5 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         },
     } satisfies Plugin;
 }
+
+export default plugin;

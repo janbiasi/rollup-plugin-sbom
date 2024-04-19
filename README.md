@@ -108,6 +108,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-### License
+## Changelog
 
-The plugin is licensed under [MIT License](./LICENSE)
+Please find all changes on the [GitHub Releases](https://github.com/janbiasi/rollup-plugin-sbom/releases) page.
+
+## License
+
+The plugin is licensed under [MIT License](https://github.com/janbiasi/rollup-plugin-sbom/tree/main/LICENSE)

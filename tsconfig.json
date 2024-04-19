@@ -1,6 +1,8 @@
 {
     "compilerOptions": {
         "module": "ESNext",
-        "moduleResolution": "Bundler"
-    }
+        "moduleResolution": "Bundler",
+        "skipLibCheck": true
+    },
+    "exclude": ["./test/**"]
 }

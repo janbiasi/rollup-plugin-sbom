@@ -1,0 +1,36 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "skipErrorChecking": true,
+    "entryPoints": ["src/index.ts"],
+    "exclude": ["**/*+(.test).ts"],
+    "entryPointStrategy": "expand",
+    "sourceLinkExternal": true,
+    "out": "./docs/out",
+    "customCss": "./docs/styles/theme.css",
+    "darkHighlightTheme": "github-dark",
+    "lightHighlightTheme": "github-light",
+    "name": "Rollup Plugin SBOM",
+    "githubPages": true,
+    "cleanOutputDir": true,
+    "includeVersion": true,
+    "cname": "rollup-plugin-sbom.js.org",
+    "sitemapBaseUrl": "https://rollup-plugin-sbom.js.org",
+    "excludeExternals": false,
+    "excludeInternal": false,
+    "excludePrivate": false,
+    "excludeReferences": false,
+    "excludeProtected": false,
+    "navigationLinks": {
+        "GitHub": "https://github.com/janbiasi/rollup-plugin-sbom",
+        "Report Issue": "https://github.com/janbiasi/rollup-plugin-sbom/issues/new?assignees=&labels=%3Abug%3A+bug%2C+triage&projects=&template=bug-report.md&title=%5BBUG%5D+...",
+        "Request Feature": "https://github.com/janbiasi/rollup-plugin-sbom/issues/new?assignees=&labels=enhancement%2C+triage&projects=&template=feature-request.md&title="
+    },
+    "externalSymbolLinkMappings": {
+        "@cyclonedx/cyclonedx-library": {
+            "Version": "https://cyclonedx-javascript-library.readthedocs.io/en/latest/typedoc/node/enums/Spec.Version.html",
+            "ComponentType": "https://cyclonedx-javascript-library.readthedocs.io/en/latest/typedoc/node/enums/Enums.ComponentType.html",
+            "Models.OrganizationalEntity": "https://cyclonedx-javascript-library.readthedocs.io/en/latest/typedoc/node/classes/Models.OrganizationalEntity.html",
+            "*": "https://cyclonedx-javascript-library.readthedocs.io/en/latest/typedoc/node/index.html"
+        }
+    }
+}
