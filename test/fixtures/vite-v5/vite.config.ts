@@ -11,6 +11,26 @@ export default defineConfig({
     outDir: "plugin-outdir",
     outFilename: "filename",
     outFormats: ["json", "xml"],
-    saveTimestamp: true
+    saveTimestamp: true,
+    publisher: "Example Inc.",
+    supplier: {
+        name: "Supplier Example Inc",
+        url: ["https://example.com"],
+        contact: [{
+            name: "Contact Name",
+            email: "example@example.com",
+            phone: "111-222-4444"
+        }]
+    },
+    properties: [{
+        name: "unique-key",
+        value: "unique-value"
+    }, {
+        name: "duplicate-key",
+        value: "duplicate-value-1"
+    }, {
+        name: "duplicate-key",
+        value: "duplicate-value-2"
+    }]
   })],
 })

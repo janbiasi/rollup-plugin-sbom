@@ -11,7 +11,7 @@ test("it should generate the SBOM files with configured settings", async () => {
 
 test("it should generate the JSON SBOM which matches the JSON schema spec version 1.5", async () => {
     const bom = await helpers.getCompiledFileRawContent("plugin-outdir/filename.json");
-    expect(helpers.isBomValidAccordingToSchema("v1.5", bom)).toBeTruthy();
+    expect(helpers.isBomValidAccordingToSchema("v1.6", bom)).toBeTruthy();
 });
 
 describe.concurrent("JSON", () => {
@@ -60,5 +60,40 @@ describe.concurrent("JSON", () => {
         const uniqueDependencyNames = dependencyNames.filter((name, index) => dependencyNames.indexOf(name) === index);
 
         expect(dependencyNames).toEqual(uniqueDependencyNames);
+    });
+
+    test("it should set the supplier correctly when configured", async () => {
+        const { metadata } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
+
+        expect(metadata.supplier).toEqual({
+            name: "Supplier Example Inc",
+            url: ["https://example.com"],
+            contact: [
+                {
+                    name: "Contact Name",
+                    email: "example@example.com",
+                    phone: "111-222-4444",
+                },
+            ],
+        });
+    });
+
+    test("it should support setting custom properties", async () => {
+        const { metadata } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
+
+        expect(metadata.properties).toEqual([
+            {
+                name: "unique-key",
+                value: "unique-value",
+            },
+            {
+                name: "duplicate-key",
+                value: "duplicate-value-1",
+            },
+            {
+                name: "duplicate-key",
+                value: "duplicate-value-2",
+            },
+        ]);
     });
 });

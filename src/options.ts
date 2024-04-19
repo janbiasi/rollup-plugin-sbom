@@ -1,5 +1,10 @@
 import { Enums, Spec } from "@cyclonedx/cyclonedx-library";
+import type { OrganizationalEntityOption } from "./types/OrganizationalEntityOption";
 
+/**
+ * SBOM plugin configuration options
+ * @see https://github.com/janbiasi/rollup-plugin-sbom?tab=readme-ov-file#configuration-options
+ */
 export interface RollupPluginSbomOptions {
     /**
      * Specification version to use, defaults to {@link Spec.Spec1dot5}
@@ -40,6 +45,25 @@ export interface RollupPluginSbomOptions {
      * Whether to generate a SBOM in the `.well-known` directory. Defaults to `true`.
      */
     includeWellKnown?: boolean;
+    /**
+     * The organization that supplied the component that the BOM describes.
+     * The supplier may often be the manufacturer, but may also be a distributor or repackager.
+     * @since 1.1.0
+     */
+    supplier?: OrganizationalEntityOption | undefined;
+    /**
+     * Provides the ability to document properties in a name-value store.
+     * This provides flexibility to include data not officially supported in the standard without
+     * having to use additional namespaces or create extensions. Unlike key-value stores, properties
+     * support duplicate names, each potentially having different values.
+     *
+     * Property names of interest to the general public are encouraged to be registered in the
+     * CycloneDX Property Taxonomy. Formal registration is OPTIONAL.
+     *
+     * @since 1.1.0
+     * @see https://github.com/CycloneDX/cyclonedx-property-taxonomy
+     */
+    properties?: { name: string; value: string }[] | undefined;
 }
 
 export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
@@ -52,4 +76,6 @@ export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
     autodetect: true,
     generateSerial: false,
     includeWellKnown: true,
+    supplier: undefined,
+    properties: undefined,
 };

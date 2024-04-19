@@ -5,7 +5,11 @@ import * as CDX from "@cyclonedx/cyclonedx-library";
 
 import { type Package } from "normalize-package-data";
 
-import { getPackageJson, getCorrespondingPackageFromModuleId } from "./helpers";
+import {
+    getPackageJson,
+    getCorrespondingPackageFromModuleId,
+    convertOrganizationalEntityOptionToModel,
+} from "./helpers";
 import { registerPackageUrlOnComponent, registerTools } from "./builder";
 import { DEFAULT_OPTIONS, RollupPluginSbomOptions } from "./options";
 
@@ -40,7 +44,20 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         new CDX.Serialize.XML.Normalize.Factory(CDX.Spec.SpecVersionDict[options.specVersion]!),
     );
 
-    const bom = new CDX.Models.Bom();
+    const metadata = new CDX.Models.Metadata({
+        supplier: options.supplier && convertOrganizationalEntityOptionToModel(options.supplier),
+        properties:
+            options.properties &&
+            new CDX.Models.PropertyRepository(
+                options.properties.map(({ name, value }) => new CDX.Models.Property(name, value)),
+            ),
+    });
+
+    const bom = new CDX.Models.Bom({
+        metadata,
+    });
+
+    // A list of registered package identifiers (name and version) to prevent duplicates
     const registeredPackageIds: string[] = [];
 
     return {
