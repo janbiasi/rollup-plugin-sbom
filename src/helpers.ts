@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import { resolve, dirname, join } from "node:path";
 
 import normalizePackageData, { type Package } from "normalize-package-data";
+import { OrganizationalEntityOption } from "./types/OrganizationalEntityOption";
+import * as CDX from "@cyclonedx/cyclonedx-library";
 
 /**
  * Read and normalize a `package.json` under the defined `dir`
@@ -48,4 +50,20 @@ export function getCorrespondingPackageFromModuleId(moduleId: string, traversalL
     }
 
     return getCorrespondingPackageFromModuleId(join(folder, ".."), traversalLimit - 1);
+}
+
+/**
+ * CycloneDX requires the use of their models and repositories, but we want to provide
+ * easy usage for the developers so we need to convert our simple interface to the corresponding models
+ * @param {OrganizationalEntityOption} option The option to convert
+ * @returns A CycloneDX {@link CDX.Models.OrganizationEntity}
+ */
+export function convertOrganizationalEntityOptionToModel(option: OrganizationalEntityOption) {
+    return new CDX.Models.OrganizationalEntity({
+        name: option.name,
+        url: new Set(option.url),
+        contact: new CDX.Models.OrganizationalContactRepository(
+            option.contact.map((contact) => new CDX.Models.OrganizationalContact(contact)),
+        ),
+    });
 }

@@ -11,6 +11,7 @@ function readJsonFile(path: string) {
 
 const bomSchemaVersions = {
     "v1.5": readJsonFile("./test/schemas/bom-1.5.schema.json"),
+    "v1.6": readJsonFile("./test/schemas/bom-1.6.schema.json"),
 };
 
 const ajv = new Ajv({
@@ -40,14 +41,16 @@ export function createOutputTestHelpers(fixtureName: string) {
         getCompiledFileRawContent(filePath: string) {
             return readFile(resolve(rootDir, "dist", filePath), "utf-8");
         },
-        async getCompiledFileJSONContent(filePath: string): Promise<Record<string, unknown>> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        async getCompiledFileJSONContent(filePath: string): Promise<Record<string, any>> {
             try {
                 return JSON.parse(await methods.getCompiledFileRawContent(filePath));
             } catch {
                 throw new ReferenceError(`Could not read file from ${filePath}`);
             }
         },
-        async getCompiledFileXMLContent(filePath: string): Promise<Record<string, unknown>> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        async getCompiledFileXMLContent(filePath: string): Promise<Record<string, any>> {
             try {
                 const parser = new XMLParser();
                 return parser.parse(await methods.getCompiledFileRawContent(filePath));
@@ -57,6 +60,11 @@ export function createOutputTestHelpers(fixtureName: string) {
         },
         isBomValidAccordingToSchema(version: keyof typeof bomSchemaVersions, rawFileContent: string) {
             ajv.validate(bomSchemaVersions[version], JSON.parse(rawFileContent));
+
+            if (ajv.errors) {
+                console.error(ajv.errorsText(ajv.errors));
+            }
+
             return ajv.errors ? ajv.errors.length === 0 : true;
         },
     };
