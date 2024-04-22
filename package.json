@@ -57,7 +57,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@cyclonedx/cyclonedx-library": "6.3.1",
+    "@cyclonedx/cyclonedx-library": "6.5.1",
     "normalize-package-data": "6.0.0"
   },
   "peerDependencies": {
