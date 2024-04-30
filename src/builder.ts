@@ -1,8 +1,7 @@
-import { dirname } from "node:path";
 import { createRequire } from "node:module";
 
 import { type Builders, type Models, type Factories } from "@cyclonedx/cyclonedx-library";
-import { getPackageJson } from "./helpers";
+import { getCorrespondingPackageFromModuleId } from "./helpers";
 
 const require = createRequire(import.meta.url);
 
@@ -17,24 +16,22 @@ export function registerPackageUrlOnComponent(
 }
 
 export async function registerTools(bom: Models.Bom, builder: Builders.FromNodePackageJson.ToolBuilder) {
-    // register rollup-plugin-sbom (for vite and rollup)
-    const pkg = await getPackageJson(dirname(require.resolve("rollup-plugin-sbom")));
-    if (pkg) {
-        const tool = builder.makeTool(pkg);
-        tool && bom.metadata.tools.add(tool);
+    async function registerTool(packageName: string) {
+        try {
+            const modulePath = require.resolve(packageName);
+            const pkgJson = await getCorrespondingPackageFromModuleId(modulePath);
+            if (pkgJson) {
+                const tool = builder.makeTool(pkgJson);
+                tool && bom.metadata.tools.add(tool);
+            }
+        } catch {
+            // do nothing
+        }
     }
 
-    // register vite if available
-    const vitePkg = await getPackageJson(dirname(require.resolve("vite")));
-    if (vitePkg) {
-        const tool = builder.makeTool(vitePkg);
-        tool && bom.metadata.tools.add(tool);
-    }
+    const knownTools = ["rollup-plugin-sbom", "vite", "rollup"];
 
-    // register rollup if available
-    const rollupPkg = await getPackageJson(dirname(require.resolve("rollup")));
-    if (rollupPkg) {
-        const tool = builder.makeTool(rollupPkg);
-        tool && bom.metadata.tools.add(tool);
+    for (const pkgName of knownTools) {
+        await registerTool(pkgName);
     }
 }
