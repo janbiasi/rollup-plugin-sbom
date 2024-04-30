@@ -5,6 +5,8 @@ import { getCorrespondingPackageFromModuleId } from "./helpers";
 
 const require = createRequire(import.meta.url);
 
+const knownTools = ["rollup-plugin-sbom", "vite", "rollup"];
+
 export function registerPackageUrlOnComponent(
     component: Models.Component | undefined,
     factory: Factories.FromNodePackageJson.PackageUrlFactory,
@@ -28,8 +30,6 @@ export async function registerTools(bom: Models.Bom, builder: Builders.FromNodeP
             // do nothing
         }
     }
-
-    const knownTools = ["rollup-plugin-sbom", "vite", "rollup"];
 
     for (const pkgName of knownTools) {
         await registerTool(pkgName);
