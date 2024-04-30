@@ -97,7 +97,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         async moduleParsed(moduleInfo) {
             const nodeModuleImportedIds = moduleInfo.importedIds.filter((entry) => entry.includes("node_modules"));
             const potentialComponents = await Promise.all(
-                nodeModuleImportedIds.map(getCorrespondingPackageFromModuleId),
+                nodeModuleImportedIds.map((id) => getCorrespondingPackageFromModuleId(id)),
             );
 
             // iterate over all imported unique modules and add them to the BOM
