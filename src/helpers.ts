@@ -34,22 +34,28 @@ export async function getPackageJson(dir: string): Promise<Package> {
  * getPackageRootFromModuleId(moduleId); // "/User/home/.pnpm/react-dom@18.2.0_react@18.2.0/node_modules/react-dom"
  * ```
  */
-export function getCorrespondingPackageFromModuleId(moduleId: string, traversalLimit = 10) {
-    if (!moduleId.includes("node_modules")) {
-        return Promise.resolve(null);
-    }
-
+export async function getCorrespondingPackageFromModuleId(
+    modulePath: string,
+    traversalLimit = 10,
+): Promise<Package | null> {
     if (traversalLimit === 0) {
         return Promise.resolve(null);
     }
 
-    const folder = dirname(moduleId);
+    const folder = dirname(modulePath);
     const potentialPackagePath = join(folder, "./package.json");
+
+    let pkgJson: Package | null = null;
+
     if (existsSync(potentialPackagePath)) {
-        return getPackageJson(folder);
+        pkgJson = await getPackageJson(folder);
     }
 
-    return getCorrespondingPackageFromModuleId(join(folder, ".."), traversalLimit - 1);
+    if (pkgJson !== null) {
+        return pkgJson;
+    }
+
+    return await getCorrespondingPackageFromModuleId(folder, traversalLimit - 1);
 }
 
 /**
