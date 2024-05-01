@@ -42,6 +42,9 @@ export async function getCorrespondingPackageFromModuleId(
         return Promise.resolve(null);
     }
 
+    // dirname() will do the equivalent of traversing up the
+    // directory tree one level when called on a path without
+    // a file.
     const folder = dirname(modulePath);
     const potentialPackagePath = join(folder, "./package.json");
 
