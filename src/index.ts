@@ -95,7 +95,12 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
          * Register only the effectively imported third party modules from `node_modules`
          */
         async moduleParsed(moduleInfo) {
-            const nodeModuleImportedIds = moduleInfo.importedIds.filter((entry) => entry.includes("node_modules"));
+            // filter out modules that exists in node_modules and
+            // also are not Rollup virtual modules (starting with \0)
+            const nodeModuleImportedIds = moduleInfo.importedIds.filter(
+                (entry) => entry.includes("node_modules") && !entry.startsWith("\0"),
+            );
+
             const potentialComponents = await Promise.all(
                 nodeModuleImportedIds.map((moduleId) => {
                     if (!moduleId.includes("node_modules")) {
