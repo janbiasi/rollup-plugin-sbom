@@ -1,29 +1,50 @@
 {
-    "files": ["README.md"],
-    "imageSize": 100,
-    "commit": false,
-    "commitType": "docs",
-    "commitConvention": "angular",
-    "contributors": [
-        {
-            "login": "janbiasi",
-            "name": "Jan R. Biasi",
-            "avatar_url": "https://avatars.githubusercontent.com/u/4563751?v=4",
-            "profile": "https://github.com/janbiasi",
-            "contributions": ["business", "question", "mentoring", "code"]
-        },
-        {
-            "login": "boostvolt",
-            "name": "Jan Kott",
-            "avatar_url": "https://avatars.githubusercontent.com/u/51777660?v=4",
-            "profile": "https://github.com/boostvolt",
-            "contributions": ["code", "ideas", "content"]
-        }
-    ],
-    "contributorsPerLine": 7,
-    "skipCi": true,
-    "repoType": "github",
-    "repoHost": "https://github.com",
-    "projectName": "rollup-plugin-sbom",
-    "projectOwner": "janbiasi"
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "janbiasi",
+      "name": "Jan R. Biasi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4563751?v=4",
+      "profile": "https://github.com/janbiasi",
+      "contributions": [
+        "business",
+        "question",
+        "mentoring",
+        "code"
+      ]
+    },
+    {
+      "login": "boostvolt",
+      "name": "Jan Kott",
+      "avatar_url": "https://avatars.githubusercontent.com/u/51777660?v=4",
+      "profile": "https://github.com/boostvolt",
+      "contributions": [
+        "code",
+        "ideas",
+        "content"
+      ]
+    },
+    {
+      "login": "xenobytezero",
+      "name": "xenobytezero",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5059527?v=4",
+      "profile": "https://github.com/xenobytezero",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "rollup-plugin-sbom",
+  "projectOwner": "janbiasi"
 }
