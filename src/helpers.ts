@@ -5,6 +5,67 @@ import { resolve, dirname, join } from "node:path";
 import normalizePackageData, { type Package } from "normalize-package-data";
 import { OrganizationalEntityOption } from "./types/OrganizationalEntityOption";
 import * as CDX from "@cyclonedx/cyclonedx-library";
+import { ResolvedId } from "rollup";
+
+/**
+ * Plugin identifier for {@link rollupPluginSbom}
+ */
+export const PLUGIN_ID = "rollup-plugin-sbom";
+
+export function isResolvedIdBundled(resolvedId: ResolvedId): boolean {
+    if (resolvedId.external === true) {
+        // this is a peer-dependency in eg. a library case (= not bundled but imported)
+        return false;
+    }
+
+    if (resolvedId.id.startsWith("\0")) {
+        // this is an external module
+        return false;
+    }
+
+    if (resolvedId.id.includes("node_modules")) {
+        return true;
+    }
+
+    // TODO: is it better to not include dependencies if we don't know if it is included?
+    console.warn(`Warning: could not verify if ${resolvedId.id} is bundled`);
+    return false;
+}
+
+/**
+ * Check if the provided moduleId resolves to an external module.
+ * Will also return false if the module is a virtual module (start with "\0")
+ * @param {string} moduleId Rollup module identifier (path to imported module)
+ * @returns If the moduleId is an external module or not
+ * @deprecated use rollups internal ID resolution with {@link isResolvedIdBundled}
+ */
+export function isExternalModuleId(moduleId: string): boolean {
+    return moduleId.includes("node_modules") && !moduleId.startsWith("\0");
+}
+
+/**
+ * Custom resolved module scheme for building the BOM
+ */
+export interface ResolvedModuleInfo {
+    moduleId: string;
+    pkg: Package;
+    resolution: ResolvedId;
+    dependencies?: Package[];
+}
+
+/**
+ * Mark licenses on a component as declared
+ * @param {CDX.Models.Component} component The component declaration
+ */
+export function markLicensesAsDeclared(component?: CDX.Models.Component): void {
+    if (!component) {
+        return;
+    }
+
+    component.licenses.forEach((l) => {
+        l.acknowledgement = CDX.Enums.LicenseAcknowledgement.Declared;
+    });
+}
 
 /**
  * Read and normalize a `package.json` under the defined `dir`
@@ -54,7 +115,9 @@ export async function getCorrespondingPackageFromModuleId(
         pkgJson = await getPackageJson(folder);
     }
 
-    if (pkgJson !== null) {
+    // some packages don't have names and act just as loader proxy - but we need to find
+    // the root module so we only resolve if we have the package, a name and a version
+    if (pkgJson !== null && pkgJson.version && pkgJson.name) {
         return pkgJson;
     }
 
