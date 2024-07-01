@@ -17,6 +17,7 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
   - [Usage with Vite](#usage-with-vite)
   - [Usage with Rollup](#usage-with-rollup)
   - [Configuration options and defaults](#configuration-options)
+  - [Debugging](#debugging)
 - [Contributing](#contributing)
   - [Make your first contribution](#good-first-issues)
   - [Contributors](#contributors)
@@ -55,6 +56,8 @@ export default defineConfig({
 });
 ```
 
+_If you're running older versions of Vite you may need to use `build.rollupOptions.plugins` instead._
+
 #### Usage with [Rollup](https://rollupjs.org/)
 
 ```js
@@ -78,6 +81,18 @@ export default {
 | `autodetect`        | `true`            | Whether to get the root package registered automatically.  |
 | `generateSerial`    | `false`           | Whether to generate a serial number for the BOM.           |
 | `includeWellKnown`  | `true`            | Whether to generate a SBOM in the `well-known` directory.  |
+
+#### Debugging
+
+If you need more details about the generation process of your SBOM you can enable the following [debug namespaces]():
+
+| Namespace      | Build Phase   | Reason to enable                                              |
+| -------------- | ------------- | ------------------------------------------------------------- |
+| `autoresolver` | build start   | Your application is not listed in `metdata.component`         |
+| `builder`      | module parsed | Some dependencies are not listed in the SBOM                  |
+| `writer`       | emit bundle   | Some or all SBOM artifacts are not written to the file system |
+
+You can also use `DEBUG=rollup-plugin-sbom:* npm run build` to enable all debug logs of the plugin
 
 ## Contributing
 
