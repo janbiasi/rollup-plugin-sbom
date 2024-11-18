@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Lint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
       - uses: ./.github/actions/setup
       - run: pnpm run lint
 
@@ -28,7 +28,7 @@ jobs:
       matrix:
         node: [18, 20]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
       - uses: ./.github/actions/setup
       - run: pnpm run build
       - run: pnpm run build-fixtures
@@ -48,7 +48,7 @@ jobs:
       matrix:
         node: [20]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup
