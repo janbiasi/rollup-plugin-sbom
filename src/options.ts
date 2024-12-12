@@ -7,7 +7,7 @@ import type { OrganizationalEntityOption } from "./types/OrganizationalEntityOpt
  */
 export interface RollupPluginSbomOptions {
     /**
-     * Specification version to use, defaults to {@link Spec.Spec1dot5}
+     * Specification version to use, defaults to {@link Spec.Spec1dot6}
      */
     specVersion?: Spec.Version;
     /**
@@ -67,7 +67,7 @@ export interface RollupPluginSbomOptions {
 }
 
 export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
-    specVersion: Spec.Version.v1dot5,
+    specVersion: Spec.Version.v1dot6,
     rootComponentType: Enums.ComponentType.Application,
     outDir: "cyclonedx",
     outFilename: "bom",

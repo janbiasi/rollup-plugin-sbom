@@ -3,7 +3,7 @@
   "name": "rollup-plugin-sbom",
   "version": "1.0.0",
   "description": "A rollup and vite plugin to generate SBOMs for your application",
-  "packageManager": "pnpm@9.0.1",
+  "packageManager": "pnpm@9.15.0",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -66,6 +66,7 @@
   "devDependencies": {
     "@commitlint/cli": "19.6.0",
     "@commitlint/config-conventional": "19.6.0",
+    "@eslint/js": "9.16.0",
     "@types/node": "22.10.1",
     "@types/normalize-package-data": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "8.17.0",
@@ -75,12 +76,14 @@
     "ajv-formats": "3.0.1",
     "eslint": "9.16.0",
     "fast-xml-parser": "4.5.0",
+    "globals": "15.13.0",
     "husky": "9.1.7",
     "lint-staged": "15.2.10",
     "prettier": "3.4.2",
     "rollup": "4.28.1",
     "semantic-release": "24.2.0",
     "typescript": "5.7.2",
+    "typescript-eslint": "8.18.0",
     "unbuild": "2.0.0",
     "vitest": "2.1.8"
   }
