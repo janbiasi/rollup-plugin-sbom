@@ -24,7 +24,9 @@ export async function registerTools(bom: Models.Bom, builder: Builders.FromNodeP
             const pkgJson = await getCorrespondingPackageFromModuleId(modulePath);
             if (pkgJson) {
                 const tool = builder.makeTool(pkgJson);
-                tool && bom.metadata.tools.add(tool);
+                if (tool) {
+                    bom.metadata.tools.tools.add(tool);
+                }
             }
         } catch {
             // do nothing

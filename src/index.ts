@@ -72,7 +72,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                         bom.metadata.component.version = rootPkg.version;
                         registerPackageUrlOnComponent(bom.metadata.component, cdxPurlFactory);
                     }
-                } catch (err) {
+                } catch {
                     this.error("could not autodetect package.json in the current working directory");
                 }
             }
@@ -124,7 +124,10 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 // add package URL in factory and component
                 const component = cdxComponentBuilder.makeComponent(pkg, CDX.Enums.ComponentType.Library);
                 registerPackageUrlOnComponent(component, cdxPurlFactory);
-                component && bom.components.add(component);
+
+                if (component) {
+                    bom.components.add(component);
+                }
                 registeredPackageIds.push(pkgId);
             }
         },
