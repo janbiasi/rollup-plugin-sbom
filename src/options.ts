@@ -9,11 +9,11 @@ export interface RollupPluginSbomOptions {
     /**
      * Specification version to use, defaults to {@link Spec.Spec1dot6}
      */
-    specVersion?: Spec.Version;
+    specVersion?: `${Spec.Version}`;
     /**
      * Defaults to Application
      */
-    rootComponentType?: Enums.ComponentType;
+    rootComponentType?: `${Enums.ComponentType}`;
     /**
      * Output directory to use, defaults to `"cyclonedx"`.
      * Note: you don't need to prefix the build output path as the plugin
