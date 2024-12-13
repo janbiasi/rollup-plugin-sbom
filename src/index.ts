@@ -12,6 +12,7 @@ import {
 } from "./helpers";
 import { registerPackageUrlOnComponent, registerTools } from "./builder";
 import { DEFAULT_OPTIONS, RollupPluginSbomOptions } from "./options";
+import type { ComponentType } from "@cyclonedx/cyclonedx-library/Enums";
 
 /**
  * Plugin identifier for {@link rollupPluginSbom}
@@ -68,7 +69,10 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 try {
                     const rootPkg = await getPackageJson(process.cwd());
                     if (rootPkg) {
-                        bom.metadata.component = cdxComponentBuilder.makeComponent(rootPkg, options.rootComponentType);
+                        bom.metadata.component = cdxComponentBuilder.makeComponent(
+                            rootPkg,
+                            options.rootComponentType as ComponentType,
+                        );
                         bom.metadata.component.version = rootPkg.version;
                         registerPackageUrlOnComponent(bom.metadata.component, cdxPurlFactory);
                     }
