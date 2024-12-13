@@ -25,9 +25,10 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
 
 ### Requirements and Compatibility
 
-| Plugin | Vite   | Rollup | Node   |
-| ------ | ------ | ------ | ------ |
-| v1     | v4, v5 | v3, v4 | 18, 20 |
+| Plugin | Vite       | Rollup | Node       | CDX Spec |
+| ------ | ---------- | ------ | ---------- | -------- |
+| v1     | v4, v5     | v3, v4 | 18, 20     | 1.5      |
+| v2     | v4, v5, v6 | v3, v4 | 18, 20, 22 | 1.6      |
 
 We're always supporting LTS Node.js versions and versions which still have security support.
 Plugin support will be dropped once a Node.js version reaches its final EOL.
@@ -69,7 +70,7 @@ export default {
 
 | Name                | Default           | Description                                                |
 | ------------------- | ----------------- | ---------------------------------------------------------- |
-| `specVersion`       | `1.5`             | The CycloneDX specification version to use                 |
+| `specVersion`       | `1.6`             | The CycloneDX specification version to use                 |
 | `rootComponentType` | `application`     | The root component type, can be `library` or `application` |
 | `outDir`            | `cyclonedx`       | The output directory where the BOM file will be saved.     |
 | `outFilename`       | `bom`             | The base filename for the SBOM files.                      |
