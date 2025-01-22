@@ -31,7 +31,6 @@
     "build-fixtures": "pnpm --filter \"@fixtures/*\" run build",
     "dev:test": "vitest watch",
     "test": "vitest run --coverage",
-    "preinstall": "npx only-allow pnpm",
     "prepare": "husky",
     "prepublishOnly": "pnpm build",
     "prettier": "prettier -w .",
