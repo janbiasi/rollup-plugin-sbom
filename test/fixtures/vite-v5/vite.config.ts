@@ -12,7 +12,6 @@ export default defineConfig({
     outFilename: "filename",
     outFormats: ["json", "xml"],
     saveTimestamp: true,
-    publisher: "Example Inc.",
     supplier: {
         name: "Supplier Example Inc",
         url: ["https://example.com"],
