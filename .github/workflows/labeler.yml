@@ -1,9 +1,6 @@
 name: "Pull Request Labeler"
 on:
-  - pull_request
-
-# Declare default permissions as read only.
-permissions: read-all
+  - pull_request_target
 
 jobs:
   triage:
