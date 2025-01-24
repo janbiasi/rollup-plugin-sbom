@@ -79,6 +79,7 @@ export default {
 | `autodetect`        | `true`            | Whether to get the root package registered automatically.  |
 | `generateSerial`    | `false`           | Whether to generate a serial number for the BOM.           |
 | `includeWellKnown`  | `true`            | Whether to generate a SBOM in the `well-known` directory.  |
+| `supplier`          | -                 | Provide organizational entity information                  |
 
 ## Contributing
 
