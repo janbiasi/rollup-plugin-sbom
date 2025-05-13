@@ -96,4 +96,14 @@ describe.concurrent("JSON", () => {
             },
         ]);
     });
+
+    test("it should generate correct dependency references (i.E. React DOM)", async () => {
+        const { dependencies } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
+        const reactDomDependency = dependencies.find((d) => d.ref.startsWith("pkg:npm/react-dom"));
+
+        expect(reactDomDependency.dependsOn).toBeDefined();
+        expect(reactDomDependency.dependsOn).toContain(
+            "pkg:npm/react@19.0.0?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ffacebook%2Freact.git#packages/react",
+        );
+    });
 });
