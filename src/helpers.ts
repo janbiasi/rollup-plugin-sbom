@@ -1,10 +1,16 @@
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { resolve, dirname, join } from "node:path";
-
 import normalizePackageData, { type Package } from "normalize-package-data";
-import { OrganizationalEntityOption } from "./types/OrganizationalEntityOption";
 import * as CDX from "@cyclonedx/cyclonedx-library";
+
+import { OrganizationalEntityOption } from "./types/OrganizationalEntityOption";
+import type { ModuleIdString, PackageId } from "./types/aliases";
+
+/**
+ * Plugin identifier for {@link rollupPluginSbom}
+ */
+export const PLUGIN_ID = "rollup-plugin-sbom";
 
 /**
  * Read and normalize a `package.json` under the defined `dir`
@@ -54,11 +60,31 @@ export async function getCorrespondingPackageFromModuleId(
         pkgJson = await getPackageJson(folder);
     }
 
-    if (pkgJson !== null) {
+    // some packages don't have names and act just as loader proxy - but we need to find
+    // the root module so we only resolve if we have the package, a name and a version
+    if (pkgJson !== null && pkgJson.version && pkgJson.name) {
         return pkgJson;
     }
 
     return await getCorrespondingPackageFromModuleId(folder, traversalLimit - 1);
+}
+
+/**
+ * Generate a package ID from a package object
+ * @param pkg The package object
+ * @returns A package ID
+ */
+export function generatePackageId(pkg: Package): PackageId {
+    return `${pkg.name}@${pkg.version}`;
+}
+
+/**
+ * Compose a readable module ID from a module ID
+ * @param moduleId The module ID
+ * @returns A readable module ID
+ */
+export function composeReadableModuleId(moduleId: ModuleIdString): string {
+    return moduleId.replace("\0", "").split("/node_modules/")[1];
 }
 
 /**
