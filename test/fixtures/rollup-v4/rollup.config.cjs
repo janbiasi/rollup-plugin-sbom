@@ -7,6 +7,7 @@ const pluginCommonJs = require("rollup-plugin-commonjs");
  */
 module.exports = {
     input: "src/index.js",
+    logLevel: "debug",
     output: {
         file: "dist/index.js",
         format: "iife"

@@ -4,6 +4,11 @@ import sbom from 'rollup-plugin-sbom';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    build: {
+        rollupOptions: {
+            logLevel: 'debug'
+        }
+    },
   plugins: [react(), sbom({
     autodetect: true,
     generateSerial: true,

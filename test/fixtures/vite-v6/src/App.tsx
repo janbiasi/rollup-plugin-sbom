@@ -1,10 +1,19 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { ComponentWithDeps } from './ComponentWithDeps'
+
+// internal dynamic import which includes other third party deps
+const DynamicComponent = lazy(() => import('./DynamicComponent').then(
+    (mod) => ({
+        default: mod.DynamicComponent
+    })
+));
 
 function App() {
   const [count, setCount] = useState(0)
+
 
   return (
     <>
@@ -28,6 +37,10 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <ComponentWithDeps />
+      <Suspense>
+        <DynamicComponent />
+      </Suspense>
     </>
   )
 }
