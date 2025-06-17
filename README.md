@@ -17,6 +17,7 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
   - [Usage with Vite](#usage-with-vite)
   - [Usage with Rollup](#usage-with-rollup)
   - [Configuration options and defaults](#configuration-options)
+- [Debugging](#debugging)
 - [Contributing](#contributing)
   - [Make your first contribution](#good-first-issues)
   - [Contributors](#contributors)
@@ -54,6 +55,16 @@ import sbom from "rollup-plugin-sbom";
 export default defineConfig({
   plugins: [sbom()],
 });
+
+// or
+
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      plugins: [rollupPluginSbom],
+    },
+  },
+});
 ```
 
 #### Usage with [Rollup](https://rollupjs.org/)
@@ -80,6 +91,27 @@ export default {
 | `generateSerial`    | `false`           | Whether to generate a serial number for the BOM.           |
 | `includeWellKnown`  | `true`            | Whether to generate a SBOM in the `well-known` directory.  |
 | `supplier`          | -                 | Provide organizational entity information                  |
+
+### Debugging
+
+This plugin added `debug` logs to gather information about how your SBOM is built so you can
+understand why which dependency was added to the graph. To enable debugging, you can set the `logLevel` option to `"debug"`.
+
+```ts
+// rollup
+export default {
+  logLevel: "debug",
+};
+
+// vite
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      logLevel: "debug",
+    },
+  },
+});
+```
 
 ## Contributing
 
