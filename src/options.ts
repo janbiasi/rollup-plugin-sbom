@@ -1,5 +1,11 @@
-import { Enums, Spec } from "@cyclonedx/cyclonedx-library";
+import { Enums, Spec, Models } from "@cyclonedx/cyclonedx-library";
 import type { OrganizationalEntityOption } from "./types/OrganizationalEntityOption";
+
+/**
+ * A method which can transform a BOM model.
+ * Changes are applied directly to the BOM.
+ */
+type BomTransformFn = (bom: Models.Bom) => undefined;
 
 /**
  * SBOM plugin configuration options
@@ -64,6 +70,25 @@ export interface RollupPluginSbomOptions {
      * @see https://github.com/CycloneDX/cyclonedx-property-taxonomy
      */
     properties?: { name: string; value: string }[] | undefined;
+    /**
+     * Optional method to enable setting additional properties in the BOM before collecting it.
+     * This can be useful if or you need to add information which the plugin doesn't support at the time beeing.
+     *
+     * @since 2.1.0
+     * @param {Models.Bom} bom The initial SBOM for the project
+     * @returns The modified SBOM
+     */
+    beforeCollect?: BomTransformFn | undefined;
+    /**
+     * Optional method to enable modifying the BOM after collecting it.
+     * This can be useful if there's a temporary issue in generation.
+     * If you need to add additional properties it is recommended to use {@link beforeCollect}.
+     *
+     * @since 2.1.0
+     * @param {Models.Bom} bom The generated SBOM for the project
+     * @returns The modified SBOM
+     */
+    afterCollect?: BomTransformFn | undefined;
 }
 
 export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
@@ -78,4 +103,6 @@ export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
     includeWellKnown: true,
     supplier: undefined,
     properties: undefined,
+    beforeCollect: undefined,
+    afterCollect: undefined,
 };

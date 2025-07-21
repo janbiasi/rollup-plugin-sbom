@@ -88,7 +88,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         if (mod.dependsOn.length > 0) {
             mod.dependsOn.forEach((externalDependencyModuleInfo) => {
                 context.debug({
-                    message: `Attaching nested dependency "${externalDependencyModuleInfo.pkg.name}" to parent component ${mod.pkg.name} (imported by ${mod.pkg?.name})`,
+                    message: `Attaching nested dependency "${externalDependencyModuleInfo.pkg.name}" to parent component ${mod.pkg?.name}`,
                     meta: {
                         moduleId: externalDependencyModuleInfo.moduleId,
                         parentModuleId: mod.moduleId,
@@ -150,7 +150,13 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             }
 
             // register known tools in the chain
-            await autoRegisterTools(bom, cdxToolBuilder);
+            await autoRegisterTools(this, bom, cdxToolBuilder);
+
+            // apply custom information if configured
+            if (options.beforeCollect) {
+                this.debug('Applying custom transform "beforeCollect"');
+                options.beforeCollect(bom);
+            }
         },
         /**
          * Build the SBOM and emit files
@@ -166,6 +172,11 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 json: jsonSerializer,
                 xml: xmlSerializer,
             };
+
+            if (options.afterCollect) {
+                this.debug('Applying custom transform "afterCollect"');
+                options.afterCollect(bom);
+            }
 
             options.outFormats.forEach((format) => {
                 if (!formatMap[format]) {

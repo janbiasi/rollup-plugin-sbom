@@ -35,6 +35,6 @@ export default defineConfig({
     }, {
         name: "duplicate-key",
         value: "duplicate-value-2"
-    }]
+    }],
   })],
 })
