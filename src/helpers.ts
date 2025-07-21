@@ -62,6 +62,7 @@ export async function getCorrespondingPackageFromModuleId(
 
     // some packages don't have names and act just as loader proxy - but we need to find
     // the root module so we only resolve if we have the package, a name and a version
+    // see https://github.com/janbiasi/rollup-plugin-sbom/issues/169
     if (pkgJson !== null && pkgJson.version && pkgJson.name) {
         return pkgJson;
     }
