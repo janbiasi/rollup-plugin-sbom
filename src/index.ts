@@ -4,13 +4,7 @@ import type { Plugin, PluginContext } from "rollup";
 import * as CDX from "@cyclonedx/cyclonedx-library";
 import type { ComponentType } from "@cyclonedx/cyclonedx-library/Enums";
 
-import {
-    getPackageJson,
-    convertOrganizationalEntityOptionToModel,
-    PLUGIN_ID,
-    generatePackageId,
-    composeReadableModuleId,
-} from "./helpers";
+import { getPackageJson, convertOrganizationalEntityOptionToModel, PLUGIN_ID, generatePackageId } from "./helpers";
 import { autoRegisterTools } from "./tools";
 import { DEFAULT_OPTIONS, type RollupPluginSbomOptions } from "./options";
 import { getAllExternalModules } from "./analyzer";
@@ -70,7 +64,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         }
 
         context.debug({
-            message: `Processing ${mod.pkg.name} (imported by ${composeReadableModuleId(mod.moduleId)} - depends on ${mod.dependsOn.map((d) => d.pkg?.name).join(", ") || "none"})`,
+            message: `Processing ${mod.pkg.name} (imported by ${mod.moduleId} - depends on ${mod.dependsOn.map((d) => d.pkg?.name).join(", ") || "none"})`,
             meta: {
                 moduleId: mod.moduleId,
             },
