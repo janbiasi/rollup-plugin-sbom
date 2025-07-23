@@ -1,0 +1,19 @@
+{
+  "name": "@fixtures/resolution",
+  "private": true,
+  "version": "0.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "build": "rollup -c rollup.config.cjs",
+    "postinstall": "cp -r ./fake-tree/** ./node_modules"
+  },
+  "dependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "rollup": "^4.32.0",
+    "rollup-plugin-sbom": "workspace:*",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-commonjs": "^10.1.0"
+  }
+}
