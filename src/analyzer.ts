@@ -54,9 +54,7 @@ async function resolveExternalModule(
         parentModuleId,
         moduleInfo: context.getModuleInfo(moduleId),
         pkg,
-        dependsOn: await Promise.all(
-            dependsOnModuleIds.map((id) => resolveExternalModule(context, id, moduleId))
-        ),
+        dependsOn: await Promise.all(dependsOnModuleIds.map((id) => resolveExternalModule(context, id, moduleId))),
     };
 }
 
@@ -103,8 +101,8 @@ export async function getAllExternalModules(
         allModules.push(...externalModulesWithinBundle);
     }
 
-    const allUniqueModules = allModules.filter(
-        (m, index, self) => index === self.findIndex((t) => t.pkg?.name === m.pkg?.name),
+    const allUniqueModules = allModules.filter((m, index, self) =>
+        m.pkg?.name ? index === self.findIndex((t) => t.pkg?.name === m.pkg?.name) : false,
     );
 
     context.debug({
