@@ -1,4 +1,4 @@
-import { describe, expect, expectTypeOf, test } from "vitest";
+import { describe, expect, test } from "vitest";
 import { createOutputTestHelpers } from "./helpers";
 
 const helpers = createOutputTestHelpers("vite-v6");
@@ -14,11 +14,11 @@ test("it should generate the JSON SBOM which matches the JSON schema spec versio
     expect(helpers.isBomValidAccordingToSchema("v1.6", bom)).toBeTruthy();
 });
 
-describe.concurrent("JSON", () => {
+describe.concurrent("Vite V6", () => {
     test("it should generate a valid urn serial", async () => {
         const bom = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
 
-        expectTypeOf(bom.serialNumber).toMatchTypeOf<string>("");
+        expect(typeof bom.serialNumber).toEqual("string");
         expect(bom.serialNumber.length).toBeGreaterThan(0);
         expect(bom.serialNumber.indexOf("urn:")).toEqual(0);
     });
