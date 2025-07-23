@@ -5,7 +5,7 @@ import normalizePackageData, { type Package } from "normalize-package-data";
 import * as CDX from "@cyclonedx/cyclonedx-library";
 
 import { OrganizationalEntityOption } from "./types/OrganizationalEntityOption";
-import type { ModuleIdString, PackageId } from "./types/aliases";
+import type { PackageId } from "./types/aliases";
 
 /**
  * Plugin identifier for {@link rollupPluginSbom}
@@ -77,15 +77,6 @@ export async function getCorrespondingPackageFromModuleId(
  */
 export function generatePackageId(pkg: Package): PackageId {
     return `${pkg.name}@${pkg.version}`;
-}
-
-/**
- * Compose a readable module ID from a module ID
- * @param moduleId The module ID
- * @returns A readable module ID
- */
-export function composeReadableModuleId(moduleId: ModuleIdString): string {
-    return moduleId.replace("\0", "").split("/node_modules/")[1];
 }
 
 /**
