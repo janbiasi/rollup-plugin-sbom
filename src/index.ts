@@ -10,6 +10,7 @@ import { DEFAULT_OPTIONS, type RollupPluginSbomOptions } from "./options";
 import { getAllExternalModules } from "./analyzer";
 import type { PackageId } from "./types/aliases";
 import type { ExternalModuleInfo } from "./analyzer";
+
 /**
  * Plugin to generate CycloneDX SBOMs for your application or library
  * Compatible with Rollup and Vite.
