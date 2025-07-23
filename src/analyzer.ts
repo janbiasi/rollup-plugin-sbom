@@ -41,12 +41,22 @@ async function resolveExternalModule(
         ...(context.getModuleInfo(moduleId)?.dynamicallyImportedIds ?? []),
     ].filter(filterExternalModuleId);
 
+    const pkg = await getCorrespondingPackageFromModuleId(moduleId);
+    if (!pkg) {
+        context.debug({
+            message: `Could not resolve package for module "${moduleId}"`,
+            meta: { moduleId },
+        });
+    }
+
     return {
         moduleId,
         parentModuleId,
         moduleInfo: context.getModuleInfo(moduleId),
-        pkg: await getCorrespondingPackageFromModuleId(moduleId),
-        dependsOn: await Promise.all(dependsOnModuleIds.map((id) => resolveExternalModule(context, id, moduleId))),
+        pkg,
+        dependsOn: await Promise.all(
+            dependsOnModuleIds.map((id) => resolveExternalModule(context, id, moduleId))
+        ),
     };
 }
 
