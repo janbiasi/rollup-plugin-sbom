@@ -14,41 +14,50 @@ type BomTransformFn = (bom: Models.Bom) => undefined;
 export interface RollupPluginSbomOptions {
     /**
      * Specification version to use, defaults to {@link Spec.Spec1dot6}
+     * @since 1.0.0
      */
     specVersion?: `${Spec.Version}`;
     /**
      * Defaults to Application
+     * @since 1.0.0
      */
     rootComponentType?: `${Enums.ComponentType}`;
     /**
      * Output directory to use, defaults to `"cyclonedx"`.
      * Note: you don't need to prefix the build output path as the plugin
      * uses the internal file emitter to write files.
+     * @since 1.0.0
      */
     outDir?: string;
     /**
      * The base filename for the SBOM files, defaults to 'bom'
+     * @since 1.0.0
      */
     outFilename?: string;
     /**
      * The formats to output, defaults to ['json', 'xml']
+     * @since 1.0.0
      */
     outFormats?: ("json" | "xml")[];
     /**
      * If you want to save the timestamp of the generation, defaults to `true`
+     * @since 1.0.0
      */
     saveTimestamp?: boolean;
     /**
      * If you want to get the root package registered automatically, defaults to `true`.
      * You may set this to `false` if your project does not a have a `package.json`
+     * @since 1.0.0
      */
     autodetect?: boolean;
     /**
      * Whether to generate a serial number for the BOM. Defaults to `false`.
+     * @since 1.0.0
      */
     generateSerial?: boolean;
     /**
      * Whether to generate a SBOM in the `.well-known` directory. Defaults to `true`.
+     * @since 1.0.0
      */
     includeWellKnown?: boolean;
     /**
