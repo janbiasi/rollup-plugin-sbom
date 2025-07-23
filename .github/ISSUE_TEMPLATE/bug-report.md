@@ -23,3 +23,6 @@ A clear and concise description of what you expected to happen.
 
 **Additional context**
 Optional: Add any other context about the problem here, such as logs or other plugins in your build chain.
+
+**Debug output**
+Optional: Add the debug log of the SBOM generation (see [debugging](https://github.com/janbiasi/rollup-plugin-sbom/tree/main?tab=readme-ov-file#debugging))
