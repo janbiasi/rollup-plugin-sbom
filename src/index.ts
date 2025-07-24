@@ -80,7 +80,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         registeredModules.set(packageId, component);
         bom.components.add(component);
 
-        if (mod.dependsOn.length > 0) {
+        if (mod.dependsOn?.length > 0) {
             mod.dependsOn.forEach((externalDependencyModuleInfo) => {
                 context.debug({
                     message: `Attaching nested dependency "${externalDependencyModuleInfo.pkg.name}" to parent component ${mod.pkg?.name}`,
