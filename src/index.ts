@@ -65,7 +65,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         }
 
         context.debug({
-            message: `Processing ${mod.pkg.name} (imported by ${mod.moduleId} - depends on ${mod.dependsOn.map((d) => d.pkg?.name).join(", ") || "none"})`,
+            message: `Processing ${mod.pkg.name} (imported by ${mod.moduleId} - depends on ${mod.dependsOn?.map((d) => d.pkg?.name).join(", ") || "none"})`,
             meta: {
                 moduleId: mod.moduleId,
             },
