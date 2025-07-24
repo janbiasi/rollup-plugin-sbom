@@ -19,7 +19,7 @@ export interface ExternalModuleInfo {
  * @param value The module ID to filter
  * @returns True if the module ID is a valid external module, false otherwise
  */
-function filterExternalModuleId(value: ModuleIdString): boolean {
+export function filterExternalModuleId(value: ModuleIdString): boolean {
     if (value.startsWith("\0")) {
         return false;
     }

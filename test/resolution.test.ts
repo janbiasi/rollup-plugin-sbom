@@ -6,7 +6,7 @@
  */
 
 import { describe, expect, test } from "vitest";
-import { createOutputTestHelpers } from "./helpers";
+import { createOutputTestHelpers } from "./test-helpers";
 
 const helpers = createOutputTestHelpers("resolution");
 

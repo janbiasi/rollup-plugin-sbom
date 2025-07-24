@@ -36,7 +36,7 @@ flowchart LR
   a1 -- Imports --> c1
   a1 -- Imports --> unused
   b1 -- Imports --> a2
-  b1 -- Improty --> side-effect
+  b1 -- Imports --> side-effect
 ```
 
 ### Expected SBOM result
