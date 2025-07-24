@@ -12,6 +12,7 @@ module.exports = {
         file: "dist/index.js",
         format: "iife"
     },
+    perf: true,
     plugins: [
         pluginResolve({
             jsnext: true,

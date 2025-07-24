@@ -5,7 +5,7 @@ import type { OrganizationalEntityOption } from "./types/OrganizationalEntityOpt
  * A method which can transform a BOM model.
  * Changes are applied directly to the BOM.
  */
-type BomTransformFn = (bom: Models.Bom) => undefined;
+type BomTransformHookFn = (bom: Models.Bom) => void;
 
 /**
  * SBOM plugin configuration options
@@ -87,7 +87,7 @@ export interface RollupPluginSbomOptions {
      * @param {Models.Bom} bom The initial SBOM for the project
      * @returns The modified SBOM
      */
-    beforeCollect?: BomTransformFn | undefined;
+    beforeCollect?: BomTransformHookFn | undefined;
     /**
      * Optional method to enable modifying the BOM after collecting it.
      * This can be useful if there's a temporary issue in generation.
@@ -97,7 +97,7 @@ export interface RollupPluginSbomOptions {
      * @param {Models.Bom} bom The generated SBOM for the project
      * @returns The modified SBOM
      */
-    afterCollect?: BomTransformFn | undefined;
+    afterCollect?: BomTransformHookFn | undefined;
 }
 
 export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {

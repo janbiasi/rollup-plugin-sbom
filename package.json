@@ -33,6 +33,7 @@
     "build-fixtures": "pnpm --filter \"@fixtures/*\" run build",
     "dev:test": "vitest watch",
     "test": "vitest run --coverage",
+    "bench": "vitest bench",
     "prepare": "husky",
     "prepublishOnly": "pnpm build",
     "prettier": "prettier -w .",
