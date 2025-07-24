@@ -124,7 +124,7 @@ General advice on when and how to read the debug information:
 - Find out which generated bundles are analyzed (`Processing generated module <filename>`)
 - Check analyzed third party modules and their tree (`Processing <vendor-module> (imported by <filename> - depends on <transitive-deps>)`)
 
-```
+```text
 [plugin rollup-plugin-sbom] Autodetection enabled, trying to resolve root component
 [plugin rollup-plugin-sbom] Saving timestamp to SBOM
 [plugin rollup-plugin-sbom] Generating serial number for SBOM
