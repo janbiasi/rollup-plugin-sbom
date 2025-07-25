@@ -149,15 +149,11 @@ General advice on when and how to read the debug information:
 [plugin rollup-plugin-sbom] Emitting well-known file to .well-known/sbom
 ```
 
+</details>
+
 ### Sequence chart
 
 ```mermaid
----
-config:
-  theme: base
-  themeVariables:
-    primaryColor: "#00ff00"
----
 sequenceDiagram
   participant Bundler
   box Hook Phases
@@ -192,8 +188,6 @@ sequenceDiagram
   EF->>Bundler: Finish build
   deactivate Bundler
 ```
-
-</details>
 
 ## Contributing
 
