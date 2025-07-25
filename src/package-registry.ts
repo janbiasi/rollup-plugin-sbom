@@ -16,7 +16,7 @@ export type PackageRegistry = Map<ModulePathString, NormalizedPackageJson>;
  * Creates a new package registry
  */
 export function createPackageRegistry(): PackageRegistry {
-    return new Map<ModulePathString, NormalizedPackageJson>();
+    return new Map();
 }
 
 /**
