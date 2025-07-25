@@ -126,7 +126,7 @@ export async function getAllExternalModules(
     }
 
     context.debug({
-        message: `Aggregated ${allModules.size} unique external entries accross all chunks`,
+        message: `Aggregated ${allModules.size} unique external entries across all chunks`,
         meta: {
             allModules,
         },
