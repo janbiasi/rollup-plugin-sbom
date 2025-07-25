@@ -1,16 +1,34 @@
 import type { ModuleInfo, OutputBundle, PluginContext } from "rollup";
-import { getCorrespondingPackageFromModuleId } from "./helpers";
-import type { Package } from "normalize-package-data";
-import type { ModuleIdString } from "./types/aliases";
+
+import type { ModuleIdString, ModulePathString } from "./types/aliases";
+import { getModulePathFromModuleId } from "./helpers";
 
 /**
  * Information about an external module.
  */
 export interface ExternalModuleInfo {
+    /**
+     * The module identifier of the module
+     */
     moduleId: ModuleIdString;
+    /**
+     * If the external module has a parent, this field
+     * will be set to the parent's module identifier.
+     */
     parentModuleId?: ModuleIdString;
+    /**
+     * Module info retrieved from rollup
+     * @see https://rollupjs.org/plugin-development/#this-getmoduleinfo
+     */
     moduleInfo: ModuleInfo;
-    pkg: Package;
+    /**
+     * The module base path (dirname) for the module id
+     */
+    modulePath: ModulePathString;
+    /**
+     * Available valid external modules which are either directly
+     * imported or imported dynamically.
+     */
     dependsOn: ExternalModuleInfo[];
 }
 
@@ -18,12 +36,15 @@ export interface ExternalModuleInfo {
  * Filter out virtual modules and non-node_modules
  * @param value The module ID to filter
  * @returns True if the module ID is a valid external module, false otherwise
+ * @see https://rollupjs.org/plugin-development/#conventions
  */
 export function filterExternalModuleId(value: ModuleIdString): boolean {
-    if (value.startsWith("\0")) {
+    // Ignore virtual modules or files
+    if (value.startsWith("\0") || value.includes("\u0000")) {
         return false;
     }
 
+    // Ignore modules outside of node_modules
     if (value.includes("node_modules")) {
         return true;
     }
@@ -34,37 +55,39 @@ export function filterExternalModuleId(value: ModuleIdString): boolean {
 async function resolveExternalModule(
     context: PluginContext,
     moduleId: ModuleIdString,
-    parentModuleId?: ModuleIdString,
-): Promise<ExternalModuleInfo> {
-    const dependsOnModuleIds = [
-        ...(context.getModuleInfo(moduleId)?.importedIds ?? []),
-        ...(context.getModuleInfo(moduleId)?.dynamicallyImportedIds ?? []),
-    ].filter(filterExternalModuleId);
-
-    const pkg = await getCorrespondingPackageFromModuleId(moduleId);
-    if (!pkg) {
-        context.debug({
-            message: `Could not resolve package for module "${moduleId}"`,
-            meta: { moduleId },
-        });
+    parentModuleId: ModuleIdString,
+    transitiveResolveLimit: number,
+): Promise<ExternalModuleInfo | null> {
+    if (transitiveResolveLimit === 0) {
+        return null;
     }
+
+    const moduleInfo = context.getModuleInfo(moduleId);
+    const dependsOnModuleIds = [
+        ...(moduleInfo?.importedIds ?? []),
+        ...(moduleInfo?.dynamicallyImportedIds ?? []),
+    ].filter(filterExternalModuleId);
 
     return {
         moduleId,
         parentModuleId,
-        moduleInfo: context.getModuleInfo(moduleId),
-        pkg,
-        dependsOn: await Promise.all(dependsOnModuleIds.map((id) => resolveExternalModule(context, id, moduleId))),
+        moduleInfo,
+        modulePath: getModulePathFromModuleId(moduleId),
+        dependsOn: await Promise.all(
+            dependsOnModuleIds.map((id) => resolveExternalModule(context, id, moduleId, transitiveResolveLimit - 1)),
+        ).then((allModuleIdsOrNull) => allModuleIdsOrNull.filter(Boolean)),
     };
 }
 
 export async function getAllExternalModules(
     context: PluginContext,
     bundle: OutputBundle,
-): Promise<ExternalModuleInfo[]> {
-    const allModules: ExternalModuleInfo[] = [];
+    transitiveResolveLimit = 2,
+): Promise<Set<ExternalModuleInfo>> {
+    const allModules = new Set<ExternalModuleInfo>();
 
     for (const [id, module] of Object.entries(bundle)) {
+        // we do not want to process assets (non-js/ts files)
         if (module.type === "asset") {
             context.debug({
                 message: `Skipping asset "${id}"`,
@@ -76,8 +99,9 @@ export async function getAllExternalModules(
             continue;
         }
 
+        const importedUniqueModuleIds = new Set([...module.moduleIds, ...module.dynamicImports]);
         context.debug({
-            message: `Processing generated module "${id}"`,
+            message: `Analyzing generated chunk "${id}" (${importedUniqueModuleIds.size} imported ids)`,
             meta: {
                 moduleId: id,
                 module,
@@ -85,32 +109,28 @@ export async function getAllExternalModules(
         });
 
         const externalModulesWithinBundle = await Promise.all(
-            [...module.moduleIds, ...module.dynamicImports]
+            [...importedUniqueModuleIds]
                 .filter(filterExternalModuleId) // virtual modules are not included
-                .map((moduleId) => resolveExternalModule(context, moduleId, id)), // resolve module information
-        );
+                .map((moduleId) => resolveExternalModule(context, moduleId, id, transitiveResolveLimit)), // resolve module information
+        ).then((allModules) => allModules.filter(Boolean));
 
         context.debug({
-            message: `Found ${externalModulesWithinBundle.length} external modules within "${id}"`,
+            message: `Found ${externalModulesWithinBundle.length} external entries within "${id}"`,
             meta: {
                 moduleId: id,
                 modules: externalModulesWithinBundle,
             },
         });
 
-        allModules.push(...externalModulesWithinBundle);
+        externalModulesWithinBundle.forEach(allModules.add, allModules);
     }
 
-    const allUniqueModules = allModules.filter((m, index, self) =>
-        m.pkg?.name ? index === self.findIndex((t) => t.pkg?.name === m.pkg?.name) : false,
-    );
-
     context.debug({
-        message: `Found ${allUniqueModules.length} unique external modules accross all bundles`,
+        message: `Aggregated ${allModules.size} unique external entries accross all chunks`,
         meta: {
-            allUniqueModules,
+            allModules,
         },
     });
 
-    return allUniqueModules;
+    return allModules;
 }

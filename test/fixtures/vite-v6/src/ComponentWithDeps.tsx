@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 import { Button } from '@mui/base/Button';
 import { formatDuration } from "date-fns";
+import { DateTime } from "luxon";
 
 console.warn('Duration:', formatDuration({
     years: 2,
@@ -13,8 +14,14 @@ console.warn('Duration:', formatDuration({
 }));
 
 export function ComponentWithDeps({ children }: PropsWithChildren) {
+    const dt = DateTime.now().reconfigure({ outputCalendar: "iso8601" });
+
     return (
+        <>
+        {dt.outputCalendar}
+        {dt.toLocaleString({ month: 'long', day: 'numeric' })}
         <Button>{children}</Button>
+        </>
     );
 }
 

@@ -1,4 +1,10 @@
 /**
+ * Type alias for module paths, which are simple fs strings.
+ * This is for developers only to make it easier to identify module path strings.
+ */
+export type ModulePathString = string;
+
+/**
  * Type alias for module IDs, which are strings in Rollup.
  * This is for developers only to make it easier to identify module ID strings.
  */

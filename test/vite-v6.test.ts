@@ -3,18 +3,18 @@ import { createOutputTestHelpers } from "./test-helpers";
 
 const helpers = createOutputTestHelpers("vite-v6");
 
-test("it should generate the SBOM files with configured settings", async () => {
-    expect(await helpers.getCompiledFileExists(".well-known/sbom")).toBeTruthy();
-    expect(await helpers.getCompiledFileExists("plugin-outdir/filename.json")).toBeTruthy();
-    expect(await helpers.getCompiledFileExists("plugin-outdir/filename.xml")).toBeTruthy();
-});
-
-test("it should generate the JSON SBOM which matches the JSON schema spec version 1.5", async () => {
-    const bom = await helpers.getCompiledFileRawContent("plugin-outdir/filename.json");
-    expect(helpers.isBomValidAccordingToSchema("v1.6", bom)).toBeTruthy();
-});
-
 describe.concurrent("Vite V6", () => {
+    test("it should generate the SBOM files with configured settings", async () => {
+        expect(await helpers.getCompiledFileExists(".well-known/sbom")).toBeTruthy();
+        expect(await helpers.getCompiledFileExists("plugin-outdir/filename.json")).toBeTruthy();
+        expect(await helpers.getCompiledFileExists("plugin-outdir/filename.xml")).toBeTruthy();
+    });
+
+    test("it should generate the JSON SBOM which matches the JSON schema spec version 1.5", async () => {
+        const bom = await helpers.getCompiledFileRawContent("plugin-outdir/filename.json");
+        expect(helpers.isBomValidAccordingToSchema("v1.6", bom)).toBeTruthy();
+    });
+
     test("it should generate a valid urn serial", async () => {
         const bom = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
 

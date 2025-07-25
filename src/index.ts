@@ -1,15 +1,16 @@
 import { join } from "node:path";
-
 import type { Plugin, PluginContext } from "rollup";
 import * as CDX from "@cyclonedx/cyclonedx-library";
 import type { ComponentType } from "@cyclonedx/cyclonedx-library/Enums";
 
-import { getPackageJson, convertOrganizationalEntityOptionToModel, PLUGIN_ID, generatePackageId } from "./helpers";
+import { convertOrganizationalEntityOptionToModel, PLUGIN_ID, generatePackageId } from "./helpers";
 import { autoRegisterTools } from "./tools";
 import { DEFAULT_OPTIONS, type RollupPluginSbomOptions } from "./options";
 import { getAllExternalModules } from "./analyzer";
-import type { PackageId } from "./types/aliases";
+import { type PackageId } from "./types/aliases";
 import type { ExternalModuleInfo } from "./analyzer";
+import { createPackageRegistry, aggregatePackageByModuleId } from "./package-registry";
+import { readPackage, type NormalizedPackageJson } from "./package-reader";
 
 /**
  * Plugin to generate CycloneDX SBOMs for your application or library
@@ -20,6 +21,8 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         ...DEFAULT_OPTIONS,
         ...userOptions,
     };
+
+    const packageRegistry = createPackageRegistry();
 
     const cdxExternalReferenceFactory = new CDX.Factories.FromNodePackageJson.ExternalReferenceFactory();
     const cdxLicenseFactory = new CDX.Factories.LicenseFactory();
@@ -51,6 +54,8 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
     });
 
     let rootComponent: CDX.Models.Component | undefined = undefined;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    let rootPackageJson: NormalizedPackageJson | undefined = undefined;
 
     /**
      * Registered module components inside the BOM, used to add dependencies for
@@ -59,19 +64,23 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
     const registeredModules = new Map<PackageId, CDX.Models.Component>();
 
     function processExternalModuleForBom(context: PluginContext, mod: ExternalModuleInfo) {
-        const packageId = generatePackageId(mod.pkg);
+        const pkg = packageRegistry.get(mod.modulePath);
+        if (!pkg || !pkg.name || !pkg.version) {
+            context.warn(`Missing package for module ${mod.modulePath} in registry, this should not happen.`);
+            return;
+        }
+
+        const packageId = generatePackageId(pkg);
         if (registeredModules.has(packageId)) {
             return registeredModules.get(packageId);
         }
 
         context.debug({
-            message: `Processing ${mod.pkg.name} (imported by ${mod.moduleId} - depends on ${mod.dependsOn?.map((d) => d.pkg?.name).join(", ") || "none"})`,
-            meta: {
-                moduleId: mod.moduleId,
-            },
+            message: `Registering package ${pkg?.name}@${pkg?.version}`,
+            meta: mod,
         });
 
-        const component = cdxComponentBuilder.makeComponent(mod.pkg);
+        const component = cdxComponentBuilder.makeComponent(pkg);
         component.purl = cdxPurlFactory.makeFromComponent(component);
         component.bomRef.value = component.purl?.toString();
         component.licenses.forEach((l) => {
@@ -82,13 +91,13 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
 
         if (mod.dependsOn?.length > 0) {
             mod.dependsOn.forEach((externalDependencyModuleInfo) => {
-                context.debug({
-                    message: `Attaching nested dependency "${externalDependencyModuleInfo.pkg.name}" to parent component ${mod.pkg?.name}`,
-                    meta: {
-                        moduleId: externalDependencyModuleInfo.moduleId,
-                        parentModuleId: mod.moduleId,
-                    },
-                });
+                // context.debug({
+                //     message: `Attaching nested dependency "${externalDependencyModuleInfo.pkg.name}" to parent component ${mod.pkg?.name}`,
+                //     meta: {
+                //         moduleId: externalDependencyModuleInfo.moduleId,
+                //         parentModuleId: mod.moduleId,
+                //     },
+                // });
 
                 const dependencyComponent = processExternalModuleForBom(context, externalDependencyModuleInfo);
                 component.dependencies.add(dependencyComponent.bomRef);
@@ -104,14 +113,11 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             // autoregister root entry when starting the build
             if (options.autodetect) {
                 try {
-                    this.debug({
-                        message: `Autodetection enabled, trying to resolve root component`,
-                        meta: {
-                            cwd: process.cwd(),
-                        },
-                    });
-                    const rootPkg = await getPackageJson(process.cwd());
+                    this.debug(`Autodetection enabled, trying to resolve root component`);
+                    const rootPkg = await readPackage(process.cwd());
                     if (rootPkg) {
+                        this.info(`Detected root ${rootPkg.name} v${rootPkg.version}`);
+                        rootPackageJson = rootPkg;
                         rootComponent = cdxComponentBuilder.makeComponent(
                             rootPkg,
                             options.rootComponentType as ComponentType,
@@ -123,7 +129,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                     }
                 } catch (err) {
                     this.error({
-                        message: "could not autodetect package.json in the current working directory",
+                        message: `autodetection failed: ${err instanceof Error ? err.message : err}`,
                         meta: {
                             error: err,
                         },
@@ -135,12 +141,12 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             bom.metadata.lifecycles.add(CDX.Enums.LifecyclePhase.Build);
 
             if (options.saveTimestamp) {
-                this.debug(`Saving timestamp to SBOM`);
+                this.info(`Saving timestamp to SBOM`);
                 bom.metadata.timestamp = new Date();
             }
 
             if (options.generateSerial) {
-                this.debug(`Generating serial number for SBOM`);
+                this.info(`Generating random serial number for SBOM`);
                 bom.serialNumber = CDX.Utils.BomUtility.randomSerialNumber();
             }
 
@@ -154,11 +160,18 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             }
         },
         /**
+         * We use this hook to load normalized package.json data for each imported module.
+         * As this hook runs in parallel before finishing the bundle, we can ensure that
+         * all required package.json files are loaded before we start the BOM generation.
+         */
+        async moduleParsed(moduleInfo) {
+            await aggregatePackageByModuleId(this, packageRegistry, moduleInfo.id);
+        },
+        /**
          * Build the SBOM and emit files
          */
         async generateBundle(_outputOptions, bundle) {
             const tree = await getAllExternalModules(this, bundle);
-
             for (const mod of tree) {
                 processExternalModuleForBom(this, mod);
             }

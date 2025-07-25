@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
-    "build": "rollup -c rollup.config.cjs"
+    "build": "rollup -c rollup.config.mjs"
   },
   "dependencies": {
     "react": "^19.0.0"
