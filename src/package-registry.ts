@@ -33,7 +33,7 @@ export async function aggregatePackageByModulePath(
 ): Promise<NormalizedPackageJson | null> {
     // return the previous result if we already aggregated the package
     if (registry.has(modulePath)) {
-        return registry.get(modulePath);
+        return registry.get(modulePath) ?? null;
     }
 
     // skip virtual and non-node-modules
