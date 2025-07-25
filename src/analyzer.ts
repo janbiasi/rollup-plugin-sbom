@@ -40,7 +40,7 @@ export interface ExternalModuleInfo {
  */
 export function filterExternalModuleId(value: ModuleIdString): boolean {
     // Ignore virtual modules or files
-    if (value.startsWith("\0") || value.includes("\u0000")) {
+    if (value.startsWith("\0")) {
         return false;
     }
 
