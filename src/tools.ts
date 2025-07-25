@@ -1,9 +1,8 @@
 import { createRequire } from "node:module";
-
 import { type Builders, type Models } from "@cyclonedx/cyclonedx-library";
 import type { PluginContext } from "rollup";
 
-import { getCorrespondingPackageFromModuleId } from "./helpers";
+import { aggregatePackageByModuleId, createPackageRegistry } from "./package-registry";
 
 const require = createRequire(import.meta.url);
 
@@ -14,14 +13,18 @@ export async function autoRegisterTools(
     bom: Models.Bom,
     builder: Builders.FromNodePackageJson.ToolBuilder,
 ) {
+    // we use a separate package registry for tool detection
+    const toolPackageRegistry = createPackageRegistry();
+
     async function registerTool(packageName: string) {
         try {
-            const modulePath = require.resolve(packageName);
-            const pkgJson = await getCorrespondingPackageFromModuleId(modulePath);
+            const toolModulePath = require.resolve(packageName);
+            const pkgJson = await aggregatePackageByModuleId(context, toolPackageRegistry, toolModulePath);
+            console.log(toolModulePath, pkgJson);
             if (pkgJson) {
                 const tool = builder.makeTool(pkgJson);
                 if (tool) {
-                    context.debug({
+                    context.info({
                         message: `Registering tool ${tool?.name}`,
                         meta: {
                             packageName,
@@ -36,6 +39,7 @@ export async function autoRegisterTools(
     }
 
     for (const pkgName of knownTools) {
+        context.debug(`Trying to autoregister tool "${pkgName}"`);
         await registerTool(pkgName);
     }
 }

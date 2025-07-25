@@ -1,21 +1,20 @@
-const pluginSbom = require("rollup-plugin-sbom");
-const pluginResolve = require("rollup-plugin-node-resolve");
-const pluginCommonJs = require("rollup-plugin-commonjs");
+import pluginSbom from "rollup-plugin-sbom";
+import pluginResolve from "rollup-plugin-node-resolve";
+import pluginCommonJs from "rollup-plugin-commonjs";
 
 /**
  * @type {import("rollup").RollupOptions}
  */
-module.exports = {
+export default {
     input: "src/index.js",
     logLevel: "debug",
     output: {
         file: "dist/index.js",
         format: "iife"
     },
+    perf: true,
     plugins: [
         pluginResolve({
-            jsnext: true,
-            main: true,
             browser: true,
         }),
         pluginCommonJs(),
