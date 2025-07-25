@@ -20,12 +20,11 @@ export async function autoRegisterTools(
         try {
             const toolModulePath = require.resolve(packageName);
             const pkgJson = await aggregatePackageByModuleId(context, toolPackageRegistry, toolModulePath);
-            console.log(toolModulePath, pkgJson);
             if (pkgJson) {
                 const tool = builder.makeTool(pkgJson);
                 if (tool) {
                     context.info({
-                        message: `Registering tool ${tool?.name}`,
+                        message: `Registering tool "${tool?.name}" in SBOM`,
                         meta: {
                             packageName,
                         },

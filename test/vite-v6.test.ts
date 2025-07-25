@@ -106,4 +106,24 @@ describe.concurrent("Vite V6", () => {
             "pkg:npm/react@19.0.0?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ffacebook%2Freact.git#packages/react",
         );
     });
+
+    // https://github.com/janbiasi/rollup-plugin-sbom/issues/86
+    describe("dependency references on the root component (issue #86)", async () => {
+        test.each([
+            "pkg:npm/react",
+            "pkg:npm/react-dom",
+            "pkg:npm/%40mui/base",
+            "pkg:npm/date-fns",
+            "pkg:npm/luxon",
+            "pkg:npm/react-remove-scroll",
+        ])("it should include '%s'", async (purlDepRef) => {
+            const { dependencies } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
+            const fixtureComponent = dependencies.find((d) => d.ref.startsWith("pkg:npm/%40fixtures/vite-v6"));
+
+            expect(fixtureComponent.dependsOn).toBeDefined();
+
+            const fixtureDepsWithoutVersionAndVcs = fixtureComponent.dependsOn.map((purl) => purl.split("@")[0]);
+            expect(fixtureDepsWithoutVersionAndVcs).toContain(purlDepRef);
+        });
+    });
 });
