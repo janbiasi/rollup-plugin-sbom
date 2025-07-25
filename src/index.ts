@@ -54,7 +54,6 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
     });
 
     let rootComponent: CDX.Models.Component | undefined = undefined;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let rootPackageJson: NormalizedPackageJson | undefined = undefined;
 
     /**
@@ -89,20 +88,15 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         registeredModules.set(packageId, component);
         bom.components.add(component);
 
-        if (mod.dependsOn?.length > 0) {
-            mod.dependsOn.forEach((externalDependencyModuleInfo) => {
-                // context.debug({
-                //     message: `Attaching nested dependency "${externalDependencyModuleInfo.pkg.name}" to parent component ${mod.pkg?.name}`,
-                //     meta: {
-                //         moduleId: externalDependencyModuleInfo.moduleId,
-                //         parentModuleId: mod.moduleId,
-                //     },
-                // });
-
-                const dependencyComponent = processExternalModuleForBom(context, externalDependencyModuleInfo);
-                component.dependencies.add(dependencyComponent.bomRef);
-            });
+        // register direct dependencies on the root component itself
+        if (rootPackageJson?.dependencies && pkg.name in rootPackageJson.dependencies) {
+            rootComponent.dependencies.add(component.bomRef);
         }
+
+        mod.dependsOn.forEach((externalDependencyModuleInfo) => {
+            const dependencyComponent = processExternalModuleForBom(context, externalDependencyModuleInfo);
+            component.dependencies.add(dependencyComponent.bomRef);
+        });
 
         return component;
     }
