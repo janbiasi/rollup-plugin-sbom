@@ -17,8 +17,10 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
   - [Usage with Vite](#usage-with-vite)
   - [Usage with Rollup](#usage-with-rollup)
   - [Configuration options and defaults](#configuration-options)
-- [Debugging](#debugging)
+  - [Debugging](#debugging)
+  - [Sequence chart](#sequence-chart)
 - [Contributing](#contributing)
+  - [Contribution workflow](#workflow)
   - [Make your first contribution](#good-first-issues)
   - [Contributors](#contributors)
 
@@ -145,6 +147,50 @@ General advice on when and how to read the debug information:
 [plugin rollup-plugin-sbom] Emitting SBOM asset to plugin-outdir/filename.json
 [plugin rollup-plugin-sbom] Emitting SBOM asset to plugin-outdir/filename.xml
 [plugin rollup-plugin-sbom] Emitting well-known file to .well-known/sbom
+```
+
+### Sequence chart
+
+```mermaid
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#00ff00"
+---
+sequenceDiagram
+  participant Bundler
+  box Hook Phases
+    participant SB as Start Build
+    participant MP as Module Parsed
+    participant GB as Generate Bundle
+    participant EF as Emit Files
+  end
+  box Plugin
+    participant AN as Analyzer
+    participant PR as Package Registry
+  end
+  activate Bundler
+  activate SB
+    Bundler->>SB: Register Root Component
+    Bundler->>SB: Register Tools
+  deactivate SB
+  Bundler-->>MP: Invoke for each module
+  activate MP
+    MP-->>PR: Find and load package.json
+  deactivate MP
+  activate GB
+    Bundler->>GB: Invoke with generated chunks
+    AN->>AN: Build tree (recursive)
+    GB->>AN: Analyze generated chunk
+    AN->>GB: Send module tree
+    GB->>PR: Request package.json for module
+    PR->>GB: Return normalized package
+    GB->>EF: Emit SBOM files
+    GB->>EF: Emit Well Known
+  deactivate GB
+  EF->>Bundler: Finish build
+  deactivate Bundler
 ```
 
 </details>
