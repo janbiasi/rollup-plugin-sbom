@@ -89,7 +89,8 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         bom.components.add(component);
 
         // register direct dependencies on the root component itself
-        if (rootPackageJson?.dependencies && pkg.name in rootPackageJson.dependencies) {
+        if (rootPackageJson?.dependencies && typeof rootPackageJson.dependencies[pkg.name] === "string") {
+            context.debug(`Attaching direct dependency "${pkg.name}" to root`);
             rootComponent.dependencies.add(component.bomRef);
         }
 

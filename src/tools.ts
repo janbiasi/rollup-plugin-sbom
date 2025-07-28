@@ -6,7 +6,7 @@ import { aggregatePackageByModuleId, createPackageRegistry } from "./package-reg
 
 const require = createRequire(import.meta.url);
 
-const knownTools = ["rollup-plugin-sbom", "vite", "rollup"];
+const knownTools = ["rollup-plugin-sbom", "vite", "rollup", "rolldown"];
 
 export async function autoRegisterTools(
     context: PluginContext,

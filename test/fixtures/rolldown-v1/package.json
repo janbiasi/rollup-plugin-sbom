@@ -1,0 +1,19 @@
+{
+  "name": "@fixtures/rolldown-v1",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "rolldown -c",
+    "postinstall": "cp -r ./fake-tree/** ./node_modules"
+  },
+  "dependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "rolldown": "1.0.0-beta.29",
+    "rollup-plugin-sbom": "workspace:*",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-commonjs": "^10.1.0"
+  }
+}
