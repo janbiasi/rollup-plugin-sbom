@@ -33,3 +33,33 @@ updates:
     labels:
       - "dependencies"
       - "triage"
+
+  - package-ecosystem: npm
+    directory: /test/fixtures/resolution/fake-tree/a
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /test/fixtures/resolution/fake-tree/b
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /test/fixtures/resolution
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /test/fixtures/rollup-v4
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /test/fixtures/vite-v5
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /test/fixtures/vite-v6
+    schedule:
+      interval: daily
