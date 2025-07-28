@@ -1,0 +1,12 @@
+[[PackageOverrides]]
+name = "@babel/helpers" # used in vite fixtures for tests
+ignore = true
+
+[[PackageOverrides]]
+name = "vite" # used in fixtures for tests within vite
+ignore = true
+
+[[PackageOverrides]]
+name = "rollup" # used in fixtures for tests within rollup
+ignore = true
+
