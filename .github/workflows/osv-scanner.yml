@@ -12,6 +12,7 @@ on:
 
 jobs:
   scan-scheduled:
+    name: Scan scheduled
     permissions:
       security-events: write
       contents: read
@@ -23,6 +24,7 @@ jobs:
         --skip-git
         ./
   scan-pr:
+    name: Scan pull request
     permissions:
       security-events: write
       contents: read
