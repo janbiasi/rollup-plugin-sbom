@@ -1,0 +1,24 @@
+name: OSV Scanner - Scheduled
+
+on:
+  schedule:
+    - cron: '27 6 * * 2'
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  scan:
+    name: Scan
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.1.0"
+    with:
+      scan-args: |-
+        -r
+        --skip-git
+        ./
