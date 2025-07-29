@@ -16,7 +16,7 @@ jobs:
       actions: read
       contents: read
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
-    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.1.0"
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@8c9e5c9b1af0b2b6d42fe893b9f2ba3b3d1c4e0e # v2.1.0
     with:
       scan-args: |-
         -r
