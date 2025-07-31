@@ -17,6 +17,7 @@ export default defineConfig({
     outFilename: "filename",
     outFormats: ["json", "xml"],
     saveTimestamp: true,
+    collectLicenseEvidence: true,
     supplier: {
         name: "Supplier Example Inc",
         url: ["https://example.com"],
