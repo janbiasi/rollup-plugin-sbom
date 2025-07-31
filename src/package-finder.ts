@@ -4,17 +4,28 @@ import type { PluginContext } from "rollup";
 
 import { readPackage, type NormalizedPackageJson } from "./package-reader";
 
+export interface PackageFinderResult {
+    /**
+     * The root module directory
+     */
+    path: string;
+    /**
+     * The normalized package.json content as object
+     */
+    package: NormalizedPackageJson;
+}
+
 /**
  * Searches up the directory tree to find a valid package.json.
  * The search is stopped if a '.git' directory is found, marking the project root.
  * @param {PluginContext} context The rollup plugin context
  * @param {string} startDir The directory to start searching from.
- * @returns {Promise<NormalizedPackageJson | null>} The parsed package.json object or null.
+ * @returns {Promise<PackageFinderResult | null>} The parsed package.json object or null.
  */
 export async function findValidPackageJson(
     context: PluginContext,
     startDir: string,
-): Promise<NormalizedPackageJson | null> {
+): Promise<PackageFinderResult | null> {
     let currentDir = startDir;
 
     while (path.dirname(currentDir) !== currentDir) {
@@ -29,7 +40,10 @@ export async function findValidPackageJson(
 
             const pkg = await readPackage(pkgPath);
             if (pkg.name && pkg.version) {
-                return pkg;
+                return {
+                    path: path.dirname(pkgPath),
+                    package: pkg,
+                };
             }
         } catch {
             // no package.json file here, continue lookup
