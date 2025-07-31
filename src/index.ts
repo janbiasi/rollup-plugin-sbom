@@ -64,9 +64,14 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
     const registeredModules = new Map<PackageId, CDX.Models.Component>();
 
     function processExternalModuleForBom(context: PluginContext, mod: ExternalModuleInfo) {
-        const { pkg, licenseEvidence } = dependencyInfoRegistry.get(mod.modulePath);
+        const depedendencyInfo = dependencyInfoRegistry.get(mod.modulePath);
+        if (!depedendencyInfo) {
+            context.warn(`Missing dependency info for module ${mod.modulePath} in registry, this should not happen.`);
+        }
+
+        const { pkg, licenseEvidence } = depedendencyInfo;
         if (!pkg || !pkg.name || !pkg.version) {
-            context.warn(`Missing package for module ${mod.modulePath} in registry, this should not happen.`);
+            context.warn(`Missing package data for module ${mod.modulePath} in registry, this should not happen.`);
             return;
         }
 

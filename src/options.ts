@@ -80,7 +80,7 @@ export interface RollupPluginSbomOptions {
      */
     properties?: { name: string; value: string }[] | undefined;
     /**
-     * TODO
+     * Whether to collect license evidence and attach them to the resulting SBOM.
      *
      * @default false
      * @since 3.0.0
