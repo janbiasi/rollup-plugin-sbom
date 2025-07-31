@@ -80,6 +80,14 @@ export interface RollupPluginSbomOptions {
      */
     properties?: { name: string; value: string }[] | undefined;
     /**
+     * TODO
+     *
+     * @default false
+     * @since 3.0.0
+     * @see https://cyclonedx.org/use-cases/open-source-licensing/
+     */
+    collectLicenseEvidence?: boolean;
+    /**
      * Optional method to enable setting additional properties in the BOM before collecting it.
      * This can be useful if or you need to add information which the plugin doesn't support at the time beeing.
      *
@@ -112,6 +120,7 @@ export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
     includeWellKnown: true,
     supplier: undefined,
     properties: undefined,
+    collectLicenseEvidence: false,
     beforeCollect: undefined,
     afterCollect: undefined,
 };

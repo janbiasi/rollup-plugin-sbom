@@ -9,7 +9,7 @@ import { DEFAULT_OPTIONS, type RollupPluginSbomOptions } from "./options";
 import { getAllExternalModules } from "./analyzer";
 import { type PackageId } from "./types/aliases";
 import type { ExternalModuleInfo } from "./analyzer";
-import { createPackageRegistry, aggregatePackageByModuleId } from "./package-registry";
+import { createDependencyInfoRegistry, aggregateDependencyInfoByModuleId } from "./dependency-info-registry";
 import { readPackage, type NormalizedPackageJson } from "./package-reader";
 
 /**
@@ -22,12 +22,13 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         ...userOptions,
     };
 
-    const packageRegistry = createPackageRegistry();
+    const dependencyInfoRegistry = createDependencyInfoRegistry();
 
     const cdxExternalReferenceFactory = new CDX.Factories.FromNodePackageJson.ExternalReferenceFactory();
     const cdxLicenseFactory = new CDX.Factories.LicenseFactory();
     const cdxPurlFactory = new CDX.Factories.FromNodePackageJson.PackageUrlFactory("npm");
     const cdxToolBuilder = new CDX.Builders.FromNodePackageJson.ToolBuilder(cdxExternalReferenceFactory);
+    const cdxLicenseEvidenceGatherer = new CDX.Utils.LicenseUtility.LicenseEvidenceGatherer();
     const cdxComponentBuilder = new CDX.Builders.FromNodePackageJson.ComponentBuilder(
         cdxExternalReferenceFactory,
         cdxLicenseFactory,
@@ -63,7 +64,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
     const registeredModules = new Map<PackageId, CDX.Models.Component>();
 
     function processExternalModuleForBom(context: PluginContext, mod: ExternalModuleInfo) {
-        const pkg = packageRegistry.get(mod.modulePath);
+        const { pkg, licenseEvidence } = dependencyInfoRegistry.get(mod.modulePath);
         if (!pkg || !pkg.name || !pkg.version) {
             context.warn(`Missing package for module ${mod.modulePath} in registry, this should not happen.`);
             return;
@@ -85,6 +86,20 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         component.licenses.forEach((l) => {
             l.acknowledgement = CDX.Enums.LicenseAcknowledgement.Declared;
         });
+
+        if (options.collectLicenseEvidence) {
+            component.evidence = new CDX.Models.ComponentEvidence({
+                licenses: new CDX.Models.LicenseRepository(licenseEvidence),
+            });
+
+            if (component.evidence?.licenses.size > 0) {
+                context.debug({
+                    message: `Attaching ${component.evidence.licenses.size} license evidence to ${pkg?.name}@${pkg?.version}`,
+                    meta: component.evidence,
+                });
+            }
+        }
+
         registeredModules.set(packageId, component);
         bom.components.add(component);
 
@@ -131,7 +146,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 }
             }
 
-            // add lifecycle if we build
+            // add lifecycle on build start
             bom.metadata.lifecycles.add(CDX.Enums.LifecyclePhase.Build);
 
             if (options.saveTimestamp) {
@@ -145,7 +160,12 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             }
 
             // register known tools in the chain
-            await autoRegisterTools(this, bom, cdxToolBuilder);
+            await autoRegisterTools(
+                this,
+                bom,
+                cdxToolBuilder,
+                options.collectLicenseEvidence && cdxLicenseEvidenceGatherer,
+            );
 
             // apply custom information if configured
             if (options.beforeCollect) {
@@ -154,12 +174,17 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             }
         },
         /**
-         * We use this hook to load normalized package.json data for each imported module.
+         * We use this hook to load normalized package.json data and module specific info for each imported module.
          * As this hook runs in parallel before finishing the bundle, we can ensure that
          * all required package.json files are loaded before we start the BOM generation.
          */
         async moduleParsed(moduleInfo) {
-            await aggregatePackageByModuleId(this, packageRegistry, moduleInfo.id);
+            await aggregateDependencyInfoByModuleId(
+                this,
+                dependencyInfoRegistry,
+                moduleInfo.id,
+                options.collectLicenseEvidence && cdxLicenseEvidenceGatherer,
+            );
         },
         /**
          * Build the SBOM and emit files
