@@ -7,9 +7,12 @@ export function* getLicenseEvidence(
     licenseEvidenceGatherer: CDX.Utils.LicenseUtility.LicenseEvidenceGatherer,
 ): Generator<CDX.Models.License> {
     try {
-        const files = licenseEvidenceGatherer.getFileAttachments(packageDir, (error: Error) => {
-            context.debug(`${error.message}`);
-        });
+        const files =
+            licenseEvidenceGatherer.getFileAttachments(packageDir, (error) => {
+                context.debug(
+                    `Collecting license attachments in ${packageDir} failed: ${error instanceof Error ? error.message : String(error)}`,
+                );
+            }) || [];
 
         for (const { file, text } of files) {
             yield new CDX.Models.NamedLicense(`file: ${file}`, { text });
@@ -20,5 +23,5 @@ export function* getLicenseEvidence(
         );
     }
 
-    return [];
+    return;
 }

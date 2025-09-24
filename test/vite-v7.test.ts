@@ -10,7 +10,7 @@ describe.concurrent("Vite V7", () => {
         expect(await helpers.getCompiledFileExists("plugin-outdir/filename.xml")).toBeTruthy();
     });
 
-    test("it should generate the JSON SBOM which matches the JSON schema spec version 1.5", async () => {
+    test("it should generate the JSON SBOM which matches the JSON schema spec version 1.6", async () => {
         const bom = await helpers.getCompiledFileRawContent("plugin-outdir/filename.json");
         expect(helpers.isBomValidAccordingToSchema("v1.6", bom)).toBeTruthy();
     });
