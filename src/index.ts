@@ -92,17 +92,15 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             l.acknowledgement = CDX.Enums.LicenseAcknowledgement.Declared;
         });
 
-        if (options.collectLicenseEvidence) {
+        if (options.collectLicenseEvidence && Array.isArray(licenseEvidence) && licenseEvidence.length > 0) {
             component.evidence = new CDX.Models.ComponentEvidence({
                 licenses: new CDX.Models.LicenseRepository(licenseEvidence),
             });
 
-            if (component.evidence?.licenses.size > 0) {
-                context.debug({
-                    message: `Attaching ${component.evidence.licenses.size} license evidence to ${pkg?.name}@${pkg?.version}`,
-                    meta: component.evidence,
-                });
-            }
+            context.debug({
+                message: `Attaching ${component.evidence.licenses.size} license evidence to ${pkg?.name}@${pkg?.version}`,
+                meta: component.evidence,
+            });
         }
 
         registeredModules.set(packageId, component);
@@ -169,7 +167,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 this,
                 bom,
                 cdxToolBuilder,
-                options.collectLicenseEvidence && cdxLicenseEvidenceGatherer,
+                options.collectLicenseEvidence ? cdxLicenseEvidenceGatherer : undefined,
             );
 
             // apply custom information if configured
@@ -188,7 +186,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 this,
                 dependencyInfoRegistry,
                 moduleInfo.id,
-                options.collectLicenseEvidence && cdxLicenseEvidenceGatherer,
+                options.collectLicenseEvidence ? cdxLicenseEvidenceGatherer : undefined,
             );
         },
         /**
