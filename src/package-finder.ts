@@ -20,7 +20,7 @@ export interface PackageFinderResult {
  * The search is stopped if a '.git' directory is found, marking the project root.
  * @param {PluginContext} context The rollup plugin context
  * @param {string} startDir The directory to start searching from.
- * @returns {Promise<PackageFinderResult | null>} The parsed package.json object or null.
+ * @returns {Promise<PackageFinderResult | null>} The package path and normalized package.json, or null.
  */
 export async function findValidPackageJson(
     context: PluginContext,

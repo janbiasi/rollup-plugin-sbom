@@ -60,21 +60,17 @@ export async function aggregateDependencyInfoByModulePath(
     }
 
     // collect license evidence if a gatherer is set
-    const licenseEvidenceList: Array<CDX.Models.License> = [];
-    if (licenseEvidenceGatherer) {
-        const licenseEvidence = getLicenseEvidence(context, dependencyPackage.path, licenseEvidenceGatherer);
-        for (const evidence of licenseEvidence) {
-            licenseEvidenceList.push(evidence);
-        }
-    }
+    const licenseEvidenceList: Array<CDX.Models.License> = licenseEvidenceGatherer
+        ? Array.from(getLicenseEvidence(context, dependencyPackage.path, licenseEvidenceGatherer))
+        : [];
 
-    registry.set(modulePath, {
+    const info: DependencyInfo = {
         path: dependencyPackage.path,
         pkg: dependencyPackage.package,
         licenseEvidence: licenseEvidenceList,
-    });
-
-    return registry.get(modulePath) ?? null;
+    };
+    registry.set(modulePath, info);
+    return info;
 }
 
 /**
