@@ -113,7 +113,7 @@ export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
     rootComponentType: Enums.ComponentType.Application,
     outDir: "cyclonedx",
     outFilename: "bom",
-    outFormats: ["json", "xml"],
+    outFormats: ["json"],
     saveTimestamp: true,
     autodetect: true,
     generateSerial: false,
