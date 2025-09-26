@@ -113,7 +113,13 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
 
         mod.dependsOn.forEach((externalDependencyModuleInfo) => {
             const dependencyComponent = processExternalModuleForBom(context, externalDependencyModuleInfo);
-            component.dependencies.add(dependencyComponent.bomRef);
+            if (dependencyComponent) {
+                component.dependencies.add(dependencyComponent.bomRef);
+            } else {
+                context.debug(
+                    `Skipped adding dependency for ${externalDependencyModuleInfo.modulePath}: component unavailable`,
+                );
+            }
         });
 
         return component;
