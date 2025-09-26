@@ -82,20 +82,27 @@ export default {
 
 #### Configuration Options
 
-| Name                | Default           | Description                                                |
-| ------------------- | ----------------- | ---------------------------------------------------------- |
-| `specVersion`       | `1.6`             | The CycloneDX specification version to use                 |
-| `rootComponentType` | `application`     | The root component type, can be `library` or `application` |
-| `outDir`            | `cyclonedx`       | The output directory where the BOM file will be saved.     |
-| `outFilename`       | `bom`             | The base filename for the SBOM files.                      |
-| `outFormats`        | `['json', 'xml']` | The formats to output. Can be any of `json` and `xml`.     |
-| `saveTimestamp`     | `true`            | Whether to save the timestamp in the BOM metadata.         |
-| `autodetect`        | `true`            | Whether to get the root package registered automatically.  |
-| `generateSerial`    | `false`           | Whether to generate a serial number for the BOM.           |
-| `includeWellKnown`  | `true`            | Whether to generate a SBOM in the `well-known` directory.  |
-| `supplier`          | -                 | Provide organizational entity information                  |
-| `beforeCollect`     | -                 | Enhance the BOM before before collecting dependencies      |
-| `afterCollect`      | -                 | Transform the BOM before after collecting dependencies     |
+| Name                | Default       | Description                                                                                 |
+| ------------------- | ------------- | ------------------------------------------------------------------------------------------- |
+| `specVersion`       | `1.6`         | The CycloneDX specification version to use                                                  |
+| `rootComponentType` | `application` | The root component type, can be `library` or `application`                                  |
+| `outDir`            | `cyclonedx`   | The output directory where the BOM file will be saved.                                      |
+| `outFilename`       | `bom`         | The base filename for the SBOM files.                                                       |
+| `outFormats`        | `['json']`    | The formats to output. Can be any of `json` and `xml` (note: `xml` requires `xmlbuilder2`). |
+| `saveTimestamp`     | `true`        | Whether to save the timestamp in the BOM metadata.                                          |
+| `autodetect`        | `true`        | Whether to get the root package registered automatically.                                   |
+| `generateSerial`    | `false`       | Whether to generate a serial number for the BOM.                                            |
+| `includeWellKnown`  | `true`        | Whether to generate a SBOM in the `well-known` directory.                                   |
+| `supplier`          | -             | Provide organizational entity information                                                   |
+| `beforeCollect`     | -             | Enhance the BOM before before collecting dependencies                                       |
+| `afterCollect`      | -             | Transform the BOM before after collecting dependencies                                      |
+
+### Optional Peer Dependencies
+
+Some features require optional peer dependencies — see package.json for version details.
+
+- Serialization to XML on Node.js requires any of:
+  - `xmlbuilder2`
 
 ### Debugging
 

@@ -54,7 +54,14 @@
     "vite-plugin",
     "rollup-plugin",
     "sbom",
-    "cyclonedx"
+    "cyclonedx",
+    "bill-of-materials",
+    "bom",
+    "software-bill-of-materials",
+    "sbom",
+    "inventory",
+    "dependency",
+    "spdx"
   ],
   "author": "Jan Biasi (https://github.com/janbiasi)",
   "contributors": [
@@ -62,18 +69,22 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@cyclonedx/cyclonedx-library": "8.5.0",
+    "@cyclonedx/cyclonedx-library": "9.0.0",
     "normalize-package-data": "8.0.0"
   },
   "peerDependencies": {
     "rollup": "^4",
-    "vite": "^5 || ^6 || ^7"
+    "vite": "^5 || ^6 || ^7",
+    "xmlbuilder2": "^3"
   },
   "peerDependenciesMeta": {
     "rollup": {
       "optional": true
     },
     "vite": {
+      "optional": true
+    },
+    "xmlbuilder2": {
       "optional": true
     }
   },
@@ -99,6 +110,7 @@
     "typescript": "5.8.2",
     "typescript-eslint": "8.38.0",
     "unbuild": "3.6.0",
-    "vitest": "3.2.4"
+    "vitest": "3.2.4",
+    "xmlbuilder2": "3.1.1"
   }
 }
