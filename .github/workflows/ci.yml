@@ -53,9 +53,10 @@ jobs:
       issues: write # to be able to comment on released issues
       pull-requests: write # to be able to comment on released pull requests
       id-token: write # to enable use of OIDC for npm provenance
+      attestations: write # for attest build provenance
     strategy:
       matrix:
-        node: [22]
+        node: [22,24]
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
@@ -66,8 +67,13 @@ jobs:
           egress-policy: audit
       - name: Shared setup
         uses: ./.github/actions/setup
+
       - run: pnpm run build
+
+      - uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: 'dist/**'
+
       - run: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
