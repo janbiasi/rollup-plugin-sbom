@@ -2,5 +2,9 @@
   "type": "module",
   "name": "a",
   "version": "1.0.0",
-  "main": "./index.js"
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./a2": "./a2.js"
+  }
 }
