@@ -76,8 +76,29 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         }
 
         const packageId = generatePackageId(pkg);
-        if (registeredModules.has(packageId)) {
-            return registeredModules.get(packageId);
+        const maybeComponent: CDX.Models.Component | undefined = registeredModules.get(packageId);
+        const component: CDX.Models.Component | undefined = maybeComponent ?? cdxComponentBuilder.makeComponent(pkg);
+
+        if (!component) {
+            context.warn(`Failed to create component for ${pkg.name}@${pkg.version}`);
+            return;
+        }
+
+        // Always add dependencies even for already registered components
+        mod.dependsOn.forEach((externalDependencyModuleInfo) => {
+            const dependencyComponent = processExternalModuleForBom(context, externalDependencyModuleInfo);
+            if (dependencyComponent) {
+                component.dependencies.add(dependencyComponent.bomRef);
+            } else {
+                context.debug(
+                    `Skipped adding dependency for ${externalDependencyModuleInfo.modulePath}: component unavailable`,
+                );
+            }
+        });
+
+        // if already registered, return existing component
+        if (maybeComponent != null) {
+            return component;
         }
 
         context.debug({
@@ -85,7 +106,6 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             meta: mod,
         });
 
-        const component = cdxComponentBuilder.makeComponent(pkg);
         component.purl = cdxPurlFactory.makeFromComponent(component);
         component.bomRef.value = component.purl?.toString();
         component.licenses.forEach((l) => {
@@ -110,17 +130,6 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         if (rootPackageJson?.dependencies && pkg.name in rootPackageJson.dependencies) {
             rootComponent.dependencies.add(component.bomRef);
         }
-
-        mod.dependsOn.forEach((externalDependencyModuleInfo) => {
-            const dependencyComponent = processExternalModuleForBom(context, externalDependencyModuleInfo);
-            if (dependencyComponent) {
-                component.dependencies.add(dependencyComponent.bomRef);
-            } else {
-                context.debug(
-                    `Skipped adding dependency for ${externalDependencyModuleInfo.modulePath}: component unavailable`,
-                );
-            }
-        });
 
         return component;
     }

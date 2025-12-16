@@ -70,6 +70,32 @@ describe("Resolution", () => {
             );
         });
 
+        test("it should detect all used components even if they have multiple entry points (related to issue #222)", async () => {
+            const { components, dependencies } =
+                await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
+
+            expect(components).toContainEqual(
+                expect.objectContaining({
+                    name: "d",
+                    version: "1.0.0",
+                }),
+            );
+
+            expect(components).toContainEqual(
+                expect.objectContaining({
+                    name: "c",
+                    version: "1.0.0",
+                }),
+            );
+
+            expect(dependencies).toContainEqual(
+                expect.objectContaining({
+                    ref: "pkg:npm/a@1.0.0",
+                    dependsOn: expect.arrayContaining(["pkg:npm/c@1.0.0", "pkg:npm/d@1.0.0"]),
+                }),
+            );
+        });
+
         // https://github.com/janbiasi/rollup-plugin-sbom/issues/169
         test("it should represent depending relation on parent modules correctly (related to issue #86 and #169)", async () => {
             const { dependencies } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
