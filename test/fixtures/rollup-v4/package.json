@@ -10,7 +10,7 @@
     "react": "^19.0.0"
   },
   "devDependencies": {
-    "rollup": "4.46.2",
+    "rollup": "4.53.5",
     "rollup-plugin-sbom": "workspace:*",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-commonjs": "^10.1.0"
