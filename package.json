@@ -3,7 +3,7 @@
   "name": "rollup-plugin-sbom",
   "version": "1.0.0",
   "description": "A rollup and vite plugin to generate SBOMs for your application",
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+  "packageManager": "pnpm@10.26.1",
   "exports": {
     ".": {
       "import": {
@@ -88,8 +88,8 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "19.8.1",
-    "@commitlint/config-conventional": "19.8.1",
+    "@commitlint/cli": "20.2.0",
+    "@commitlint/config-conventional": "20.2.0",
     "@eslint/js": "9.32.0",
     "@types/node": "22.13.9",
     "@types/normalize-package-data": "^2.4.4",
@@ -99,16 +99,16 @@
     "ajv": "8.17.1",
     "ajv-formats": "3.0.1",
     "eslint": "9.32.0",
-    "fast-xml-parser": "5.2.5",
-    "globals": "16.3.0",
+    "fast-xml-parser": "5.3.3",
+    "globals": "16.5.0",
     "husky": "9.1.7",
-    "lint-staged": "16.1.2",
+    "lint-staged": "16.2.7",
     "prettier": "3.6.2",
     "rollup": "4.46.2",
-    "semantic-release": "24.2.3",
+    "semantic-release": "25.0.2",
     "typescript": "5.8.2",
     "typescript-eslint": "8.38.0",
-    "unbuild": "3.6.0",
+    "unbuild": "3.6.1",
     "vitest": "3.2.4",
     "xmlbuilder2": "3.1.1"
   }
