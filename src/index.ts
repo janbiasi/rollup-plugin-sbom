@@ -76,12 +76,45 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         }
 
         const packageId = generatePackageId(pkg);
-        const maybeComponent: CDX.Models.Component | undefined = registeredModules.get(packageId);
-        const component: CDX.Models.Component | undefined = maybeComponent ?? cdxComponentBuilder.makeComponent(pkg);
+        const doesComponentExist = registeredModules.has(packageId);
+        const component: CDX.Models.Component | undefined =
+            registeredModules.get(packageId) ?? cdxComponentBuilder.makeComponent(pkg);
 
         if (!component) {
             context.warn(`Failed to create component for ${pkg.name}@${pkg.version}`);
             return;
+        }
+
+        if (!doesComponentExist) {
+            context.debug({
+                message: `Registering package ${pkg?.name}@${pkg?.version}`,
+                meta: mod,
+            });
+
+            component.purl = cdxPurlFactory.makeFromComponent(component);
+            component.bomRef.value = component.purl?.toString();
+            component.licenses.forEach((l) => {
+                l.acknowledgement = CDX.Enums.LicenseAcknowledgement.Declared;
+            });
+
+            if (options.collectLicenseEvidence && Array.isArray(licenseEvidence) && licenseEvidence.length > 0) {
+                component.evidence = new CDX.Models.ComponentEvidence({
+                    licenses: new CDX.Models.LicenseRepository(licenseEvidence),
+                });
+
+                context.debug({
+                    message: `Attaching ${component.evidence.licenses.size} license evidence to ${pkg?.name}@${pkg?.version}`,
+                    meta: component.evidence,
+                });
+            }
+
+            registeredModules.set(packageId, component);
+            bom.components.add(component);
+
+            // register direct dependencies on the root component itself
+            if (rootPackageJson?.dependencies && pkg.name in rootPackageJson.dependencies) {
+                rootComponent.dependencies.add(component.bomRef);
+            }
         }
 
         // Always add dependencies even for already registered components
@@ -95,41 +128,6 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 );
             }
         });
-
-        // if already registered, return existing component
-        if (maybeComponent != null) {
-            return component;
-        }
-
-        context.debug({
-            message: `Registering package ${pkg?.name}@${pkg?.version}`,
-            meta: mod,
-        });
-
-        component.purl = cdxPurlFactory.makeFromComponent(component);
-        component.bomRef.value = component.purl?.toString();
-        component.licenses.forEach((l) => {
-            l.acknowledgement = CDX.Enums.LicenseAcknowledgement.Declared;
-        });
-
-        if (options.collectLicenseEvidence && Array.isArray(licenseEvidence) && licenseEvidence.length > 0) {
-            component.evidence = new CDX.Models.ComponentEvidence({
-                licenses: new CDX.Models.LicenseRepository(licenseEvidence),
-            });
-
-            context.debug({
-                message: `Attaching ${component.evidence.licenses.size} license evidence to ${pkg?.name}@${pkg?.version}`,
-                meta: component.evidence,
-            });
-        }
-
-        registeredModules.set(packageId, component);
-        bom.components.add(component);
-
-        // register direct dependencies on the root component itself
-        if (rootPackageJson?.dependencies && pkg.name in rootPackageJson.dependencies) {
-            rootComponent.dependencies.add(component.bomRef);
-        }
 
         return component;
     }
