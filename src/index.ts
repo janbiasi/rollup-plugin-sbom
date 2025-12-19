@@ -13,8 +13,14 @@ import { createDependencyInfoRegistry, aggregateDependencyInfoByModuleId } from 
 import { readPackage, type NormalizedPackageJson } from "./package-reader";
 
 /**
- * Plugin to generate CycloneDX SBOMs for your application or library
- * Compatible with Rollup and Vite.
+ * Create a Rollup/Vite plugin that generates a CycloneDX SBOM for the build.
+ *
+ * The plugin collects dependency metadata from parsed modules, constructs CycloneDX
+ * components and dependencies, optionally gathers license evidence, and emits SBOM
+ * files in configured formats and locations during bundle generation.
+ *
+ * @param userOptions - Optional configuration to customize SBOM generation (overrides default options)
+ * @returns A plugin instance that integrates with Rollup/Vite build hooks to produce CycloneDX SBOMs
  */
 export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions): Plugin {
     const options = {
@@ -63,6 +69,15 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
      */
     const registeredModules = new Map<PackageId, CDX.Models.Component>();
 
+    /**
+     * Ensure a CycloneDX component exists for the given external module, attach its transitive dependencies, and register it in the BOM.
+     *
+     * Creates or retrieves a component representing `mod`, adds BOM references for each of its `dependsOn` modules, and registers the component with the plugin's BOM and registry. If license evidence collection is enabled, attaches gathered license evidence to the component. If the component corresponds to a direct dependency of the root package, also adds it to the root component's dependencies.
+     *
+     * @param context - The Rollup/Vite plugin context used for logging and diagnostics.
+     * @param mod - Information about the external module, including its module path and dependent modules.
+     * @returns The CycloneDX component for the module, or `undefined` if the component could not be created or required package data is missing.
+     */
     function processExternalModuleForBom(context: PluginContext, mod: ExternalModuleInfo) {
         const depedendencyInfo = dependencyInfoRegistry.get(mod.modulePath);
         if (!depedendencyInfo) {
@@ -76,8 +91,29 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         }
 
         const packageId = generatePackageId(pkg);
-        if (registeredModules.has(packageId)) {
-            return registeredModules.get(packageId);
+        const maybeComponent: CDX.Models.Component | undefined = registeredModules.get(packageId);
+        const component: CDX.Models.Component | undefined = maybeComponent ?? cdxComponentBuilder.makeComponent(pkg);
+
+        if (!component) {
+            context.warn(`Failed to create component for ${pkg.name}@${pkg.version}`);
+            return;
+        }
+
+        // Always add dependencies even for already registered components
+        mod.dependsOn.forEach((externalDependencyModuleInfo) => {
+            const dependencyComponent = processExternalModuleForBom(context, externalDependencyModuleInfo);
+            if (dependencyComponent) {
+                component.dependencies.add(dependencyComponent.bomRef);
+            } else {
+                context.debug(
+                    `Skipped adding dependency for ${externalDependencyModuleInfo.modulePath}: component unavailable`,
+                );
+            }
+        });
+
+        // if already registered, return existing component
+        if (maybeComponent != null) {
+            return component;
         }
 
         context.debug({
@@ -85,7 +121,6 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             meta: mod,
         });
 
-        const component = cdxComponentBuilder.makeComponent(pkg);
         component.purl = cdxPurlFactory.makeFromComponent(component);
         component.bomRef.value = component.purl?.toString();
         component.licenses.forEach((l) => {
@@ -110,17 +145,6 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         if (rootPackageJson?.dependencies && pkg.name in rootPackageJson.dependencies) {
             rootComponent.dependencies.add(component.bomRef);
         }
-
-        mod.dependsOn.forEach((externalDependencyModuleInfo) => {
-            const dependencyComponent = processExternalModuleForBom(context, externalDependencyModuleInfo);
-            if (dependencyComponent) {
-                component.dependencies.add(dependencyComponent.bomRef);
-            } else {
-                context.debug(
-                    `Skipped adding dependency for ${externalDependencyModuleInfo.modulePath}: component unavailable`,
-                );
-            }
-        });
 
         return component;
     }
