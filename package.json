@@ -20,6 +20,7 @@
     "node": ">=20.19.0"
   },
   "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
     "access": "public",
     "provenance": true
   },
@@ -47,7 +48,7 @@
     "*.{ts,js}": "eslint --fix"
   },
   "repository": {
-    "url": "https://github.com/janbiasi/rollup-plugin-sbom"
+    "url": "git+https://github.com/janbiasi/rollup-plugin-sbom.git"
   },
   "keywords": [
     "vite-plugin",
