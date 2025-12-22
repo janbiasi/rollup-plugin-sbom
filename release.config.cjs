@@ -3,6 +3,7 @@ module.exports = {
         "main",
         {
             name: "next",
+            channel: "beta",
             prerelease: true,
         },
     ],

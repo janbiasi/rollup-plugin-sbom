@@ -48,7 +48,8 @@
     "*.{ts,js}": "eslint --fix"
   },
   "repository": {
-    "url": "git+https://github.com/janbiasi/rollup-plugin-sbom.git"
+    "url": "https://github.com/janbiasi/rollup-plugin-sbom.git",
+    "type": "git"
   },
   "keywords": [
     "vite-plugin",
