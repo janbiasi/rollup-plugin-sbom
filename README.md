@@ -235,6 +235,14 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-### License
+## Sponsors
+
+<p align="center">
+  <a href="https://sgkb.ch">
+    <img src="docs/sponsors/stgallerkb.png" width="250px" />
+  </a>
+</p>
+
+## License
 
 The plugin is licensed under [MIT License](./LICENSE)
