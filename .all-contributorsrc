@@ -39,6 +39,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "DesselBane",
+      "name": "DesselBane",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12199480?v=4",
+      "profile": "https://github.com/DesselBane",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
