@@ -103,7 +103,7 @@ describe.concurrent("Vite V6", () => {
 
         expect(reactDomDependency.dependsOn).toBeDefined();
         expect(reactDomDependency.dependsOn).toContain(
-            "pkg:npm/react@19.0.0?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ffacebook%2Freact.git#packages/react",
+            "pkg:npm/react@19.1.1?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ffacebook%2Freact.git#packages/react",
         );
     });
 

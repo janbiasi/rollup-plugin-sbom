@@ -38,8 +38,7 @@
     "dev:test": "vitest watch",
     "test": "vitest run --coverage",
     "bench": "vitest bench",
-    "prepare": "husky && pnpm build",
-    "prepublishOnly": "pnpm build",
+    "prepare": "husky || true && pnpm build",
     "prettier": "prettier -w .",
     "release": "semantic-release"
   },

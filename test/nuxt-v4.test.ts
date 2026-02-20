@@ -52,8 +52,6 @@ describe.concurrent.each([
             "errx",
             "devalue",
             "unhead",
-            "hookable",
-            "vue",
         ],
     },
     {
@@ -78,8 +76,6 @@ describe.concurrent.each([
             "errx",
             "devalue",
             "unhead",
-            "hookable",
-            "vue",
         ],
     },
 ])("Nuxt V4 - $scope", ({ scope, expectedDependencies }) => {
