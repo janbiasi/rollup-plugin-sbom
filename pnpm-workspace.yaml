@@ -1,3 +1,10 @@
+dedupeDirectDeps: true
+minimumReleaseAge: 4320
+trustPolicy: no-downgrade
+blockExoticSubdeps: true
+minimumReleaseAgeExclude:
+  - "@cyclonedx/cyclonedx-library"
+  - "normalize-package-data"
 packages:
   - test/fixtures/*
 overrides:

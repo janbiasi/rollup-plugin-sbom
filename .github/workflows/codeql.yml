@@ -11,6 +11,9 @@ on:
   schedule:
     - cron: "0 0 * * 1"
 
+env:
+  HUSKY: 0 # https://typicode.github.io/husky/how-to.html#ci-server-and-docker
+
 jobs:
   analyze:
     name: Analyze
