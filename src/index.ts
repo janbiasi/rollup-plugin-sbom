@@ -66,12 +66,19 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
     function processExternalModuleForBom(context: PluginContext, mod: ExternalModuleInfo) {
         const dependencyInfo = dependencyInfoRegistry.get(mod.modulePath);
         if (!dependencyInfo) {
-            context.warn(`Missing dependency info for module ${mod.modulePath} in registry, this should not happen.`);
+            context.info(`Could not resolve dependency info for module ID: ${mod.moduleId}`);
+            context.info(`${mod.moduleInfo.code}`);
+            context.warn({
+                message: `Missing dependency info for module ${mod.modulePath} in registry, this should not happen (ID: ${mod.moduleId})`,
+                meta: mod,
+            });
         }
 
-        const { pkg, licenseEvidence } = dependencyInfo;
+        const { pkg, licenseEvidence } = dependencyInfo || {};
         if (!pkg || !pkg.name || !pkg.version) {
-            context.warn(`Missing package data for module ${mod.modulePath} in registry, this should not happen.`);
+            context.warn(
+                `Missing package data for module ${mod.modulePath} in registry, this should not happen (ID: ${mod.moduleId})`,
+            );
             return;
         }
 

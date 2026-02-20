@@ -2,3 +2,6 @@ packages:
   - test/fixtures/*
 overrides:
   libxmljs2: "-"
+hoistPattern:
+  - "*vite*"
+  - "*rollup*"
