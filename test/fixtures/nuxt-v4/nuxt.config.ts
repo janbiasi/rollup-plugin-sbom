@@ -1,6 +1,7 @@
-import sbom from "rollup-plugin-sbom"
+import sbom from "rollup-plugin-sbom";
+
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
+    compatibilityDate: '2025-07-15',
     devtools: { enabled: true },
     vite: {
         build: {
@@ -37,7 +38,7 @@ export default defineNuxtConfig({
                     name: "duplicate-key",
                     value: "duplicate-value-2"
                 }]
-          })
-      ]
-  }
-})
+            })
+        ]
+    }
+});
