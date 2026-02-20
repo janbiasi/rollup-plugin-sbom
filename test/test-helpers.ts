@@ -30,16 +30,16 @@ addFormats(ajv);
 ajv.addFormat("iri-reference", /.*?/gi);
 ajv.addFormat("idn-email", /.*?/gi);
 
-export function createOutputTestHelpers(fixtureName: string) {
+export function createOutputTestHelpers(fixtureName: string, outputBasePath = "dist") {
     const rootDir = resolve(__dirname, "fixtures", fixtureName);
 
     const methods = {
         async getCompiledFileExists(filePath: string) {
-            const result = await lstat(resolve(rootDir, "dist", filePath));
+            const result = await lstat(resolve(rootDir, outputBasePath, filePath));
             return result.isFile();
         },
         getCompiledFileRawContent(filePath: string) {
-            return readFile(resolve(rootDir, "dist", filePath), "utf-8");
+            return readFile(resolve(rootDir, outputBasePath, filePath), "utf-8");
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         async getCompiledFileJSONContent(filePath: string): Promise<Record<string, any>> {
