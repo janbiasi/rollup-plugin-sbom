@@ -21,7 +21,7 @@
     "@types/react-dom": "^19.1.7",
     "@types/luxon": "3.7.1",
     "@vitejs/plugin-react": "^4.7.0",
-    "typescript": "^5.8.3",
+    "typescript": "5.9.3",
     "vite": "^7.1.7",
     "rollup-plugin-sbom": "workspace:*"
   }
