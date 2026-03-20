@@ -7,12 +7,12 @@
     "postinstall": "cp -r ./fake-tree/** ./node_modules"
   },
   "dependencies": {
-    "react": "^19.0.0"
+    "react": "catalog:testing"
   },
   "devDependencies": {
-    "rollup": "4.46.2",
-    "rollup-plugin-sbom": "workspace:*",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-commonjs": "^10.1.0"
+    "@rollup/plugin-commonjs": "catalog:rollup4",
+    "@rollup/plugin-node-resolve": "catalog:rollup4",
+    "rollup": "catalog:rollup4",
+    "rollup-plugin-sbom": "workspace:*"
   }
 }
