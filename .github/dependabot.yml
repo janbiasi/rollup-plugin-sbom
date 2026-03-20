@@ -33,3 +33,5 @@ updates:
     labels:
       - "dependencies"
       - "triage"
+    exclude-paths:
+      - "test/**"
