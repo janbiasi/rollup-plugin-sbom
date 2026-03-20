@@ -7,6 +7,18 @@ import { createOutputTestHelpers } from "./test-helpers";
 
 const helpers = createOutputTestHelpers("rolldown-v1");
 
+describe("Tools", () => {
+    test("it should autodiscover rolldown", async () => {
+        const { metadata } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
+        const rolldownToolEntry = metadata.tools.find((entry) => entry.name === "rolldown");
+
+        expect(rolldownToolEntry).toBeDefined();
+        expect(rolldownToolEntry.version).toBeDefined();
+        expect(rolldownToolEntry.externalReferences).toBeDefined();
+        expect(rolldownToolEntry.externalReferences.length).toBeGreaterThan(0);
+    });
+});
+
 describe("Resolution", () => {
     test("it should generate the SBOM files with configured settings", async () => {
         expect(await helpers.getCompiledFileExists(".well-known/sbom")).toBeTruthy();
