@@ -41,7 +41,7 @@ export async function aggregateDependencyInfoByModulePath(
     context: PluginContext,
     registry: DependencyInfoRegistry,
     modulePath: ModulePathString,
-    licenseEvidenceGatherer?: CDX.Utils.LicenseUtility.LicenseEvidenceGatherer,
+    licenseEvidenceGatherer?: CDX.Contrib.License.Utils.LicenseEvidenceGatherer,
 ): Promise<DependencyInfo | null> {
     // return the previous result if we already aggregated the package
     if (registry.has(modulePath)) {
@@ -78,14 +78,14 @@ export async function aggregateDependencyInfoByModulePath(
  * @param {PluginContext} context The rollup plugin context
  * @param {DependencyInfoRegistry} registry The package registry where the package should be stored
  * @param {ModuleIdString} moduleId The module id base
- * @param {CDX.Utils.LicenseUtility.LicenseEvidenceGatherer} licenseEvidenceGatherer License evidence gatherer; will collect license evidence if set
+ * @param {CDX.Contrib.License.Utils.LicenseEvidenceGatherer} licenseEvidenceGatherer License evidence gatherer; will collect license evidence if set
  * @returns A normalized dependency info object or null (if not found / virtual module)
  */
 export async function aggregateDependencyInfoByModuleId(
     context: PluginContext,
     registry: DependencyInfoRegistry,
     moduleId: ModuleIdString,
-    licenseEvidenceGatherer?: CDX.Utils.LicenseUtility.LicenseEvidenceGatherer,
+    licenseEvidenceGatherer?: CDX.Contrib.License.Utils.LicenseEvidenceGatherer,
 ): Promise<DependencyInfo | null> {
     const modulePath = getModulePathFromModuleId(moduleId);
     return aggregateDependencyInfoByModulePath(context, registry, modulePath, licenseEvidenceGatherer);

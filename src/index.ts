@@ -1,5 +1,6 @@
 import { join } from "node:path";
 import type { Plugin, PluginContext } from "rollup";
+import spdxExpressionParse from "spdx-expression-parse";
 import * as CDX from "@cyclonedx/cyclonedx-library";
 import type { ComponentType } from "@cyclonedx/cyclonedx-library/Enums";
 
@@ -11,6 +12,7 @@ import { type PackageId } from "./types/aliases";
 import type { ExternalModuleInfo } from "./analyzer";
 import { createDependencyInfoRegistry, aggregateDependencyInfoByModuleId } from "./dependency-info-registry";
 import { readPackage, type NormalizedPackageJson } from "./package-reader";
+import { composePackageUrlFromPackageJson } from "./purl";
 
 /**
  * Plugin to generate CycloneDX SBOMs for your application or library
@@ -24,12 +26,11 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
 
     const dependencyInfoRegistry = createDependencyInfoRegistry();
 
-    const cdxExternalReferenceFactory = new CDX.Factories.FromNodePackageJson.ExternalReferenceFactory();
-    const cdxLicenseFactory = new CDX.Factories.LicenseFactory();
-    const cdxPurlFactory = new CDX.Factories.FromNodePackageJson.PackageUrlFactory("npm");
-    const cdxToolBuilder = new CDX.Builders.FromNodePackageJson.ToolBuilder(cdxExternalReferenceFactory);
-    const cdxLicenseEvidenceGatherer = new CDX.Utils.LicenseUtility.LicenseEvidenceGatherer();
-    const cdxComponentBuilder = new CDX.Builders.FromNodePackageJson.ComponentBuilder(
+    const cdxExternalReferenceFactory = new CDX.Contrib.FromNodePackageJson.Factories.ExternalReferenceFactory();
+    const cdxLicenseFactory = new CDX.Contrib.License.Factories.LicenseFactory(spdxExpressionParse);
+    const cdxToolBuilder = new CDX.Contrib.FromNodePackageJson.Builders.ToolBuilder(cdxExternalReferenceFactory);
+    const cdxLicenseEvidenceGatherer = new CDX.Contrib.License.Utils.LicenseEvidenceGatherer();
+    const cdxComponentBuilder = new CDX.Contrib.FromNodePackageJson.Builders.ComponentBuilder(
         cdxExternalReferenceFactory,
         cdxLicenseFactory,
     );
@@ -97,7 +98,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 meta: mod,
             });
 
-            component.purl = cdxPurlFactory.makeFromComponent(component);
+            component.purl = composePackageUrlFromPackageJson(pkg).toString();
             component.bomRef.value = component.purl?.toString();
             component.licenses.forEach((l) => {
                 l.acknowledgement = CDX.Enums.LicenseAcknowledgement.Declared;
@@ -154,7 +155,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                             options.rootComponentType as ComponentType,
                         );
                         rootComponent.version = rootPkg.version;
-                        rootComponent.purl = cdxPurlFactory.makeFromComponent(rootComponent);
+                        rootComponent.purl = composePackageUrlFromPackageJson(rootPkg).toString();
                         rootComponent.bomRef.value = rootComponent.purl?.toString();
                         bom.metadata.component = rootComponent;
                     }
@@ -178,7 +179,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
 
             if (options.generateSerial) {
                 this.info(`Generating random serial number for SBOM`);
-                bom.serialNumber = CDX.Utils.BomUtility.randomSerialNumber();
+                bom.serialNumber = CDX.Contrib.Bom.Utils.randomSerialNumber();
             }
 
             // register known tools in the chain

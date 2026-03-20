@@ -4,7 +4,7 @@ import * as CDX from "@cyclonedx/cyclonedx-library";
 export function* getLicenseEvidence(
     context: PluginContext,
     packageDir: string,
-    licenseEvidenceGatherer: CDX.Utils.LicenseUtility.LicenseEvidenceGatherer,
+    licenseEvidenceGatherer: CDX.Contrib.License.Utils.LicenseEvidenceGatherer,
 ): Generator<CDX.Models.License> {
     try {
         const files =

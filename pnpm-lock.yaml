@@ -88,14 +88,20 @@ importers:
   .:
     dependencies:
       '@cyclonedx/cyclonedx-library':
-        specifier: 9.4.1
-        version: 9.4.1(ajv-formats-draft2019@1.6.1(ajv@8.18.0))(ajv-formats@3.0.1(ajv@8.18.0))(ajv@8.18.0)(xmlbuilder2@4.0.3)
+        specifier: 10.0.0
+        version: 10.0.0(ajv-formats-draft2019@1.6.1(ajv@8.18.0))(ajv-formats@3.0.1(ajv@8.18.0))(ajv@8.18.0)(packageurl-js@2.0.1)(spdx-expression-parse@4.0.0)(xmlbuilder2@4.0.3)
       normalize-package-data:
         specifier: 8.0.0
         version: 8.0.0
+      packageurl-js:
+        specifier: 2.0.1
+        version: 2.0.1
       rolldown:
         specifier: ^1.0.0-rc || ^1
         version: 1.0.0-rc.10
+      spdx-expression-parse:
+        specifier: 4.0.0
+        version: 4.0.0
       vite:
         specifier: ^5 || ^6 || ^7 || ^8
         version: 7.3.1(@types/node@22.13.9)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.0)(yaml@2.8.2)
@@ -115,6 +121,9 @@ importers:
       '@types/normalize-package-data':
         specifier: ^2.4.4
         version: 2.4.4
+      '@types/spdx-expression-parse':
+        specifier: ^3.0.5
+        version: 3.0.5
       '@typescript-eslint/eslint-plugin':
         specifier: 8.57.1
         version: 8.57.1(@typescript-eslint/parser@8.57.1(eslint@10.0.3(jiti@2.6.1))(typescript@5.9.3))(eslint@10.0.3(jiti@2.6.1))(typescript@5.9.3)
@@ -130,6 +139,9 @@ importers:
       ajv-formats:
         specifier: 3.0.1
         version: 3.0.1(ajv@8.18.0)
+      ajv-formats-draft2019:
+        specifier: 1.6.1
+        version: 1.6.1(ajv@8.18.0)
       eslint:
         specifier: 10.0.3
         version: 10.0.3(jiti@2.6.1)
@@ -847,14 +859,16 @@ packages:
       conventional-commits-parser:
         optional: true
 
-  '@cyclonedx/cyclonedx-library@9.4.1':
-    resolution: {integrity: sha512-fY/ZEFXEKM4X/eC2vClPrpucgb4IsyKYT1q9SBFx2+ySJ0jA2NELIf1va+8SDlcv6yUgwyLqtJ92g2KivQp3eA==}
+  '@cyclonedx/cyclonedx-library@10.0.0':
+    resolution: {integrity: sha512-xDXf2eqzeFHdjamj6oBV3duRSfrlmsJ5+2z9tXp7q5qxJP5Awmjf4ABSutS4qkVHHj7JzKFL/EM0V0Nihc7zPg==}
     engines: {node: '>=20.18.0'}
     peerDependencies:
       ajv: ^8.12.0
       ajv-formats: ^3.0.1
       ajv-formats-draft2019: ^1.6.1
       libxmljs2: '*'
+      packageurl-js: '*'
+      spdx-expression-parse: '*'
       xmlbuilder2: ^3.0.2||^4.0.0
     peerDependenciesMeta:
       ajv:
@@ -864,6 +878,10 @@ packages:
       ajv-formats-draft2019:
         optional: true
       libxmljs2:
+        optional: true
+      packageurl-js:
+        optional: true
+      spdx-expression-parse:
         optional: true
       xmlbuilder2:
         optional: true
@@ -2824,6 +2842,9 @@ packages:
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
+
+  '@types/spdx-expression-parse@3.0.5':
+    resolution: {integrity: sha512-XrojSCTzVxPAfWeAiw8Hg27OW/4jalE7yiohCHRPprqfPyt2oG+Osy1HstUPMF26cEdno3IeEhv31Pzl0wwsQw==}
 
   '@typescript-eslint/eslint-plugin@8.57.1':
     resolution: {integrity: sha512-Gn3aqnvNl4NGc6x3/Bqk1AOn0thyTU9bqDRhiRnUWezgvr2OnhYCWCgC8zXXRVqBsIL1pSDt7T9nJUe0oM0kDQ==}
@@ -7535,14 +7556,13 @@ snapshots:
       conventional-commits-filter: 5.0.0
       conventional-commits-parser: 6.3.0
 
-  '@cyclonedx/cyclonedx-library@9.4.1(ajv-formats-draft2019@1.6.1(ajv@8.18.0))(ajv-formats@3.0.1(ajv@8.18.0))(ajv@8.18.0)(xmlbuilder2@4.0.3)':
-    dependencies:
-      packageurl-js: 2.0.1
-      spdx-expression-parse: 4.0.0
+  '@cyclonedx/cyclonedx-library@10.0.0(ajv-formats-draft2019@1.6.1(ajv@8.18.0))(ajv-formats@3.0.1(ajv@8.18.0))(ajv@8.18.0)(packageurl-js@2.0.1)(spdx-expression-parse@4.0.0)(xmlbuilder2@4.0.3)':
     optionalDependencies:
       ajv: 8.18.0
       ajv-formats: 3.0.1(ajv@8.18.0)
       ajv-formats-draft2019: 1.6.1(ajv@8.18.0)
+      packageurl-js: 2.0.1
+      spdx-expression-parse: 4.0.0
       xmlbuilder2: 4.0.3
 
   '@dxup/nuxt@0.4.0(magicast@0.5.2)(typescript@5.9.3)':
@@ -9315,6 +9335,8 @@ snapshots:
 
   '@types/resolve@1.20.2': {}
 
+  '@types/spdx-expression-parse@3.0.5': {}
+
   '@typescript-eslint/eslint-plugin@8.57.1(@typescript-eslint/parser@8.57.1(eslint@10.0.3(jiti@2.6.1))(typescript@5.9.3))(eslint@10.0.3(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
@@ -9723,7 +9745,6 @@ snapshots:
       schemes: 1.4.0
       smtp-address-parser: 1.1.0
       uri-js: 4.4.1
-    optional: true
 
   ajv-formats@3.0.1(ajv@8.18.0):
     optionalDependencies:
@@ -10316,8 +10337,7 @@ snapshots:
     dependencies:
       path-type: 4.0.0
 
-  discontinuous-range@1.0.0:
-    optional: true
+  discontinuous-range@1.0.0: {}
 
   dom-serializer@2.0.0:
     dependencies:
@@ -10603,8 +10623,7 @@ snapshots:
 
   exsolve@1.0.8: {}
 
-  extend@3.0.2:
-    optional: true
+  extend@3.0.2: {}
 
   fast-content-type-parse@3.0.0: {}
 
@@ -11430,8 +11449,7 @@ snapshots:
 
   mocked-exports@0.1.1: {}
 
-  moo@0.5.2:
-    optional: true
+  moo@0.5.2: {}
 
   mrmime@2.0.1: {}
 
@@ -11457,7 +11475,6 @@ snapshots:
       moo: 0.5.2
       railroad-diagrams: 1.0.0
       randexp: 0.4.6
-    optional: true
 
   neo-async@2.6.2: {}
 
@@ -12266,14 +12283,12 @@ snapshots:
 
   radix3@1.1.2: {}
 
-  railroad-diagrams@1.0.0:
-    optional: true
+  railroad-diagrams@1.0.0: {}
 
   randexp@0.4.6:
     dependencies:
       discontinuous-range: 1.0.0
       ret: 0.1.15
-    optional: true
 
   randombytes@2.1.0:
     dependencies:
@@ -12423,8 +12438,7 @@ snapshots:
       onetime: 7.0.0
       signal-exit: 4.1.0
 
-  ret@0.1.15:
-    optional: true
+  ret@0.1.15: {}
 
   reusify@1.1.0: {}
 
@@ -12521,7 +12535,6 @@ snapshots:
   schemes@1.4.0:
     dependencies:
       extend: 3.0.2
-    optional: true
 
   scule@1.3.0: {}
 
@@ -12652,7 +12665,6 @@ snapshots:
   smtp-address-parser@1.1.0:
     dependencies:
       nearley: 2.20.1
-    optional: true
 
   source-map-js@1.2.1: {}
 
