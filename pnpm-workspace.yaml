@@ -5,6 +5,8 @@ blockExoticSubdeps: true
 minimumReleaseAgeExclude:
   - "@cyclonedx/cyclonedx-library"
   - "normalize-package-data"
+  - "rolldown"
+  - "@rolldown/*"
 packages:
   - test/fixtures/*
 overrides:
