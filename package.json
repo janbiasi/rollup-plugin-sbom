@@ -72,8 +72,10 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@cyclonedx/cyclonedx-library": "9.4.1",
-    "normalize-package-data": "8.0.0"
+    "@cyclonedx/cyclonedx-library": "10.0.0",
+    "normalize-package-data": "8.0.0",
+    "packageurl-js": "2.0.1",
+    "spdx-expression-parse": "4.0.0"
   },
   "peerDependencies": {
     "rollup": "^4",
@@ -101,11 +103,13 @@
     "@eslint/js": "10.0.1",
     "@types/node": "22.13.9",
     "@types/normalize-package-data": "^2.4.4",
+    "@types/spdx-expression-parse": "^3.0.5",
     "@typescript-eslint/eslint-plugin": "8.57.1",
     "@typescript-eslint/parser": "8.57.1",
     "@vitest/coverage-v8": "4.1.0",
     "ajv": "8.18.0",
     "ajv-formats": "3.0.1",
+    "ajv-formats-draft2019": "1.6.1",
     "eslint": "10.0.3",
     "fast-xml-parser": "5.5.8",
     "globals": "17.4.0",
