@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "name": "b",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "dependencies": {
+    "@local/a": "^2"
+  }
+}
