@@ -7,10 +7,10 @@
     "postinstall": "cp -r ./fake-tree/** ./node_modules"
   },
   "dependencies": {
-    "react": "^19.0.0"
+    "react": "catalog:testing"
   },
   "devDependencies": {
-    "rolldown": "1.0.0-rc.10",
+    "rolldown": "catalog:rolldown1",
     "rollup-plugin-sbom": "workspace:*"
   }
 }
