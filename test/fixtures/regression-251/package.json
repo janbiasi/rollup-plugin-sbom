@@ -7,15 +7,14 @@
   "scripts": {
     "build": "rollup -c rollup.config.js"
   },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "rollup": "4.46.2",
-    "rollup-plugin-sbom": "workspace:*",
-    "@rollup/plugin-node-resolve": "*",
-    "@rollup/plugin-json": "*"
-  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "catalog:rollup4",
+    "@rollup/plugin-json": "catalog:rollup4",
+    "@rollup/plugin-node-resolve": "catalog:rollup4",
+    "rollup": "catalog:rollup4",
+    "rollup-plugin-sbom": "workspace:*"
   }
 }

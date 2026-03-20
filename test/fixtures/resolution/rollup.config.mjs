@@ -1,6 +1,6 @@
 import pluginSbom from "rollup-plugin-sbom";
-import pluginResolve from "rollup-plugin-node-resolve";
-import pluginCommonJs from "rollup-plugin-commonjs";
+import pluginResolve from "@rollup/plugin-node-resolve";
+import pluginCommonJs from "@rollup/plugin-commonjs";
 
 /**
  * @type {import("rollup").RollupOptions}
