@@ -1,7 +1,7 @@
 import { dirname } from "node:path";
 import * as CDX from "@cyclonedx/cyclonedx-library";
 
-import { OrganizationalEntityOption } from "./types/OrganizationalEntityOption";
+import { OrganizationalEntityOption } from "./types/organizational-entity-option";
 import type { ModuleIdString, ModulePathString, PackageId } from "./types/aliases";
 import type { NormalizedPackageJson } from "./package-reader";
 
