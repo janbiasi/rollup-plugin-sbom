@@ -10,7 +10,7 @@ const require = createRequire(import.meta.url);
  * A list of package names which will be looked up within the project
  * and push them to the tools list within the SBOM.
  */
-const knownTools = ["rollup-plugin-sbom", "vite", "rollup"];
+const knownTools = ["rollup-plugin-sbom", "vite", "rollup", "rolldown"];
 
 /**
  * Automatically register common tools related to the build process on a BOM model

@@ -65,7 +65,10 @@
   ],
   "author": "Jan Biasi (https://github.com/janbiasi)",
   "contributors": [
-    "Jan Kott (https://github.com/boostvolt)"
+    "Jan Kott (https://github.com/boostvolt)",
+    "xenobytezero (https://github.com/xenobytezero)",
+    "DesselBane (https://github.com/DesselBane)",
+    "Vinícius Goulart (https://github.com/vsgoulart)"
   ],
   "license": "MIT",
   "dependencies": {
