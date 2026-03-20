@@ -65,7 +65,7 @@ export default defineConfig({
 export default defineConfig({
   build: {
     rollupOptions: {
-      plugins: [rollupPluginSbom],
+      plugins: [sbom()],
     },
   },
 });
