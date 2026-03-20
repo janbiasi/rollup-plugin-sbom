@@ -1,5 +1,5 @@
 import { Enums, Spec, Models } from "@cyclonedx/cyclonedx-library";
-import type { OrganizationalEntityOption } from "./types/OrganizationalEntityOption";
+import type { OrganizationalEntityOption } from "./types/organizational-entity-option";
 
 /**
  * A method which can transform a BOM model.
