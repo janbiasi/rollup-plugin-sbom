@@ -57,6 +57,7 @@ jobs:
       pull-requests: write # to be able to comment on released pull requests
       id-token: write # to enable use of OIDC for npm provenance
       attestations: write # for attest build provenance
+      artifact-metadata: write # for attest build provenance
     strategy:
       matrix:
         node: [24]
@@ -74,7 +75,7 @@ jobs:
 
       - run: pnpm run build
 
-      - uses: actions/attest-build-provenance@v4
+      - uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
         with:
           subject-path: 'dist/**'
 
