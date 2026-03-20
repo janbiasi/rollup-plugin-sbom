@@ -101,7 +101,6 @@ describe.concurrent("Vite V6", () => {
         const { dependencies } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
         const reactDomDependency = dependencies.find((d) => d.ref.startsWith("pkg:npm/react-dom"));
 
-        console.dir(reactDomDependency.dependsOn);
         expect(reactDomDependency.dependsOn).toBeDefined();
         expect(reactDomDependency.dependsOn?.some((dep) => dep.startsWith("pkg:npm/react@"))).toBe(true);
     });
