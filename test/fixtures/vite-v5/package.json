@@ -9,15 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "catalog:testing",
+    "react-dom": "catalog:testing"
   },
   "devDependencies": {
-    "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.1",
+    "@types/react": "catalog:testing",
+    "@types/react-dom": "catalog:testing",
     "@vitejs/plugin-react": "^4.2.0",
-    "typescript": "5.9.3",
-    "vite": "^5",
+    "typescript": "catalog:",
+    "vite": "catalog:vite5",
     "rollup-plugin-sbom": "workspace:*"
   }
 }

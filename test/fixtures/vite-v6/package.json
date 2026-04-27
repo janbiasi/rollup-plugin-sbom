@@ -9,20 +9,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "@mui/base": "5.0.0-beta.70",
-    "react-remove-scroll": "2.6.3",
-    "date-fns": "^3.0.0",
-    "luxon": "3.7.1"
+    "@mui/base": "catalog:testing",
+    "date-fns": "catalog:testing",
+    "luxon": "catalog:testing",
+    "react": "catalog:testing",
+    "react-dom": "catalog:testing",
+    "react-remove-scroll": "catalog:testing"
   },
   "devDependencies": {
-    "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.1",
-    "@types/luxon": "3.6.2",
-    "@vitejs/plugin-react": "^4.2.0",
-    "typescript": "5.9.3",
-    "vite": "^6",
-    "rollup-plugin-sbom": "workspace:*"
+    "@types/luxon": "catalog:testing",
+    "@types/react": "catalog:testing",
+    "@types/react-dom": "catalog:testing",
+    "@vitejs/plugin-react": "catalog:vite6",
+    "rollup-plugin-sbom": "workspace:*",
+    "typescript": "catalog:",
+    "vite": "catalog:vite6"
   }
 }

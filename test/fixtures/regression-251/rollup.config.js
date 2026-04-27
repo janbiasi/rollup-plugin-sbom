@@ -1,22 +1,20 @@
-import pluginSbom from "rollup-plugin-sbom";
-import pluginResolve from "@rollup/plugin-node-resolve";
-import pluginCommonJs from "@rollup/plugin-commonjs";
+import pluginSbom from 'rollup-plugin-sbom';
+import pluginNodeResolve from "@rollup/plugin-node-resolve";
+import pluginJson from '@rollup/plugin-json';
 
-/**
- * @type {import("rollup").RollupOptions}
- */
 export default {
-    input: "src/index.js",
     logLevel: "debug",
+    input: ['index.js'],
     output: {
-        file: "dist/index.js",
-        format: "iife"
+        dir: './dist',
+        format: 'esm',
+        preserveModules: true
     },
     plugins: [
-        pluginResolve({
-            browser: true,
+        pluginNodeResolve({
+            browser: true
         }),
-        pluginCommonJs(),
+        pluginJson(),
         pluginSbom({
             autodetect: true,
             generateSerial: true,

@@ -10,11 +10,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "nuxt": "4.3.1",
-    "vue": "3.5.28",
+    "nuxt": "4.4.2",
+    "vue": "3.5.30",
     "vue-router": "4.6.4"
   },
   "devDependencies": {
-    "rollup-plugin-sbom": "workspace:*"
+    "rollup-plugin-sbom": "workspace:*",
+    "vite": "catalog:vite7"
   }
 }

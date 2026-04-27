@@ -1,18 +1,16 @@
 {
-  "name": "@fixtures/resolution",
+  "name": "@fixtures/rolldown-v1",
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build": "rollup -c rollup.config.mjs",
+    "build": "rolldown -c rollup.config.mjs",
     "postinstall": "cp -r ./fake-tree/** ./node_modules"
   },
   "dependencies": {
     "react": "catalog:testing"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "catalog:rollup4",
-    "@rollup/plugin-node-resolve": "catalog:rollup4",
-    "rollup": "catalog:rollup4",
+    "rolldown": "catalog:rolldown1",
     "rollup-plugin-sbom": "workspace:*"
   }
 }

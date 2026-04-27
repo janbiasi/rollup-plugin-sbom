@@ -10,7 +10,7 @@ const require = createRequire(import.meta.url);
  * A list of package names which will be looked up within the project
  * and push them to the tools list within the SBOM.
  */
-const knownTools = ["rollup-plugin-sbom", "vite", "rollup"];
+const knownTools = ["rollup-plugin-sbom", "vite", "rollup", "rolldown"];
 
 /**
  * Automatically register common tools related to the build process on a BOM model
@@ -18,14 +18,14 @@ const knownTools = ["rollup-plugin-sbom", "vite", "rollup"];
  * @since 1.0.0
  * @param {PluginContext} context The rollup plugin context
  * @param {CDX.Models.Bom} bom The root BOM to attach tools to
- * @param {CDX.Builders.FromNodePackageJson.ToolBuilder} builder The CDX tool builder instance
- * @param {CDX.Utils.LicenseUtility.LicenseEvidenceGatherer} [licenseEvidenceGatherer] Optional: enable license evidence gathering
+ * @param {CDX.Contrib.FromNodePackageJson.Builders.ToolBuilder} builder The CDX tool builder instance
+ * @param {CDX.Contrib.License.Utils.LicenseEvidenceGatherer} [licenseEvidenceGatherer] Optional: enable license evidence gathering
  */
 export async function autoRegisterTools(
     context: PluginContext,
     bom: CDX.Models.Bom,
-    builder: CDX.Builders.FromNodePackageJson.ToolBuilder,
-    licenseEvidenceGatherer?: CDX.Utils.LicenseUtility.LicenseEvidenceGatherer,
+    builder: CDX.Contrib.FromNodePackageJson.Builders.ToolBuilder,
+    licenseEvidenceGatherer?: CDX.Contrib.License.Utils.LicenseEvidenceGatherer,
 ) {
     // we use a separate package registry for tool detection
     const toolPackageRegistry = createDependencyInfoRegistry();

@@ -16,6 +16,7 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
 - [Usage guide](#usage)
   - [Usage with Vite](#usage-with-vite)
   - [Usage with Rollup](#usage-with-rollup)
+  - [Usage with Rolldown](#usage-with-rolldown)
   - [Configuration options and defaults](#configuration-options)
   - [Debugging](#debugging)
   - [Sequence chart](#sequence-chart)
@@ -28,11 +29,11 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
 
 ### Requirements and Compatibility
 
-| Plugin | Vite           | Rollup | Node       | CDX Spec |
-| ------ | -------------- | ------ | ---------- | -------- |
-| v1     | v4, v5         | v3, v4 | 18, 20     | 1.5      |
-| v2     | v4, v5, v6     | v3, v4 | 18, 20, 22 | 1.6      |
-| v3     | v5, v6, v7, v8 | v4     | 20, 22, 24 | 1.6      |
+| Plugin | Vite       | Rollup | Rolldown | Node       | CDX Spec |
+| ------ | ---------- | ------ | -------- | ---------- | -------- |
+| v1     | 4, 5       | 3, 4   | -        | 18, 20     | 1.5      |
+| v2     | 4, 5, 6    | 3, 4   | -        | 18, 20, 22 | 1.6      |
+| v3     | 5, 6, 7, 8 | 4      | 1        | 20, 22, 24 | 1.6      |
 
 We're always supporting LTS Node.js versions and versions which still have security support.
 Plugin support will be dropped once a Node.js version reaches its final EOL.
@@ -64,7 +65,7 @@ export default defineConfig({
 export default defineConfig({
   build: {
     rollupOptions: {
-      plugins: [rollupPluginSbom],
+      plugins: [sbom()],
     },
   },
 });
@@ -78,6 +79,17 @@ import sbom from "rollup-plugin-sbom";
 export default {
   plugins: [sbom()],
 };
+```
+
+#### Usage with [Rolldown](https://rolldown.rs/)
+
+```js
+import { defineConfig } from "rolldown";
+import sbom from "rollup-plugin-sbom";
+
+export default defineConfig({
+  plugins: [sbom()],
+});
 ```
 
 #### Configuration Options
@@ -110,7 +122,7 @@ This plugin added `debug` logs to gather information about how your SBOM is buil
 understand why which dependency was added to the graph. To enable debugging, you can set the `logLevel` option to `"debug"`.
 
 ```ts
-// rollup
+// rollup and rolldown
 export default {
   logLevel: "debug",
 };

@@ -1,16 +1,18 @@
 {
-  "name": "@fixtures/resolution",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@fixtures/regression-251",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "build": "rollup -c rollup.config.mjs",
-    "postinstall": "cp -r ./fake-tree/** ./node_modules"
+    "build": "rollup -c rollup.config.js"
   },
   "dependencies": {
-    "react": "catalog:testing"
+    "@aws-sdk/client-s3": "^3"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "catalog:rollup4",
+    "@rollup/plugin-json": "catalog:rollup4",
     "@rollup/plugin-node-resolve": "catalog:rollup4",
     "rollup": "catalog:rollup4",
     "rollup-plugin-sbom": "workspace:*"

@@ -1,11 +1,8 @@
+// @ts-check
+import { defineConfig } from "rolldown";
 import pluginSbom from "rollup-plugin-sbom";
-import pluginResolve from "@rollup/plugin-node-resolve";
-import pluginCommonJs from "@rollup/plugin-commonjs";
 
-/**
- * @type {import("rollup").RollupOptions}
- */
-export default {
+export default defineConfig({
     input: "src/index.js",
     logLevel: "debug",
     output: {
@@ -13,10 +10,6 @@ export default {
         format: "iife"
     },
     plugins: [
-        pluginResolve({
-            browser: true,
-        }),
-        pluginCommonJs(),
         pluginSbom({
             autodetect: true,
             generateSerial: true,
@@ -46,4 +39,4 @@ export default {
             }]
         })
     ]
-}
+});
