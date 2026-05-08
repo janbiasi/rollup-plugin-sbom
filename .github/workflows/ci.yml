@@ -33,7 +33,7 @@ jobs:
     name: Test
     strategy:
       matrix:
-        node: [20, 22, 24]
+        node: [22, 24, 26]
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
