@@ -46,7 +46,7 @@ export interface RollupPluginSbomOptions {
     saveTimestamp?: boolean;
     /**
      * If you want to get the root package registered automatically, defaults to `true`.
-     * You may set this to `false` if your project does not a have a `package.json`
+     * You may set this to `false` if your project does not have a `package.json`
      * @since 1.0.0
      */
     autodetect?: boolean;
@@ -89,7 +89,7 @@ export interface RollupPluginSbomOptions {
     collectLicenseEvidence?: boolean;
     /**
      * Optional method to enable setting additional properties in the BOM before collecting it.
-     * This can be useful if or you need to add information which the plugin doesn't support at the time beeing.
+     * This can be useful if you need to add information which the plugin doesn't support at the time being.
      *
      * @since 2.1.0
      * @param {Models.Bom} bom The initial SBOM for the project
