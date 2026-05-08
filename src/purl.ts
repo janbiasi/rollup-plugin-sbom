@@ -9,7 +9,7 @@ import { NormalizedPackageJson } from "./package-reader";
  * @see https://github.com/CycloneDX/cyclonedx-webpack-plugin/blob/master/src/factories.ts
  * @see https://github.com/CycloneDX/cyclonedx-javascript-library/releases/tag/v10.0.0
  */
-export function composePackageUrlFromPackageJson(packageJson: NormalizedPackageJson) {
+export function composePackageUrlFromPackageJson(packageJson: NormalizedPackageJson): PackageURL | undefined {
     let name: string = packageJson.name;
     let namespace: string | undefined = undefined;
 
