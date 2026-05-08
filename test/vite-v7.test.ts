@@ -12,7 +12,7 @@ describe.concurrent("Vite V7", () => {
 
     test("it should generate the JSON SBOM which matches the JSON schema spec version 1.6", async () => {
         const bom = await helpers.getCompiledFileRawContent("plugin-outdir/filename.json");
-        expect(helpers.isBomValidAccordingToSchema("v1.6", bom)).toBeTruthy();
+        expect(helpers.isBomValidAccordingToSchema("v1.7", bom)).toBeTruthy();
     });
 
     test("it should generate a valid urn serial", async () => {

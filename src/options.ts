@@ -13,7 +13,7 @@ type BomTransformHookFn = (bom: Models.Bom) => void;
  */
 export interface RollupPluginSbomOptions {
     /**
-     * Specification version to use, defaults to {@link Spec.Spec1dot6}
+     * Specification version to use, defaults to {@link Spec.Spec1dot7}
      * @since 1.0.0
      */
     specVersion?: `${Spec.Version}`;
@@ -109,7 +109,7 @@ export interface RollupPluginSbomOptions {
 }
 
 export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
-    specVersion: Spec.Version.v1dot6,
+    specVersion: Spec.Version.v1dot7,
     rootComponentType: Enums.ComponentType.Application,
     outDir: "cyclonedx",
     outFilename: "bom",

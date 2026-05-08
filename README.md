@@ -33,6 +33,7 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
 | v1     | 4, 5       | 3, 4   | -        | 18, 20     | 1.5      |
 | v2     | 4, 5, 6    | 3, 4   | -        | 18, 20, 22 | 1.6      |
 | v3     | 5, 6, 7, 8 | 4      | 1        | 20, 22, 24 | 1.6      |
+| v4     | 6, 7, 8    | 4      | 1        | 22, 24, 26 | 1.7      |
 
 We're always supporting LTS Node.js versions and versions which still have security support.
 Plugin support will be dropped once a Node.js version reaches its final EOL.
@@ -50,6 +51,7 @@ You can install the plugin via [NPM](https://www.npmjs.com/package/rollup-plugin
 npm install --save-dev rollup-plugin-sbom
 pnpm install -D rollup-plugin-sbom
 yarn add --dev rollup-plugin-sbom
+bun add --dev rollup-plugin-sbom
 ```
 
 ### Usage
@@ -68,7 +70,8 @@ export default defineConfig({
 
 export default defineConfig({
   build: {
-    rollupOptions: {
+    // use rollupOptions for Vite < 8
+    rolldownOptions: {
       plugins: [sbom()],
     },
   },
@@ -100,7 +103,7 @@ export default defineConfig({
 
 | Name                | Default       | Description                                                                                 |
 | ------------------- | ------------- | ------------------------------------------------------------------------------------------- |
-| `specVersion`       | `1.6`         | The CycloneDX specification version to use                                                  |
+| `specVersion`       | `1.7`         | The CycloneDX specification version to use                                                  |
 | `rootComponentType` | `application` | The root component type, can be `library` or `application`                                  |
 | `outDir`            | `cyclonedx`   | The output directory where the BOM file will be saved.                                      |
 | `outFilename`       | `bom`         | The base filename for the SBOM files.                                                       |
