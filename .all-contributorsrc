@@ -57,6 +57,15 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "PrettyCoffee",
+      "name": "PrettyCoffee",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66521452?v=4",
+      "profile": "http://prettycoffee.github.io",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
