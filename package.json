@@ -7,11 +7,11 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.mts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.cts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.cjs"
       }
     }
@@ -32,8 +32,8 @@
     "lint": "pnpm lint:prettier && pnpm lint:eslint",
     "lint:prettier": "prettier -l .",
     "lint:eslint": "eslint .",
-    "dev": "unbuild --stub",
-    "build": "unbuild",
+    "dev": "vite build --watch",
+    "build": "vite build",
     "build-fixtures": "pnpm --filter \"@fixtures/*\" run build",
     "dev:test": "vitest watch",
     "test": "vitest run --coverage",
@@ -120,7 +120,7 @@
     "semantic-release": "25.0.3",
     "typescript": "catalog:",
     "typescript-eslint": "8.59.2",
-    "unbuild": "3.6.1",
+    "vite": "8.0.11",
     "vitest": "4.1.5",
     "xmlbuilder2": "4.0.3"
   }
