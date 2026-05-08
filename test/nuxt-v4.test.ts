@@ -22,9 +22,9 @@ test("it should generate the SBOM files for the server", async () => {
 
 test("it should generate the JSON SBOM which matches the JSON schema spec version 1.6", async () => {
     const serverBom = await helpers.getCompiledFileRawContent("server/plugin-outdir/filename.json");
-    expect(helpers.isBomValidAccordingToSchema("v1.6", serverBom)).toBeTruthy();
+    expect(helpers.isBomValidAccordingToSchema("v1.7", serverBom)).toBeTruthy();
     const clientBom = await helpers.getCompiledFileRawContent("client/plugin-outdir/filename.json");
-    expect(helpers.isBomValidAccordingToSchema("v1.6", clientBom)).toBeTruthy();
+    expect(helpers.isBomValidAccordingToSchema("v1.7", clientBom)).toBeTruthy();
 });
 
 describe.concurrent.each([
