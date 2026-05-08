@@ -12,6 +12,7 @@ function readJsonFile(path: string) {
 const bomSchemaVersions = {
     "v1.5": readJsonFile("./test/schemas/bom-1.5.schema.json"),
     "v1.6": readJsonFile("./test/schemas/bom-1.6.schema.json"),
+    "v1.7": readJsonFile("./test/schemas/bom-1.7.schema.json"),
 };
 
 const ajv = new Ajv({
@@ -23,6 +24,7 @@ const ajv = new Ajv({
 ajv.addSchema(readJsonFile("./test/schemas/spdx.schema.json"));
 ajv.addSchema(readJsonFile("./test/schemas/cyclonedx-spdx.schema.json"));
 ajv.addSchema(readJsonFile("./test/schemas/jsf.schema.json"));
+ajv.addSchema(readJsonFile("./test/schemas/cryptography-defs.schema.json"));
 
 addFormats(ajv);
 

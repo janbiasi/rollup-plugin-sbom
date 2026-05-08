@@ -11,7 +11,7 @@ test("it should generate the SBOM files with configured settings", async () => {
 
 test("it should generate the JSON SBOM which matches the JSON schema spec version 1.5", async () => {
     const bom = await helpers.getCompiledFileRawContent("plugin-outdir/filename.json");
-    expect(helpers.isBomValidAccordingToSchema("v1.6", bom)).toBeTruthy();
+    expect(helpers.isBomValidAccordingToSchema("v1.7", bom)).toBeTruthy();
 });
 
 describe.concurrent("Vite V5", () => {

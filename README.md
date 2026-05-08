@@ -1,5 +1,5 @@
-[![CI](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/ci.yml) [![CodeQL](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/github-code-scanning/codeql) ![npm](https://img.shields.io/npm/v/rollup-plugin-sbom)
-![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/rollup-plugin-sbom/peer/rollup?logo=rollupdotjs&color=%23EA483F) ![img](https://img.shields.io/badge/semver-2.0.0-green?logo=semver) ![npm type definitions](https://img.shields.io/npm/types/rollup-plugin-sbom) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/janbiasi/rollup-plugin-sbom/badge)](https://securityscorecards.dev/viewer/?uri=github.com/janbiasi/rollup-plugin-sbom) [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8443/badge)](https://www.bestpractices.dev/projects/8443) ![NPM Downloads](https://img.shields.io/npm/dm/rollup-plugin-sbom)
+[![CI](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/ci.yml) [![CodeQL](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/codeql.yml/badge.svg)](https://github.com/janbiasi/rollup-plugin-sbom/actions/workflows/codeql.yml) ![npm](https://img.shields.io/npm/v/rollup-plugin-sbom)
+![img](https://img.shields.io/badge/semver-2.0.0-green?logo=semver) ![npm type definitions](https://img.shields.io/npm/types/rollup-plugin-sbom) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/janbiasi/rollup-plugin-sbom/badge)](https://securityscorecards.dev/viewer/?uri=github.com/janbiasi/rollup-plugin-sbom) [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8443/badge)](https://www.bestpractices.dev/projects/8443) ![NPM Downloads](https://img.shields.io/npm/dm/rollup-plugin-sbom)
 
 # rollup-plugin-sbom
 
@@ -34,6 +34,7 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
 | v1     | 4, 5       | 3, 4   | -        | 18, 20     | 1.5      |
 | v2     | 4, 5, 6    | 3, 4   | -        | 18, 20, 22 | 1.6      |
 | v3     | 5, 6, 7, 8 | 4      | 1        | 20, 22, 24 | 1.6      |
+| v4     | 5, 6, 7, 8 | 4      | 1        | 22, 24, 26 | 1.7      |
 
 We're always supporting LTS Node.js versions and versions which still have security support.
 Plugin support will be dropped once a Node.js version reaches its final EOL.
@@ -46,6 +47,7 @@ You can install the plugin via [NPM](https://www.npmjs.com/package/rollup-plugin
 npm install --save-dev rollup-plugin-sbom
 pnpm install -D rollup-plugin-sbom
 yarn add --dev rollup-plugin-sbom
+bun add --dev rollup-plugin-sbom
 ```
 
 ### Usage
@@ -96,7 +98,7 @@ export default defineConfig({
 
 | Name                | Default       | Description                                                                                 |
 | ------------------- | ------------- | ------------------------------------------------------------------------------------------- |
-| `specVersion`       | `1.6`         | The CycloneDX specification version to use                                                  |
+| `specVersion`       | `1.7`         | The CycloneDX specification version to use                                                  |
 | `rootComponentType` | `application` | The root component type, can be `library` or `application`                                  |
 | `outDir`            | `cyclonedx`   | The output directory where the BOM file will be saved.                                      |
 | `outFilename`       | `bom`         | The base filename for the SBOM files.                                                       |
