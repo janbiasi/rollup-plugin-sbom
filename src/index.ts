@@ -98,8 +98,10 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 meta: mod,
             });
 
-            component.purl = composePackageUrlFromPackageJson(pkg).toString();
-            component.bomRef.value = component.purl?.toString();
+            const componentPurl = composePackageUrlFromPackageJson(pkg).toString();
+            component.purl = componentPurl;
+            component.bomRef.value = componentPurl;
+
             component.licenses.forEach((l) => {
                 l.acknowledgement = CDX.Enums.LicenseAcknowledgement.Declared;
             });
@@ -155,8 +157,9 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                             options.rootComponentType as ComponentType,
                         );
                         rootComponent.version = rootPkg.version;
-                        rootComponent.purl = composePackageUrlFromPackageJson(rootPkg).toString();
-                        rootComponent.bomRef.value = rootComponent.purl?.toString();
+                        const rootComponentPurl = composePackageUrlFromPackageJson(rootPkg).toString();
+                        rootComponent.purl = rootComponentPurl;
+                        rootComponent.bomRef.value = rootComponentPurl;
                         bom.metadata.component = rootComponent;
                     }
                 } catch (err) {
