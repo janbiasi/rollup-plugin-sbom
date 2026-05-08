@@ -1,0 +1,7 @@
+version: 2
+
+projectIgnorePaths:
+  - "test"
+triggerPaths:
+  - "package.json"
+  - "pnpm-lock.yaml"
