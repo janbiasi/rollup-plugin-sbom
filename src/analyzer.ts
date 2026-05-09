@@ -30,6 +30,11 @@ export interface ExternalModuleInfo {
      * imported or imported dynamically.
      */
     dependsOn: ExternalModuleInfo[];
+    /**
+     * Whether this module was resolved as a transitive dependency
+     * rather than a direct import from a bundle chunk.
+     */
+    isTransitive: boolean;
 }
 
 /**
@@ -57,6 +62,7 @@ async function resolveExternalModule(
     moduleId: ModuleIdString,
     parentModuleId: ModuleIdString,
     transitiveResolveLimit: number,
+    isTransitive = false,
 ): Promise<ExternalModuleInfo | null> {
     if (transitiveResolveLimit === 0) {
         return null;
@@ -73,8 +79,11 @@ async function resolveExternalModule(
         parentModuleId,
         moduleInfo,
         modulePath: getModulePathFromModuleId(moduleId),
+        isTransitive,
         dependsOn: await Promise.all(
-            dependsOnModuleIds.map((id) => resolveExternalModule(context, id, moduleId, transitiveResolveLimit - 1)),
+            dependsOnModuleIds.map((id) =>
+                resolveExternalModule(context, id, moduleId, transitiveResolveLimit - 1, true),
+            ),
         ).then((allModuleIdsOrNull) => allModuleIdsOrNull.filter(Boolean)),
     };
 }
@@ -99,7 +108,7 @@ export async function getAllExternalModules(
             continue;
         }
 
-        const importedUniqueModuleIds = new Set([...module.moduleIds, ...module.dynamicImports]);
+        const importedUniqueModuleIds = new Set([...module.moduleIds, ...module.imports, ...module.dynamicImports]);
         context.debug({
             message: `Analyzing generated chunk "${id}" (${importedUniqueModuleIds.size} imported ids)`,
             meta: {

@@ -10,7 +10,11 @@ import { DEFAULT_OPTIONS, type RollupPluginSbomOptions } from "./options";
 import { getAllExternalModules } from "./analyzer";
 import { type PackageId } from "./types/aliases";
 import type { ExternalModuleInfo } from "./analyzer";
-import { createDependencyInfoRegistry, aggregateDependencyInfoByModuleId } from "./dependency-info-registry";
+import {
+    createDependencyInfoRegistry,
+    aggregateDependencyInfoByModuleId,
+    aggregateDependencyInfoByModulePath,
+} from "./dependency-info-registry";
 import { readPackage, type NormalizedPackageJson } from "./package-reader";
 import { composePackageUrlFromPackageJson } from "./purl";
 
@@ -24,7 +28,11 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         ...userOptions,
     };
 
-    const dependencyInfoRegistry = createDependencyInfoRegistry();
+    let bom: CDX.Models.Bom;
+    let dependencyInfoRegistry: ReturnType<typeof createDependencyInfoRegistry>;
+    let registeredModules: Map<PackageId, CDX.Models.Component>;
+    let rootComponent: CDX.Models.Component | undefined;
+    let rootPackageJson: NormalizedPackageJson | undefined;
 
     const cdxExternalReferenceFactory = new CDX.Contrib.FromNodePackageJson.Factories.ExternalReferenceFactory();
     const cdxLicenseFactory = new CDX.Contrib.License.Factories.LicenseFactory(spdxExpressionParse);
@@ -42,32 +50,11 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         new CDX.Serialize.XML.Normalize.Factory(CDX.Spec.SpecVersionDict[options.specVersion]!),
     );
 
-    const metadata = new CDX.Models.Metadata({
-        supplier: options.supplier && convertOrganizationalEntityOptionToModel(options.supplier),
-        properties:
-            options.properties &&
-            new CDX.Models.PropertyRepository(
-                options.properties.map(({ name, value }) => new CDX.Models.Property(name, value)),
-            ),
-    });
-
-    const bom = new CDX.Models.Bom({
-        metadata,
-    });
-
-    let rootComponent: CDX.Models.Component | undefined = undefined;
-    let rootPackageJson: NormalizedPackageJson | undefined = undefined;
-
-    /**
-     * Registered module components inside the BOM, used to add dependencies for
-     * subsequent imports with different specifiers for the same module.
-     */
-    const registeredModules = new Map<PackageId, CDX.Models.Component>();
-
     function processExternalModuleForBom(context: PluginContext, mod: ExternalModuleInfo | null) {
         const dependencyInfo = dependencyInfoRegistry.get(mod.modulePath);
         if (!dependencyInfo) {
-            context.warn({
+            const logFn = mod.isTransitive ? context.debug : context.warn;
+            logFn({
                 message: `Missing dependency info for module ${mod?.modulePath} in registry, this should not happen (ID: ${mod?.moduleId})`,
                 meta: mod,
             });
@@ -75,7 +62,8 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
 
         const { pkg, licenseEvidence } = dependencyInfo || {};
         if (!pkg || !pkg.name || !pkg.version) {
-            context.warn({
+            const logFn = mod.isTransitive ? context.debug : context.warn;
+            logFn({
                 message: `Missing package data for module ${mod?.modulePath} in registry, this should not happen (ID: ${mod?.moduleId})`,
                 meta: mod,
             });
@@ -148,6 +136,21 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
     return {
         name: PLUGIN_ID,
         async buildStart() {
+            bom = new CDX.Models.Bom({
+                metadata: new CDX.Models.Metadata({
+                    supplier: options.supplier && convertOrganizationalEntityOptionToModel(options.supplier),
+                    properties:
+                        options.properties &&
+                        new CDX.Models.PropertyRepository(
+                            options.properties.map(({ name, value }) => new CDX.Models.Property(name, value)),
+                        ),
+                }),
+            });
+            dependencyInfoRegistry = createDependencyInfoRegistry();
+            registeredModules = new Map();
+            rootComponent = undefined;
+            rootPackageJson = undefined;
+
             // autoregister root entry when starting the build
             if (options.autodetect) {
                 try {
@@ -225,6 +228,18 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
          */
         async generateBundle(_outputOptions, bundle) {
             const tree = await getAllExternalModules(this, bundle);
+            // ensure all dependency info is available before processing
+            for (const mod of tree) {
+                if (!dependencyInfoRegistry.has(mod.modulePath)) {
+                    await aggregateDependencyInfoByModulePath(
+                        this,
+                        dependencyInfoRegistry,
+                        mod.modulePath,
+                        options.collectLicenseEvidence ? cdxLicenseEvidenceGatherer : undefined,
+                    );
+                }
+            }
+            // process each module and register it in the BOM
             for (const mod of tree) {
                 processExternalModuleForBom(this, mod);
             }
