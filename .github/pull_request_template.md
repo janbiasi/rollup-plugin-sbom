@@ -1,6 +1,6 @@
 ### Tasks
 
-- [ ] I've read the [CONTRIBUTING](./CONTRIBUTING) guide
+- [ ] I've read the [contributing](./README.md#contributing) guide
 - [ ] Necessary tests have been added
 
 ### AI Tool Disclosure
