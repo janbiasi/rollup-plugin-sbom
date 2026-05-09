@@ -3,6 +3,7 @@
 import path from "node:path";
 import { execSync } from "node:child_process";
 import { type Plugin, defineConfig } from "vite";
+import sbom from "./src/index";
 
 const buildTypes: Plugin = {
     name: "build-types",
@@ -15,7 +16,15 @@ const buildTypes: Plugin = {
 const isModuleName = (id: string) => !id.startsWith(".") && !id.startsWith("\0") && !path.isAbsolute(id);
 
 export default defineConfig({
-    plugins: [buildTypes],
+    plugins: [
+        buildTypes,
+        sbom({
+            supplier: {
+                contact: [{ name: "Jan Biasi" }],
+                url: ["https://github.com/janbiasi/rollup-plugin-sbom"],
+            },
+        }),
+    ],
     build: {
         lib: {
             formats: ["es", "cjs"],
