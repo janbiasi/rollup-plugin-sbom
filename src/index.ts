@@ -50,12 +50,12 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         new CDX.Serialize.XML.Normalize.Factory(CDX.Spec.SpecVersionDict[options.specVersion]!),
     );
 
-    function processExternalModuleForBom(context: PluginContext, mod: ExternalModuleInfo | null) {
+    function processExternalModuleForBom(context: PluginContext, mod: ExternalModuleInfo) {
         const dependencyInfo = dependencyInfoRegistry.get(mod.modulePath);
         if (!dependencyInfo) {
             const logFn = mod.isTransitive ? context.debug : context.warn;
             logFn({
-                message: `Missing dependency info for module ${mod?.modulePath} in registry, this should not happen (ID: ${mod?.moduleId})`,
+                message: `Missing dependency info for module ${mod.modulePath} in registry, this should not happen (ID: ${mod.moduleId})`,
                 meta: mod,
             });
         }
@@ -64,7 +64,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
         if (!pkg || !pkg.name || !pkg.version) {
             const logFn = mod.isTransitive ? context.debug : context.warn;
             logFn({
-                message: `Missing package data for module ${mod?.modulePath} in registry, this should not happen (ID: ${mod?.moduleId})`,
+                message: `Missing package data for module ${mod.modulePath} in registry, this should not happen (ID: ${mod.moduleId})`,
                 meta: mod,
             });
             return;
