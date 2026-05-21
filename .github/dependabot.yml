@@ -25,9 +25,14 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      npm:
+      npm-version:
         patterns:
           - "*"
+        applies-to: version-updates
+      npm-security:
+        patterns:
+          - "*"
+        applies-to: security-updates
     commit-message:
       prefix: "fix: "
     labels:
