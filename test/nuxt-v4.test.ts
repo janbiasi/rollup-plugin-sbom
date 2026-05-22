@@ -20,7 +20,7 @@ test("it should generate the SBOM files for the server", async () => {
     expect(await helpers.getCompiledFileExists("server/plugin-outdir/filename.xml")).toBeTruthy();
 });
 
-test("it should generate the JSON SBOM which matches the JSON schema spec version 1.6", async () => {
+test("it should generate the JSON SBOM which matches the JSON schema spec version 1.7", async () => {
     const serverBom = await helpers.getCompiledFileRawContent("server/plugin-outdir/filename.json");
     expect(helpers.isBomValidAccordingToSchema("v1.7", serverBom)).toBeTruthy();
     const clientBom = await helpers.getCompiledFileRawContent("client/plugin-outdir/filename.json");
