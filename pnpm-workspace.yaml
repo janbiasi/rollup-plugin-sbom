@@ -1,3 +1,6 @@
+packages:
+  - test/fixtures/*
+
 auditLevel: moderate
 minimumReleaseAge: 1440
 trustPolicy: no-downgrade
@@ -9,13 +12,20 @@ minimumReleaseAgeExclude:
   - normalize-package-data
   - rolldown
   - vite
-packages:
-  - test/fixtures/*
+
+neverBuiltDependencies: []
+allowBuilds:
+  "@parcel/watcher": false
+  esbuild: true
+
 overrides:
   libxmljs2: "-" # https://github.com/CycloneDX/cyclonedx-javascript-library/issues/1079
   handlebars: 4.7.9
+  esbuild: 0.27.3
+
 catalog:
   typescript: 5.9.3
+
 catalogs:
   testing:
     "@mui/base": 5.0.0-beta.70
@@ -35,15 +45,12 @@ catalogs:
     rollup: 4.60.3
   rolldown1:
     rolldown: 1.0.0
-  vite5:
-    "@vitejs/plugin-react": ^4.2.0
-    vite: ^5.4.21
   vite6:
     "@vitejs/plugin-react": ^4.7.0
-    vite: ^6.4.1
+    vite: ^6.4.2
   vite7:
-    "@vitejs/plugin-react": ^4.7.0
-    vite: ^7.3.2
+    "@vitejs/plugin-react": ^5.2.0
+    vite: ^7.3.3
   vite8:
-    "@vitejs/plugin-react": ^6.0.1
-    vite: ^8.0.5
+    "@vitejs/plugin-react": ^6.0.2
+    vite: ^8.0.14
