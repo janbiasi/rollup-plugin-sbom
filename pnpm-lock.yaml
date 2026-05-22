@@ -221,6 +221,19 @@ importers:
         specifier: workspace:*
         version: link:../../..
 
+  test/fixtures/regression-308:
+    dependencies:
+      react:
+        specifier: catalog:testing
+        version: 19.2.6
+    devDependencies:
+      rolldown:
+        specifier: catalog:rolldown1
+        version: 1.0.0
+      rollup-plugin-sbom:
+        specifier: workspace:*
+        version: link:../../..
+
   test/fixtures/resolution:
     dependencies:
       react:
