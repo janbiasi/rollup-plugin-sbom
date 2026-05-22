@@ -28,12 +28,12 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
 
 ### Requirements and Compatibility
 
-| Plugin | Vite       | Rollup | Rolldown | Node       | CDX Spec |
-| ------ | ---------- | ------ | -------- | ---------- | -------- |
-| v1     | 4, 5       | 3, 4   | -        | 18, 20     | 1.5      |
-| v2     | 4, 5, 6    | 3, 4   | -        | 18, 20, 22 | 1.6      |
-| v3     | 5, 6, 7, 8 | 4      | 1        | 20, 22, 24 | 1.6      |
-| v4     | 6, 7, 8    | 4      | 1        | 22, 24, 26 | 1.7      |
+| Plugin | Vite       | Rollup | Rolldown | Node (latest LTS) | CDX Spec |
+| ------ | ---------- | ------ | -------- | ----------------- | -------- |
+| v1     | 4, 5       | 3, 4   | -        | 18, 20            | 1.5      |
+| v2     | 4, 5, 6    | 3, 4   | -        | 18, 20, 22        | 1.6      |
+| v3     | 5, 6, 7, 8 | 4      | 1        | 20, 22, 24        | 1.6      |
+| v4     | 6, 7, 8    | 4      | 1        | 22, 24, 26        | 1.7      |
 
 We're always supporting LTS Node.js versions and versions which still have security support.
 Plugin support will be dropped once a Node.js version reaches its final EOL.
