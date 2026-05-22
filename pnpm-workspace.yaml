@@ -19,21 +19,35 @@ allowBuilds:
   esbuild: true
 
 overrides:
-  libxmljs2: "-" # https://github.com/CycloneDX/cyclonedx-javascript-library/issues/1079
-  handlebars: 4.7.9
-  esbuild: 0.27.3
+  libxmljs2: "-" # we don't need libxmljs2 as we don't provide XML output by default
+  brace-expansion@<3: 2.0.3 # fixes GHSA-f886-m6hf-6m8v
+  brace-expansion@>=4: 5.0.6 # fixes GHSA-f886-m6hf-6m8v, GHSA-jxxr-4gwj-5jf2
+  defu: 6.1.5 # fixes GHSA-737v-mqg7-c878
+  fast-uri: 3.1.2 # fixes GHSA-q3j6-qgpj-74h6, GHSA-v39h-62p7-jpjc
+  fast-xml-parser@<5.7: 5.7.0 # fixes GHSA-8gc5-j5rx-235r, GHSA-jp2q-39xq-3w4g, GHSA-gh4j-gqv2-49f6
+  flatted: 3.4.2 # fixes GHSA-25h7-pfq9-p65f, GHSA-rf6f-7fwh-wjgh
+  lodash: 4.18.1 # fixes GHSA-r5fr-rjxr-66jc, GHSA-f23m-r3pf-42rh
+  lodash-es: 4.18.1 # fixes GHSA-xxjr-mmjv-4gpg, GHSA-r5fr-rjxr-66jc, GHSA-f23m-r3pf-42rh
+  minimatch@>=5 <6: 5.1.8 # fixes GHSA-3ppc-4f35-3m26, GHSA-7r86-cg39-jmmj, GHSA-23c5-xmqv-rm74
+  minimatch@>=9: 9.0.7 # fixes GHSA-3ppc-4f35-3m26, GHSA-7r86-cg39-jmmj, GHSA-23c5-xmqv-rm74
+  picomatch: 2.3.2 # fixes GHSA-3v7f-55p6-f55p, GHSA-c2c7-rcm5-vvqj
+  simple-git: 3.36.0 # fixes GHSA-hffm-xvc3-vprc
+  tar: 7.5.11 # fixes GHSA-qffp-2rhf-9h96, GHSA-9ppj-qmqm-q256
+  undici@>=5 <7: 5.29.0 # pinned to latest v5, accepts remaining dev-only risk (GHSA-g9mf-h72j-4rw9, GHSA-2mjp-6q6p-2qxm, GHSA-vrm6-8vpv-qv8q, GHSA-v9p9-hfj2-hcw8, GHSA-4992-7rv2-5pvq)
+  undici@>=7: 7.24.0 # fixes GHSA-g9mf-h72j-4rw9, GHSA-f269-vfmq-vjvj, GHSA-2mjp-6q6p-2qxm, GHSA-vrm6-8vpv-qv8q, GHSA-v9p9-hfj2-hcw8, GHSA-4992-7rv2-5pvq
+  ws: 8.20.1 # fixes GHSA-58qx-3vcg-4xpx
 
 catalog:
   typescript: 5.9.3
 
 catalogs:
   testing:
-    "@mui/base": 5.0.0-beta.70
+    "@base-ui/react": ^1.5.0
     "@types/luxon": 3.7.1
-    "@types/react": ^19.2.14
+    "@types/react": ^19.2.15
     "@types/react-dom": ^19.2.3
-    "@vitejs/plugin-react": 6.0.1
-    date-fns: 4.1.0
+    "@vitejs/plugin-react": 6.0.2
+    date-fns: 4.2.0
     luxon: 3.7.2
     react-dom: 19.2.6
     react-remove-scroll: 2.7.2
@@ -42,9 +56,9 @@ catalogs:
     "@rollup/plugin-commonjs": 29.0.2
     "@rollup/plugin-json": 6.1.0
     "@rollup/plugin-node-resolve": 16.0.3
-    rollup: 4.60.3
+    rollup: 4.60.4
   rolldown1:
-    rolldown: 1.0.0
+    rolldown: 1.0.2
   vite6:
     "@vitejs/plugin-react": ^4.7.0
     vite: ^6.4.2
