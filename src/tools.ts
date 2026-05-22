@@ -59,10 +59,8 @@ export async function autoRegisterTools(
         }
     }
 
-    await Promise.all(
-        knownTools.map(async (pkgName) => {
-            context.debug(`Trying to autoregister tool "${pkgName}"`);
-            await registerTool(pkgName);
-        }),
-    );
+    for (const pkgName of knownTools) {
+        context.debug(`Trying to autoregister tool "${pkgName}"`);
+        await registerTool(pkgName);
+    }
 }
