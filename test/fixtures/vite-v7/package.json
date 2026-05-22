@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mui/base": "catalog:testing",
+    "@base-ui/react": "catalog:testing",
     "date-fns": "catalog:testing",
     "luxon": "catalog:testing",
     "react": "catalog:testing",
