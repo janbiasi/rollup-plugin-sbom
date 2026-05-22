@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { Button } from '@mui/base/Button';
+import { Button } from '@base-ui/react';
 import { formatDuration } from "date-fns";
 import { DateTime } from "luxon";
 
