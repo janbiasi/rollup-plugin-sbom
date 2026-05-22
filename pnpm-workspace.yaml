@@ -20,6 +20,7 @@ allowBuilds:
 
 overrides:
   libxmljs2: "-" # we don't need libxmljs2 as we don't provide XML output by default
+  ioredis: "-" # transitive nuxt dep, see https://socket.dev/npm/package/ioredis/overview/5.10.1
   brace-expansion@<3: 2.0.3 # fixes GHSA-f886-m6hf-6m8v
   brace-expansion@>=4: 5.0.6 # fixes GHSA-f886-m6hf-6m8v, GHSA-jxxr-4gwj-5jf2
   defu: 6.1.5 # fixes GHSA-737v-mqg7-c878
@@ -47,7 +48,7 @@ catalogs:
     "@types/react": ^19.2.15
     "@types/react-dom": ^19.2.3
     "@vitejs/plugin-react": 6.0.2
-    date-fns: 4.2.0
+    date-fns: 4.2.1
     luxon: 3.7.2
     react-dom: 19.2.6
     react-remove-scroll: 2.7.2
