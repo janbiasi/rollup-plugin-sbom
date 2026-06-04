@@ -56,7 +56,9 @@ describe.concurrent("Vite V7", () => {
     // https://github.com/janbiasi/rollup-plugin-sbom/issues/10
     test("it should register dependencies only once (issue #10)", async () => {
         const { components } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
-        const dependencyNames = components.map((component) => `${component.group}/${component.name}`);
+        const dependencyNames = components.map(
+            (component) => `${component.group}/${component.name}@${component.version}`,
+        );
         const uniqueDependencyNames = dependencyNames.filter((name, index) => dependencyNames.indexOf(name) === index);
 
         expect(dependencyNames).toEqual(uniqueDependencyNames);

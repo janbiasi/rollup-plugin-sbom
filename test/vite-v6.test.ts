@@ -120,8 +120,6 @@ describe.concurrent("Vite V6", () => {
 
             expect(fixtureComponent.dependsOn).toBeDefined();
 
-            console.log(dependencies, fixtureComponent.dependsOn);
-
             const fixtureDepsWithoutVersionAndVcs = fixtureComponent.dependsOn.map((purl) => purl.split("@")[0]);
             expect(fixtureDepsWithoutVersionAndVcs).toContain(purlDepRef);
         });
