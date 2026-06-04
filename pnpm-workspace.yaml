@@ -13,7 +13,6 @@ minimumReleaseAgeExclude:
   - rolldown
   - vite
 
-neverBuiltDependencies: []
 allowBuilds:
   "@parcel/watcher": false
   esbuild: true
