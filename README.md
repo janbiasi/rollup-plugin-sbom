@@ -37,6 +37,11 @@ Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx
 We're always supporting LTS Node.js versions and versions which still have security support.
 Plugin support will be dropped once a Node.js version reaches its final EOL.
 
+> [!NOTE]
+> We currently support both CommonJS and ESM formats for now. We strongly recommend using the ESM format instead of CommonJS.
+> The ESM format is compatible with modern platforms and runtimes, and most new libraries are now distributed only in ESM format.
+> Learn more at https://nodejs.org/en/learn/modules/publishing-a-package#how-did-we-get-here
+
 ### Installation
 
 You can install the plugin via [NPM](https://www.npmjs.com/package/rollup-plugin-sbom) with your favorite package manager:
