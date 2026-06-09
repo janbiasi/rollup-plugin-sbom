@@ -1,10 +1,9 @@
 import { createRequire } from "node:module";
+import { join } from "node:path";
 import * as CDX from "@cyclonedx/cyclonedx-library";
 import type { PluginContext } from "rollup";
 
 import { aggregateDependencyInfoByModulePath, createDependencyInfoRegistry } from "./dependency-info-registry";
-
-const require = createRequire(import.meta.url);
 
 /**
  * A list of package names which will be looked up within the project
@@ -29,11 +28,12 @@ export async function autoRegisterTools(
 ) {
     // we use a separate package registry for tool detection
     const toolPackageRegistry = createDependencyInfoRegistry();
+    const projectRequire = createRequire(join(process.cwd(), "package.json"));
 
     async function registerTool(packageName: string) {
         try {
             // try to find the tool within the project
-            const toolModulePath = require.resolve(packageName);
+            const toolModulePath = projectRequire.resolve(packageName);
             const dependencyInfo = await aggregateDependencyInfoByModulePath(
                 context,
                 toolPackageRegistry,
