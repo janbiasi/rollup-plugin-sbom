@@ -1,0 +1,16 @@
+{
+  "name": "@fixtures/regression-320",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "rolldown -c rollup.config.mjs",
+    "postinstall": "cp -r ./fake-tree/** ./node_modules"
+  },
+  "dependencies": {
+    "react": "catalog:testing"
+  },
+  "devDependencies": {
+    "rolldown": "catalog:rolldown1",
+    "rollup-plugin-sbom": "workspace:*"
+  }
+}
