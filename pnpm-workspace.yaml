@@ -41,22 +41,22 @@ overrides:
   ws: 8.21.0 # fixes GHSA-58qx-3vcg-4xpx, GHSA-96hv-2xvq-fx4p
 
 catalog:
-  typescript: 5.9.3
+  typescript: 7.0.2
 
 catalogs:
   testing:
     "@base-ui/react": ^1.5.0
-    "@types/luxon": 3.7.1
+    "@types/luxon": 3.7.2
     "@types/react": ^19.2.15
     "@types/react-dom": ^19.2.3
-    "@vitejs/plugin-react": 6.0.2
+    "@vitejs/plugin-react": 6.0.3
     date-fns: 4.4.0
     luxon: 3.7.2
     react-dom: 19.2.7
     react-remove-scroll: 2.7.2
     react: 19.2.7
   rollup4:
-    "@rollup/plugin-commonjs": 29.0.2
+    "@rollup/plugin-commonjs": 29.0.3
     "@rollup/plugin-json": 6.1.0
     "@rollup/plugin-node-resolve": 16.0.3
     rollup: 4.62.2
