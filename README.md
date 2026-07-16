@@ -2,7 +2,7 @@
 
 # rollup-plugin-sbom
 
-Create [SBOMs]() _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx.org/) format for your [Vite](https://vitejs.dev/) and [Rollup](https://rollupjs.org/) projects, including only the software you're really shipping to production.
+Create [SBOMs](https://www.cisa.gov/topics/information-communications-technology-supply-chain-security/sbom) _(Software Bill of Materials)_ in [CycloneDX](https://cyclonedx.org/) format for your [Vite](https://vitejs.dev/) and [Rollup](https://rollupjs.org/) projects, including only the software you're really shipping to production.
 
 > A “software bill of materials” (SBOM) has emerged as a key building block in software security and software supply chain risk management. A SBOM is a nested inventory, a list of ingredients that make up software components.
 >
