@@ -3,6 +3,8 @@ name: OSV Scanner - Scheduled
 on:
   schedule:
     - cron: '27 6 * * 2'
+  push:
+    branches: [ "main" ]
 
 permissions:
   actions: read
@@ -20,5 +22,4 @@ jobs:
     with:
       scan-args: |-
         -r
-        --skip-git
         ./
