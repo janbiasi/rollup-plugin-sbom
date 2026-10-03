@@ -111,6 +111,7 @@ export default defineConfig({
 | `saveTimestamp`     | `true`        | Whether to save the timestamp in the BOM metadata.                                          |
 | `autodetect`        | `true`        | Whether to get the root package registered automatically.                                   |
 | `generateSerial`    | `false`       | Whether to generate a serial number for the BOM.                                            |
+| `sortLists`         | `true`        | Whether to sort lists in the BOM for deterministic output.                                  |
 | `includeWellKnown`  | `true`        | Whether to generate a SBOM in the `well-known` directory.                                   |
 | `supplier`          | -             | Provide organizational entity information                                                   |
 | `beforeCollect`     | -             | Enhance the BOM before before collecting dependencies                                       |
