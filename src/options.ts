@@ -56,6 +56,12 @@ export interface RollupPluginSbomOptions {
      */
     generateSerial?: boolean;
     /**
+     * Whether to sort lists (components, tools, dependencies, licenses, …) in the serialized SBOM
+     * to get deterministic output across builds. Defaults to `true`.
+     * @since 5.0.0
+     */
+    sortLists?: boolean;
+    /**
      * Whether to generate a SBOM in the `.well-known` directory. Defaults to `true`.
      * @since 1.0.0
      */
@@ -108,7 +114,7 @@ export interface RollupPluginSbomOptions {
     afterCollect?: BomTransformHookFn | undefined;
 }
 
-export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
+export const DEFAULT_OPTIONS = {
     specVersion: Spec.Version.v1dot7,
     rootComponentType: Enums.ComponentType.Application,
     outDir: "cyclonedx",
@@ -117,10 +123,11 @@ export const DEFAULT_OPTIONS: Required<RollupPluginSbomOptions> = {
     saveTimestamp: true,
     autodetect: true,
     generateSerial: false,
+    sortLists: true,
     includeWellKnown: true,
     supplier: undefined,
     properties: undefined,
     collectLicenseEvidence: false,
     beforeCollect: undefined,
     afterCollect: undefined,
-};
+} satisfies RollupPluginSbomOptions;
