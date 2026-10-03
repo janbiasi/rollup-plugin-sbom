@@ -28,6 +28,6 @@ export function parsePackage(packageFile: string): NormalizedPackageJson {
     }
 
     const pkg = JSON.parse(packageFile);
-    normalizePackageData(pkg, null, false);
+    normalizePackageData(pkg, undefined, false);
     return pkg;
 }
