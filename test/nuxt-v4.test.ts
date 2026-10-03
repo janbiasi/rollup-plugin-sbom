@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { createOutputTestHelpers } from "./test-helpers";
+import { createOutputTestHelpers, getToolComponents } from "./test-helpers";
 import path from "node:path";
 
 const helpers = createOutputTestHelpers(
@@ -61,33 +61,35 @@ describe.concurrent.each([
         const bom = await helpers.getCompiledFileJSONContent(`${scope}/plugin-outdir/filename.json`);
 
         expect(typeof bom.serialNumber).toEqual("string");
-        expect(bom.serialNumber.length).toBeGreaterThan(0);
-        expect(bom.serialNumber.indexOf("urn:")).toEqual(0);
+        expect(bom.serialNumber?.length).toBeGreaterThan(0);
+        expect(bom.serialNumber?.indexOf("urn:")).toEqual(0);
     });
 
     test("it should generate correct metadata", async () => {
         const { metadata } = await helpers.getCompiledFileJSONContent(`${scope}/plugin-outdir/filename.json`);
 
-        expect(metadata.timestamp).toBeDefined();
-        expect(metadata.lifecycles).toContainEqual({ phase: "build" });
-        expect(metadata.tools).toContainEqual({
-            name: "vite",
-            version: expect.any(String),
-            externalReferences: expect.any(Array),
-        });
+        expect(metadata?.timestamp).toBeDefined();
+        expect(metadata?.lifecycles).toContainEqual({ phase: "build" });
+        expect(getToolComponents(metadata?.tools)).toContainEqual(
+            expect.objectContaining({
+                name: "vite",
+                version: expect.any(String),
+                externalReferences: expect.any(Array),
+            }),
+        );
     });
 
     test("it should autodetect the root application correctly", async () => {
         const { metadata } = await helpers.getCompiledFileJSONContent(`${scope}/plugin-outdir/filename.json`);
 
-        expect(metadata.component).toBeDefined();
-        expect(metadata.component.type).toEqual("application");
-        expect(metadata.component.name).toEqual("nuxt-v4");
+        expect(metadata?.component).toBeDefined();
+        expect(metadata?.component?.type).toEqual("application");
+        expect(metadata?.component?.name).toEqual("nuxt-v4");
     });
 
     test("it should detect production dependencies correctly", async () => {
         const { components } = await helpers.getCompiledFileJSONContent(`${scope}/plugin-outdir/filename.json`);
-        const dependencyNames = components.map((component) => component.name);
+        const dependencyNames = components?.map((component) => component.name);
 
         for (const expectedDependency of expectedDependencies) {
             expect(dependencyNames).toContain(expectedDependency);
@@ -98,9 +100,9 @@ describe.concurrent.each([
     // https://github.com/janbiasi/rollup-plugin-sbom/issues/10
     test("it should register dependencies only once (issue #10)", async () => {
         const { components } = await helpers.getCompiledFileJSONContent(`${scope}/plugin-outdir/filename.json`);
-        const dependencyIdentifiers = components.map((component) => `${component.name}@${component.version}`);
-        const uniqueDependencyIdentifiers = dependencyIdentifiers.filter(
-            (name, index) => dependencyIdentifiers.indexOf(name) === index,
+        const dependencyIdentifiers = components?.map((component) => `${component.name}@${component.version}`);
+        const uniqueDependencyIdentifiers = dependencyIdentifiers?.filter(
+            (name, index) => dependencyIdentifiers?.indexOf(name) === index,
         );
 
         expect(dependencyIdentifiers).toEqual(uniqueDependencyIdentifiers);
@@ -109,7 +111,7 @@ describe.concurrent.each([
     test("it should set the supplier correctly when configured", async () => {
         const { metadata } = await helpers.getCompiledFileJSONContent(`${scope}/plugin-outdir/filename.json`);
 
-        expect(metadata.supplier).toEqual({
+        expect(metadata?.supplier).toEqual({
             name: "Supplier Example Inc",
             url: ["https://example.com"],
             contact: [
@@ -125,11 +127,7 @@ describe.concurrent.each([
     test("it should support setting custom properties", async () => {
         const { metadata } = await helpers.getCompiledFileJSONContent(`${scope}/plugin-outdir/filename.json`);
 
-        expect(metadata.properties).toEqual([
-            {
-                name: "unique-key",
-                value: "unique-value",
-            },
+        expect(metadata?.properties).toEqual([
             {
                 name: "duplicate-key",
                 value: "duplicate-value-1",
@@ -137,6 +135,10 @@ describe.concurrent.each([
             {
                 name: "duplicate-key",
                 value: "duplicate-value-2",
+            },
+            {
+                name: "unique-key",
+                value: "unique-value",
             },
         ]);
     });

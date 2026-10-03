@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { createOutputTestHelpers } from "./test-helpers";
+import { createOutputTestHelpers, getToolComponents } from "./test-helpers";
 
 const helpers = createOutputTestHelpers("rollup-v4");
 
@@ -19,34 +19,36 @@ describe.concurrent("Rollup V4", () => {
         const bom = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
 
         expect(typeof bom.serialNumber).toEqual("string");
-        expect(bom.serialNumber.length).toBeGreaterThan(0);
-        expect(bom.serialNumber.indexOf("urn:")).toEqual(0);
+        expect(bom.serialNumber?.length).toBeGreaterThan(0);
+        expect(bom.serialNumber?.indexOf("urn:")).toEqual(0);
     });
 
     test("it should generate correct metadata", async () => {
         const { metadata } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
 
-        expect(metadata.timestamp).toBeDefined();
-        expect(metadata.lifecycles).toContainEqual({ phase: "build" });
-        expect(metadata.tools).toContainEqual({
-            name: "vite",
-            version: expect.any(String),
-            externalReferences: expect.any(Array),
-        });
+        expect(metadata?.timestamp).toBeDefined();
+        expect(metadata?.lifecycles).toContainEqual({ phase: "build" });
+        expect(getToolComponents(metadata?.tools)).toContainEqual(
+            expect.objectContaining({
+                name: "vite",
+                version: expect.any(String),
+                externalReferences: expect.any(Array),
+            }),
+        );
     });
 
     test("it should autodetect the root application correctly", async () => {
         const { metadata } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
 
-        expect(metadata.component).toBeDefined();
-        expect(metadata.component.type).toEqual("application");
-        expect(metadata.component.name).toEqual("rollup-v4");
-        expect(metadata.component.group).toEqual("@fixtures");
+        expect(metadata?.component).toBeDefined();
+        expect(metadata?.component?.type).toEqual("application");
+        expect(metadata?.component?.name).toEqual("rollup-v4");
+        expect(metadata?.component?.group).toEqual("@fixtures");
     });
 
     test("it should detect production dependencies correctly", async () => {
         const { components } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
-        const dependencyNames = components.map((component) => component.name);
+        const dependencyNames = components?.map((component) => component.name);
 
         expect(dependencyNames).toContain("react");
     });
@@ -55,8 +57,11 @@ describe.concurrent("Rollup V4", () => {
     // https://github.com/janbiasi/rollup-plugin-sbom/issues/10
     test("it should register dependencies only once (issue #10)", async () => {
         const { components } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
-        const dependencyNames = components.map((component) => `${component.name}@${component.version}`);
-        const uniqueDependencyNames = dependencyNames.filter((name, index) => dependencyNames.indexOf(name) === index);
+        expect(components).toBeDefined();
+        const dependencyNames = components?.map((component) => `${component.name}@${component.version}`);
+        const uniqueDependencyNames = dependencyNames?.filter(
+            (name, index) => dependencyNames?.indexOf(name) === index,
+        );
 
         expect(dependencyNames).toEqual(uniqueDependencyNames);
     });
@@ -64,7 +69,7 @@ describe.concurrent("Rollup V4", () => {
     test("it should set the supplier correctly when configured", async () => {
         const { metadata } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
 
-        expect(metadata.supplier).toEqual({
+        expect(metadata?.supplier).toEqual({
             name: "Supplier Example Inc",
             url: ["https://example.com"],
             contact: [
@@ -80,11 +85,7 @@ describe.concurrent("Rollup V4", () => {
     test("it should support setting custom properties", async () => {
         const { metadata } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
 
-        expect(metadata.properties).toEqual([
-            {
-                name: "unique-key",
-                value: "unique-value",
-            },
+        expect(metadata?.properties).toEqual([
             {
                 name: "duplicate-key",
                 value: "duplicate-value-1",
@@ -92,6 +93,10 @@ describe.concurrent("Rollup V4", () => {
             {
                 name: "duplicate-key",
                 value: "duplicate-value-2",
+            },
+            {
+                name: "unique-key",
+                value: "unique-value",
             },
         ]);
     });
