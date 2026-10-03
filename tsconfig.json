@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         "module": "ESNext",
-        "moduleResolution": "Bundler",
-        "downlevelIteration": true
+        "moduleResolution": "Bundler"
     }
 }
