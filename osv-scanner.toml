@@ -10,3 +10,14 @@ ignore = true
 name = "rollup" # used in fixtures for tests within rollup
 ignore = true
 
+[[PackageOverrides]]
+name = "braces" # dev-only via micromatch (semantic-release, nuxt-v4 fixture)
+ignore = true
+
+[[PackageOverrides]]
+name = "node-forge" # dev-only via listhen (nuxt-v4 fixture)
+ignore = true
+
+[[PackageOverrides]]
+name = "esbuild" # used by fixtures and build tooling, not shipped
+ignore = true
