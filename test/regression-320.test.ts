@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { createOutputTestHelpers } from "./test-helpers";
+import { createOutputTestHelpers, getToolComponents } from "./test-helpers";
 
 const helpers = createOutputTestHelpers("regression-320");
 
@@ -10,7 +10,7 @@ describe("Regression #320 — CommonJS build must work correctly", () => {
         console.dir(content);
 
         expect(content).toBeTruthy();
-        expect(content.metadata?.tools).toBeDefined();
-        expect(content.metadata.tools.length).toEqual(3);
+        const tools = getToolComponents(content.metadata?.tools);
+        expect(tools.length).toEqual(3);
     });
 });

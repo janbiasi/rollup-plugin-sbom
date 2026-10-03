@@ -36,7 +36,6 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
 
     const cdxExternalReferenceFactory = new CDX.Contrib.FromNodePackageJson.Factories.ExternalReferenceFactory();
     const cdxLicenseFactory = new CDX.Contrib.License.Factories.LicenseFactory(spdxExpressionParse);
-    const cdxToolBuilder = new CDX.Contrib.FromNodePackageJson.Builders.ToolBuilder(cdxExternalReferenceFactory);
     const cdxLicenseEvidenceGatherer = new CDX.Contrib.License.Utils.LicenseEvidenceGatherer();
     const cdxComponentBuilder = new CDX.Contrib.FromNodePackageJson.Builders.ComponentBuilder(
         cdxExternalReferenceFactory,
@@ -159,10 +158,17 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                     if (rootPkg) {
                         this.info(`Detected root ${rootPkg.name} v${rootPkg.version}`);
                         rootPackageJson = rootPkg;
+
                         rootComponent = cdxComponentBuilder.makeComponent(
                             rootPkg,
                             options.rootComponentType as ComponentType,
                         );
+                        if (!rootComponent) {
+                            this.error({
+                                message: `could not construct root component`,
+                            });
+                        }
+
                         rootComponent.version = rootPkg.version;
                         const rootComponentPurl = composePackageUrlFromPackageJson(rootPkg);
                         if (rootComponentPurl) {
@@ -171,6 +177,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                         } else {
                             this.warn(`Failed to compose package URL for ${rootPkg.name}@${rootPkg.version}`);
                         }
+
                         bom.metadata.component = rootComponent;
                     }
                 } catch (err) {
@@ -200,7 +207,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
             await autoRegisterTools(
                 this,
                 bom,
-                cdxToolBuilder,
+                cdxComponentBuilder,
                 options.collectLicenseEvidence ? cdxLicenseEvidenceGatherer : undefined,
             );
 
@@ -244,6 +251,11 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                 processExternalModuleForBom(this, mod);
             }
 
+            const serializeOptions: CDX.Serialize.Types.SerializerOptions & CDX.Serialize.Types.NormalizerOptions = {
+                sortLists: options.sortLists,
+                space: "\t",
+            };
+
             const formatMap: Record<string, CDX.Serialize.BaseSerializer<unknown>> = {
                 json: jsonSerializer,
                 xml: xmlSerializer,
@@ -266,10 +278,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                     type: "asset",
                     fileName: sbomFilePath,
                     needsCodeReference: false,
-                    source: formatMap[format].serialize(bom, {
-                        sortLists: false,
-                        space: "\t",
-                    }),
+                    source: formatMap[format].serialize(bom, serializeOptions),
                 });
             });
 
@@ -280,10 +289,7 @@ export default function rollupPluginSbom(userOptions?: RollupPluginSbomOptions):
                     type: "asset",
                     fileName: ".well-known/sbom",
                     needsCodeReference: false,
-                    source: jsonSerializer.serialize(bom, {
-                        sortLists: false,
-                        space: "\t",
-                    }),
+                    source: jsonSerializer.serialize(bom, serializeOptions),
                 });
             }
         },
