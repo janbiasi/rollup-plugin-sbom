@@ -20,7 +20,7 @@ export interface ExternalModuleInfo {
      * Module info retrieved from rollup
      * @see https://rollupjs.org/plugin-development/#this-getmoduleinfo
      */
-    moduleInfo: ModuleInfo;
+    moduleInfo: ModuleInfo | null;
     /**
      * The module base path (dirname) for the module id
      */
@@ -57,6 +57,15 @@ export function filterExternalModuleId(value: ModuleIdString): boolean {
     return false;
 }
 
+/**
+ * Type guard to filter out unresolved (null) external modules
+ * @param value The resolved external module or null
+ * @returns True if the value is an external module, false otherwise
+ */
+function isExternalModuleInfo(value: ExternalModuleInfo | null): value is ExternalModuleInfo {
+    return value !== null;
+}
+
 async function resolveExternalModule(
     context: PluginContext,
     moduleId: ModuleIdString,
@@ -84,7 +93,7 @@ async function resolveExternalModule(
             dependsOnModuleIds.map((id) =>
                 resolveExternalModule(context, id, moduleId, transitiveResolveLimit - 1, true),
             ),
-        ).then((allModuleIdsOrNull) => allModuleIdsOrNull.filter(Boolean)),
+        ).then((allModuleIdsOrNull) => allModuleIdsOrNull.filter(isExternalModuleInfo)),
     };
 }
 
@@ -121,7 +130,7 @@ export async function getAllExternalModules(
             [...importedUniqueModuleIds]
                 .filter(filterExternalModuleId) // virtual modules are not included
                 .map((moduleId) => resolveExternalModule(context, moduleId, id, transitiveResolveLimit)), // resolve module information
-        ).then((allModules) => allModules.filter(Boolean));
+        ).then((allModules) => allModules.filter(isExternalModuleInfo));
 
         context.debug({
             message: `Found ${externalModulesWithinBundle.length} external entries within "${id}"`,
