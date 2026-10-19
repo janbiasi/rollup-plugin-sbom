@@ -14,9 +14,9 @@ describe.concurrent("Output Formats", () => {
         test("it should output an XML file correctly", async () => {
             const { bom } = await helpers.getCompiledFileXMLContent("plugin-outdir/filename.xml");
             expect(bom).toBeDefined();
-            expect(bom.metadata.component).toBeDefined();
-            expect(bom.metadata.component.name).toEqual("resolution");
-            expect(bom.metadata.component.group).toEqual("@fixtures");
+            expect(bom.metadata?.component).toBeDefined();
+            expect(bom.metadata?.component?.name).toEqual("resolution");
+            expect(bom.metadata?.component?.group).toEqual("@fixtures");
         });
     });
 
@@ -24,10 +24,10 @@ describe.concurrent("Output Formats", () => {
         test("it should autodetect the root application correctly", async () => {
             const { metadata } = await helpers.getCompiledFileJSONContent("plugin-outdir/filename.json");
 
-            expect(metadata.component).toBeDefined();
-            expect(metadata.component.type).toEqual("application");
-            expect(metadata.component.name).toEqual("resolution");
-            expect(metadata.component.group).toEqual("@fixtures");
+            expect(metadata?.component).toBeDefined();
+            expect(metadata?.component?.type).toEqual("application");
+            expect(metadata?.component?.name).toEqual("resolution");
+            expect(metadata?.component?.group).toEqual("@fixtures");
         });
     });
 });
