@@ -3,7 +3,7 @@
   "name": "rollup-plugin-sbom",
   "version": "1.0.0",
   "description": "A rollup, rolldown and vite plugin to generate SBOMs for your application",
-  "packageManager": "pnpm@12.9.0",
+  "packageManager": "pnpm@12.16.1",
   "exports": {
     ".": {
       "import": {
@@ -125,7 +125,7 @@
     "typescript": "catalog:",
     "typescript-eslint": "8.72.0",
     "unrun": "0.3.1",
-    "vite": "8.1.5",
+    "vite": "8.3.5",
     "vitest": "5.0.5",
     "xmlbuilder2": "4.0.3"
   }
