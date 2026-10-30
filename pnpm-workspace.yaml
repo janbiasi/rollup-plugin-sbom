@@ -4,8 +4,7 @@ packages:
 auditLevel: moderate
 auditConfig:
   ignoreGhsas:
-    - GHSA-vfj7-8cjw-p6xm # braces <=3.0.3, no patched version; dev-only via micromatch (semantic-release, nuxt-v4 fixture)
-    - GHSA-86w9-cpqp-85rv # node-forge <=1.4.0, no patched version; dev-only via listhen (nuxt-v4 fixture)
+    - GHSA-gcqx-w48m-w2h4 # deepmerge <=4.3.1, no patched version; dev-only via @rollup/plugin-node-resolve (regression-251 fixture)
 minimumReleaseAge: 1440
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 10080
@@ -27,6 +26,8 @@ overrides:
   "undici@>=6.0.0 <6.29.1": ^6.29.1 # via @actions/http-client (semantic-release)
   "fast-uri@<3.1.9": ^3.1.9 # via ajv
   "vite@>=8.3.0 <8.3.3": ^8.3.5 # via vite-node (nuxt-v4 fixture)
+  "node-forge@<=1.4.0": ^1.4.2 # GHSA-86w9-cpqp-85rv via listhen (nuxt-v4 fixture)
+  "serialize-javascript@<7.1.3": ^7.1.3 # GHSA-m5mm-p8h7-m29v via @rollup/plugin-terser (nuxt-v4 fixture)
 
 allowBuilds:
   "@parcel/watcher": false
