@@ -117,7 +117,13 @@ export async function getAllExternalModules(
             continue;
         }
 
-        const importedUniqueModuleIds = new Set([...module.moduleIds, ...module.imports, ...module.dynamicImports]);
+        // `imports` and `dynamicImports` reference other chunks by their output file name (not by module id),
+        // those chunks are analyzed on their own, so only references outside of the bundle (externals) are kept
+        // @see https://github.com/janbiasi/rollup-plugin-sbom/issues/251
+        const importedExternalIds = [...module.imports, ...module.dynamicImports].filter(
+            (importId) => bundle[importId]?.type !== "chunk",
+        );
+        const importedUniqueModuleIds = new Set([...module.moduleIds, ...importedExternalIds]);
         context.debug({
             message: `Analyzing generated chunk "${id}" (${importedUniqueModuleIds.size} imported ids)`,
             meta: {
