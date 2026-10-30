@@ -33,6 +33,10 @@ updates:
         patterns:
           - "*"
         applies-to: security-updates
+    ignore:
+      # TS 7 (native) drops the classic JS API used by typescript-eslint and rolldown-plugin-dts
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
     commit-message:
       prefix: "fix: "
     labels:

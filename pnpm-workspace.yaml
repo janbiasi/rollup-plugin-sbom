@@ -20,12 +20,20 @@ minimumReleaseAgeExclude:
   - spdx-expression-parse@5.0.0
   - tsdown@0.22.9
 
+overrides:
+  # security: transitive dev-only deps with patched versions not yet picked up upstream
+  "handlebars@<4.7.10": ^4.7.10 # via semantic-release
+  "undici@>=7.0.0 <7.30.1": ^7.30.1 # GHSA-55wc-3pg8-jfw6 via @semantic-release/github, nuxt
+  "undici@>=6.0.0 <6.29.1": ^6.29.1 # via @actions/http-client (semantic-release)
+  "fast-uri@<3.1.9": ^3.1.9 # via ajv
+  "vite@>=8.3.0 <8.3.3": ^8.3.5 # via vite-node (nuxt-v4 fixture)
+
 allowBuilds:
   "@parcel/watcher": false
   esbuild: true
 
 catalog:
-  typescript: 7.0.2
+  typescript: 6.0.3
 
 catalogs:
   testing:
@@ -48,10 +56,10 @@ catalogs:
     rolldown: 1.2.15
   vite6:
     "@vitejs/plugin-react": ^4.7.0
-    vite: ^6.4.2
+    vite: ^6.4.4
   vite7:
     "@vitejs/plugin-react": ^5.2.0
-    vite: ^7.3.3
+    vite: ^7.3.7
   vite8:
     "@vitejs/plugin-react": ^6.0.3
-    vite: ^8.1.5
+    vite: ^8.3.5
