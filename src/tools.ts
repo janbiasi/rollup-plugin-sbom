@@ -18,6 +18,13 @@ const knownTools = [
 ] as const;
 
 /**
+ * Checks whether an error thrown by `require.resolve` signals that the requested module is not installed
+ */
+function isModuleNotFoundError(error: unknown): boolean {
+    return error instanceof Error && (error as NodeJS.ErrnoException).code === "MODULE_NOT_FOUND";
+}
+
+/**
  * Automatically register common tools related to the build process on a BOM model.
  *
  * Tools are registered as components, the serializer emits them as `metadata.tools.components`
@@ -42,7 +49,19 @@ export async function autoRegisterTools(
     async function registerTool(packageName: string, componentType: CDX.Enums.ComponentType) {
         try {
             // try to find the tool within the project
-            const toolModulePath = projectRequire.resolve(packageName);
+            let toolModulePath: string;
+            try {
+                toolModulePath = projectRequire.resolve(packageName);
+            } catch (error) {
+                // known tools are optional (e.g. Vite 8 no longer depends on rollup), so a tool
+                // which is not installed is expected and must not produce a warning, see #363
+                if (isModuleNotFoundError(error)) {
+                    context.debug(`Skipping auto-registration of tool "${packageName}", it is not installed`);
+                    return;
+                }
+                throw error;
+            }
+
             const dependencyInfo = await aggregateDependencyInfoByModulePath(
                 context,
                 toolPackageRegistry,
