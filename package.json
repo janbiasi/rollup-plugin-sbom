@@ -119,6 +119,7 @@
     "husky": "9.1.7",
     "lint-staged": "17.6.0",
     "prettier": "3.9.10",
+    "rolldown": "catalog:rolldown1",
     "rollup": "4.65.1",
     "semantic-release": "25.0.9",
     "tsdown": "0.23.2",
